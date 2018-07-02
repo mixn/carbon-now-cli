@@ -1,0 +1,40 @@
+{
+	"name": "carbon-now-sh-cli",
+	"version": "0.0.0",
+	"description": "",
+	"license": "MIT",
+	"repository": "mixn/carbon-now-sh-cli",
+	"author": {
+		"name": "Miloš Sutanovac",
+		"email": "sutanovac.milos@gmail.com",
+		"url": "https://mixn.io"
+	},
+	"bin": {
+		"carbon-now-sh": "cli.js"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"cli.js"
+	],
+	"keywords": [
+		"cli",
+		"cli-app",
+		"carbon-now",
+		"carbon-now-sh",
+		"carbon-now-sh-cli",
+		"carbon"
+	],
+	"dependencies": {
+		"meow": "^5.0.0"
+	},
+	"devDependencies": {
+		"ava": "^0.25.0",
+		"execa": "^0.10.0",
+		"xo": "^0.21.0"
+	}
+}
