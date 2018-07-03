@@ -1,17 +1,30 @@
 #!/usr/bin/env node
-'use strict';
-const meow = require('meow');
+
+// Packages
+const meow = require("meow");
+const chalk = require("chalk");
+
+// Utils
+const processContent = require("./src/process-content.js");
 
 const cli = meow(`
 	Usage
-	  $ carbon-now-sh [input]
-
-	Options
-	  --file  Lorem ipsum [Default: false]
+	  $ carbon-now-sh <file>
 
 	Examples
-	  $ carbon-now-sh
-	  unicorns & rainbows
-	  $ carbon-now-sh foobar.txt
-	  ponies & rainbows
-`)
+	  $ carbon-now-sh unfold.js
+`);
+const [file] = cli.input;
+
+if (!file) {
+  console.error(`
+  ${chalk.red("Error: Please provide at least a file.")}
+		
+  $ carbon-now-sh <file>
+	`);
+  process.exit(1);
+}
+
+(async () => {
+  console.log(await processContent(file));
+})();
