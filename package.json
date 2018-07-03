@@ -27,7 +27,9 @@
 		"carbon-now",
 		"carbon-now-sh",
 		"carbon-now-sh-cli",
-		"carbon"
+		"carbon",
+		"screenshot",
+		"beautiful"
 	],
 	"dependencies": {
 		"chalk": "^2.4.1",
@@ -36,6 +38,7 @@
 	"devDependencies": {
 		"ava": "^0.25.0",
 		"execa": "^0.10.0",
+		"prettier": "1.13.7",
 		"xo": "^0.21.0"
 	}
 }
