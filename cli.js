@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 // Packages
-const meow = require("meow");
-const chalk = require("chalk");
+const meow = require('meow');
+const chalk = require('chalk');
 
 // Utils
-const processContent = require("./src/process-content.js");
+const processContent = require('./src/process-content.js');
 
 const cli = meow(`
 	Usage
@@ -17,14 +17,14 @@ const cli = meow(`
 const [file] = cli.input;
 
 if (!file) {
-  console.error(`
-  ${chalk.red("Error: Please provide at least a file.")}
+	console.error(`
+  ${chalk.red('Error: Please provide at least a file.')}
 		
   $ carbon-now-sh <file>
 	`);
-  process.exit(1);
+	process.exit(1);
 }
 
 (async () => {
-  console.log(await processContent(file));
+	console.log(await processContent(file));
 })();
