@@ -12,19 +12,39 @@ const opn = require('opn');
 const processContent = require('./src/process-content.js');
 
 const cli = meow(`
-	Usage
-	  $ carbon-now-sh <file>
+	${chalk.bold('Usage')}
+    $ carbon-now-sh [file]
+		
+  ${chalk.bold('Options')}
+    -s, --start    Starting line of [file]
+    -e, --end      Ending line of [file]
 
-	Examples
+	${chalk.bold('Examples')}
 	  $ carbon-now-sh unfold.js
-`);
+	  $ carbon-now-sh unfold.js
+	`,
+{
+	flags: {
+		start: {
+			type: 'string',
+			alias: 's',
+			default: 1
+		},
+		end: {
+			type: 'string',
+			alias: 'e',
+			default: 1000
+		}
+	}
+});
 const [file] = cli.input;
+const {start, end} = cli.flags;
 
 if (!file) {
 	console.error(`
   ${chalk.red('Error: Please provide at least a file.')}
 		
-  $ carbon-now-sh <file>
+  $ carbon-now-sh [file]
 	`);
 	process.exit(1);
 }
@@ -32,11 +52,12 @@ if (!file) {
 const sendSourceCode = async () => {
 	try {
 		const url = new URL('https://carbon.now.sh');
-		const encodedContent = encodeURIComponent(await processContent(file));
+		const processedContent = await processContent(file, start, end);
+		const encodedContent = encodeURIComponent(processedContent);
 
 		url.searchParams.set('code', encodedContent);
-
 		opn(url.toString());
+
 		process.exit();
 	} catch (error) {
 		console.error(`
