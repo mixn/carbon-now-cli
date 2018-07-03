@@ -38,7 +38,6 @@
 	"devDependencies": {
 		"ava": "^0.25.0",
 		"execa": "^0.10.0",
-		"prettier": "1.13.7",
 		"xo": "^0.21.0"
 	}
 }
