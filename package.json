@@ -1,7 +1,7 @@
 {
 	"name": "carbon-now-sh-cli",
 	"version": "0.0.0",
-	"description": "",
+	"description": "Beautiful images of your source code via https://carbon.now.sh/ — from inside terminal.",
 	"license": "MIT",
 	"repository": "mixn/carbon-now-sh-cli",
 	"author": {

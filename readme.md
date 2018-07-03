@@ -1,6 +1,6 @@
-# carbon-now-sh-cli [![Build Status](https://travis-ci.org/mixn/carbon-now-sh-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-sh-cli) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+# carbon-now-sh-cli [![Build Status](https://travis-ci.org/mixn/carbon-now-sh-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-sh-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 
-> Share beautiful screenshots via [https://carbon.now.sh/] directly from your terminal — no need to open an editor or do it manually.
+> Beautiful images of your source code via https://carbon.now.sh/ — from inside terminal.
 
 ## Install
 
