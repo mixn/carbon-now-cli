@@ -1,16 +1,7 @@
 // Packages
 import test from 'ava';
-import execa from 'execa';
-import getLanguage from './src/get-language';
-import languageMap from './src/helpers/language-map';
-
-test('Running `carbon-now-sh` fails without at least one argument', async t => {
-	try {
-		await execa.stdout('./cli.js');
-	} catch (error) {
-		t.is(error.failed, true);
-	}
-});
+import getLanguage from '../src/get-language';
+import languageMap from '../src/helpers/language-map';
 
 test('Handles languages correctly', t => {
 	// Some manual ones ¯\_(ツ)_/¯
