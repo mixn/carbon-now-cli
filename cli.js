@@ -10,6 +10,7 @@ const opn = require('opn');
 
 // Source
 const processContent = require('./src/process-content.js');
+const getLanguage = require('./src/get-language.js');
 
 const cli = meow(`
 	${chalk.bold('Usage')}
@@ -49,13 +50,15 @@ if (!file) {
 	process.exit(1);
 }
 
-const sendSourceCode = async () => {
+(async () => {
 	try {
 		const url = new URL('https://carbon.now.sh');
 		const processedContent = await processContent(file, start, end);
 		const encodedContent = encodeURIComponent(processedContent);
 
 		url.searchParams.set('code', encodedContent);
+		url.searchParams.set('l', getLanguage(file));
+
 		opn(url.toString());
 
 		process.exit();
@@ -65,6 +68,4 @@ const sendSourceCode = async () => {
 	`);
 		process.exit(1);
 	}
-};
-
-sendSourceCode();
+})();
