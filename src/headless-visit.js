@@ -1,7 +1,7 @@
 // Packages
 const puppeteer = require('puppeteer');
 
-module.exports = async url => {
+module.exports = async (url, location = process.cwd()) => {
 	// Launch browser
 	const browser = await puppeteer.launch();
 	// Open new page
@@ -15,7 +15,7 @@ module.exports = async url => {
 	// Let’s hope it remains a thing… 🤞
 	await page._client.send('Page.setDownloadBehavior', {
 		behavior: 'allow',
-		downloadPath: './'
+		downloadPath: `${location}/`
 	});
 	const saveImageTrigger = await page.waitForSelector('[aria-labelledby="downshift-2-label"]');
 	await saveImageTrigger.click();

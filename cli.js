@@ -18,12 +18,13 @@ const cli = meow(`
     $ carbon-now-sh [file]
 		
 	${chalk.bold('Options')}
-    -s, --start    Starting line of [file]
-    -e, --end      Ending line of [file]
+    -s, --start       Starting line of [file]
+    -e, --end         Ending line of [file]
+    -l, --location    Screenshot save location, default: pwd
 
   ${chalk.bold('Examples')}
-    $ carbon-now-sh unfold.js
-    $ carbon-now-sh unfold.js
+    $ carbon-now-sh foo.js
+    $ carbon-now-sh foo.js -s 3 -e 10 # Only copies lines 3-10
 	`,
 {
 	flags: {
@@ -41,11 +42,16 @@ const cli = meow(`
 			type: 'string',
 			alias: 'o',
 			default: false
+		},
+		location: {
+			type: 'string',
+			alias: 'l',
+			default: process.cwd()
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open} = cli.flags;
+const {start, end, open, location} = cli.flags;
 let url = new URL('https://carbon.now.sh');
 
 if (!file) {
@@ -69,7 +75,7 @@ if (!file) {
 		if (open) {
 			opn(url);
 		} else {
-			await headlessVisit(url);
+			await headlessVisit(url, location);
 		}
 
 		process.exit();
@@ -79,6 +85,7 @@ if (!file) {
 
   This is mostly due to:
 
+  – Insensical input like \`--start 10 --end 2\`
   – Carbon being down or taking too long to respond
   – Your internet connection not working or being too slow
 	`);
