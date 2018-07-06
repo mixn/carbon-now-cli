@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 
-// Native
-const {URL} = require('url');
-
 // Packages
 const meow = require('meow');
 const chalk = require('chalk');
 const opn = require('opn');
+const queryString = require('query-string');
 
 // Source
 const processContent = require('./src/process-content.js');
@@ -52,7 +50,11 @@ const cli = meow(`
 });
 const [file] = cli.input;
 const {start, end, open, location} = cli.flags;
-let url = new URL('https://carbon.now.sh');
+const defaultSettings = {
+	l: 'auto'
+	// Add all…
+};
+let url = 'https://carbon.now.sh/';
 
 if (!file) {
 	console.error(`
@@ -67,10 +69,15 @@ if (!file) {
 	try {
 		const processedContent = await processContent(file, start, end);
 		const encodedContent = encodeURIComponent(processedContent);
+		const settings = {
+			...defaultSettings,
+			code: encodedContent,
+			l: getLanguage(file)
+		};
 
-		url.searchParams.set('code', encodedContent);
-		url.searchParams.set('l', getLanguage(file));
-		url = url.toString();
+		url = `${url}?${queryString.stringify(settings)}`;
+
+		console.log(url);
 
 		if (open) {
 			opn(url);
@@ -80,6 +87,7 @@ if (!file) {
 
 		process.exit();
 	} catch (error) {
+		console.log(error);
 		console.error(`
   ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
