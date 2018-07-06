@@ -3,9 +3,7 @@ const puppeteer = require('puppeteer');
 
 module.exports = async url => {
 	// Launch browser
-	const browser = await puppeteer.launch({
-		headless: false
-	});
+	const browser = await puppeteer.launch();
 	// Open new page
 	const page = await browser.newPage();
 	// Visit specified url
@@ -25,7 +23,9 @@ module.exports = async url => {
 	const pngExportTrigger = await page.$('#downshift-2-item-0');
 	await pngExportTrigger.click();
 
-	await page.waitFor(1500);
+	// Wait some more as `waitUntil: 'load'` or `waitUntil: 'networkidle0'
+	// is not always enough, see https://goo.gl/eTuogd
+	await page.waitFor(2000);
 
 	await browser.close();
 };
