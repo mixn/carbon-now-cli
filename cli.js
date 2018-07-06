@@ -77,8 +77,6 @@ if (!file) {
 
 		url = `${url}?${queryString.stringify(settings)}`;
 
-		console.log(url);
-
 		if (open) {
 			opn(url);
 		} else {
@@ -87,7 +85,6 @@ if (!file) {
 
 		process.exit();
 	} catch (error) {
-		console.log(error);
 		console.error(`
   ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 

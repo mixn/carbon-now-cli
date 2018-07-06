@@ -35,3 +35,19 @@ test('Correctly processes full length of files', async t => {
 		t.fail();
 	}
 });
+
+test('Correctly processes in between given lines', async t => {
+	const [full, partial] = [
+		'./test/test-dummies/_unfold.js',
+		'./test/test-dummies/_unfold-partial.js'
+	];
+
+	try {
+		t.is(
+			await process(full, 3, 6),
+			await readFileAsyncEncoded(partial)
+		);
+	} catch (error) {
+		t.fail();
+	}
+});
