@@ -38,7 +38,7 @@ const cli = meow(`
 			default: 1000
 		},
 		open: {
-			type: 'string',
+			type: 'boolean',
 			alias: 'o',
 			default: false
 		},
