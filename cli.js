@@ -5,6 +5,7 @@ const meow = require('meow');
 const chalk = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
+const terminalImage = require('terminal-image');
 const Listr = require('listr');
 
 // Source
@@ -107,13 +108,31 @@ const tasks = new Listr([
 
 tasks
 	.run()
-	.then(() => {
-		console.log(`
-  ${chalk.green('Done!')}
+	.then(async () => {
+		const downloadedFile = `${location}/carbon.png`;
 
-  The file can be found here: ${location}/carbon.png
-  iTerm2 and other, image-capable terminals should display the image below. 😎
-	`);
+		console.log(`
+  ${chalk.green('Done!')}`
+		);
+
+		if (!open) {
+			console.log(`
+  The file can be found here: ${downloadedFile} 😌`
+			);
+
+			if (process.env.TERM_PROGRAM.match('iTerm')) {
+				console.log(`
+  iTerm2 should display the image below. 😊
+
+  ${await terminalImage.file(downloadedFile)}`
+				);
+			}
+		} else {
+			console.log(`
+  Browser opened — finish your image there! 😌`
+			);
+		}
+
 		process.exit();
 	})
 	.catch(() => {
