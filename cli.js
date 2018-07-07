@@ -22,10 +22,11 @@ const cli = meow(`
     $ carbon-now-sh [file]
 		
 	${chalk.bold('Options')}
-    -s, --start       Starting line of [file]
-    -e, --end         Ending line of [file]
-    -l, --location    Screenshot save location, default: cwd
-    -o, --open        Open in browser instead of saving
+    -s, --start          Starting line of [file]
+    -e, --end            Ending line of [file]
+    -i, --interactive    Interactive mode
+    -l, --location       Screenshot save location, default: cwd
+    -o, --open           Open in browser instead of saving
 
   ${chalk.bold('Examples')}
     $ carbon-now-sh foo.js
@@ -52,6 +53,11 @@ const cli = meow(`
 			type: 'string',
 			alias: 'l',
 			default: process.cwd()
+		},
+		interactive: {
+			type: 'boolean',
+			alias: 'i',
+			default: false
 		}
 	}
 });
