@@ -13,6 +13,10 @@ const processContent = require('./src/process-content.js');
 const getLanguage = require('./src/get-language.js');
 const headlessVisit = require('./src/headless-visit.js');
 
+// Helpers
+let url = 'https://carbon.now.sh/';
+let settings = require('./src/helpers/default-settings');
+
 const cli = meow(`
 	${chalk.bold('Usage')}
     $ carbon-now-sh [file]
@@ -53,44 +57,6 @@ const cli = meow(`
 });
 const [file] = cli.input;
 const {start, end, open, location} = cli.flags;
-
-let settings = {
-	// Theme
-	t: 'seti',
-	// Language
-	l: 'auto',
-	// Background
-	bg: 'red',
-	// Window type
-	wt: 'none',
-	// Window controls
-	wc: true,
-	// Font family
-	fm: 'Hack',
-	// Font size
-	fs: '18px',
-	// Line numbers
-	ln: false,
-	// Drop shadow
-	ds: false,
-	// Drop shadow offset
-	dsyoff: '20px',
-	// Drop shadow blur
-	dsblur: '68px',
-	// Auto adjust width
-	wa: true,
-	// Padding vertical
-	pv: '48px',
-	// Padding horizontal
-	ph: '32px',
-	// Squared image
-	si: false,
-	// Watermark
-	wm: false,
-	// Export size
-	es: 2
-};
-let url = 'https://carbon.now.sh/';
 
 if (!file) {
 	console.error(`
