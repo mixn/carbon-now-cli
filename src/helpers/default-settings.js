@@ -6,8 +6,9 @@ module.exports = {
 	// Language
 	l: 'auto',
 	// Background
-	bg: 'red',
-	// Window type
+	bg: 'none',
+	// Window theme
+	// none, sharp, bw
 	wt: 'none',
 	// Window controls
 	wc: true,
@@ -34,5 +35,6 @@ module.exports = {
 	// Watermark
 	wm: false,
 	// Export size
-	es: 2
+	// 1x, 2x, 4x
+	es: '2x'
 };
