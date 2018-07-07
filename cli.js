@@ -20,7 +20,8 @@ const cli = meow(`
 	${chalk.bold('Options')}
     -s, --start       Starting line of [file]
     -e, --end         Ending line of [file]
-    -l, --location    Screenshot save location, default: pwd
+    -l, --location    Screenshot save location, default: cwd
+    -o, --open        Open in browser instead of saving
 
   ${chalk.bold('Examples')}
     $ carbon-now-sh foo.js
@@ -54,8 +55,40 @@ const [file] = cli.input;
 const {start, end, open, location} = cli.flags;
 
 let settings = {
-	l: 'auto'
-	// Add all…
+	// Theme
+	t: 'seti',
+	// Language
+	l: 'auto',
+	// Background
+	bg: 'red',
+	// Window type
+	wt: 'none',
+	// Window controls
+	wc: true,
+	// Font family
+	fm: 'Hack',
+	// Font size
+	fs: '18px',
+	// Line numbers
+	ln: false,
+	// Drop shadow
+	ds: false,
+	// Drop shadow offset
+	dsyoff: '20px',
+	// Drop shadow blur
+	dsblur: '68px',
+	// Auto adjust width
+	wa: true,
+	// Padding vertical
+	pv: '48px',
+	// Padding horizontal
+	ph: '32px',
+	// Squared image
+	si: false,
+	// Watermark
+	wm: false,
+	// Export size
+	es: 2
 };
 let url = 'https://carbon.now.sh/';
 
@@ -115,7 +148,11 @@ tasks
   ${chalk.green('Done!')}`
 		);
 
-		if (!open) {
+		if (open) {
+			console.log(`
+  Browser opened — finish your image there! 😌`
+			);
+		} else {
 			console.log(`
   The file can be found here: ${downloadedFile} 😌`
 			);
@@ -127,10 +164,6 @@ tasks
   ${await terminalImage.file(downloadedFile)}`
 				);
 			}
-		} else {
-			console.log(`
-  Browser opened — finish your image there! 😌`
-			);
 		}
 
 		process.exit();
