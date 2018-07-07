@@ -5,6 +5,7 @@ const meow = require('meow');
 const chalk = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
+const Listr = require('listr');
 
 // Source
 const processContent = require('./src/process-content.js');
@@ -23,7 +24,7 @@ const cli = meow(`
   ${chalk.bold('Examples')}
     $ carbon-now-sh foo.js
     $ carbon-now-sh foo.js -s 3 -e 10 # Only copies lines 3-10
-	`,
+`,
 {
 	flags: {
 		start: {
@@ -50,7 +51,8 @@ const cli = meow(`
 });
 const [file] = cli.input;
 const {start, end, open, location} = cli.flags;
-const defaultSettings = {
+
+let settings = {
 	l: 'auto'
 	// Add all…
 };
@@ -65,26 +67,56 @@ if (!file) {
 	process.exit(1);
 }
 
-(async () => {
-	try {
-		const processedContent = await processContent(file, start, end);
-		const encodedContent = encodeURIComponent(processedContent);
-		const settings = {
-			...defaultSettings,
-			code: encodedContent,
-			l: getLanguage(file)
-		};
-
-		url = `${url}?${queryString.stringify(settings)}`;
-
-		if (open) {
-			opn(url);
-		} else {
-			await headlessVisit(url, location);
+const tasks = new Listr([
+	{
+		title: `Processing ${file}`,
+		task: async ctx => {
+			try {
+				const processedContent = await processContent(file, start, end);
+				ctx.encodedContent = encodeURIComponent(processedContent);
+			} catch (error) {
+				return Promise.reject(error);
+			}
 		}
+	},
+	{
+		title: 'Preparing connection',
+		task: ({encodedContent}) => {
+			settings = {
+				...settings,
+				code: encodedContent,
+				l: getLanguage(file)
+			};
 
+			url = `${url}?${queryString.stringify(settings)}`;
+		}
+	},
+	{
+		title: 'Opening in browser',
+		skip: () => !open,
+		task: () => {
+			opn(url);
+		}
+	},
+	{
+		title: 'Fetching beautiful image',
+		skip: () => open,
+		task: () => headlessVisit(url, location)
+	}
+]);
+
+tasks
+	.run()
+	.then(() => {
+		console.log(`
+  ${chalk.green('Done!')}
+
+  The file can be found here: ${location}/carbon.png
+  iTerm2 and other, image-capable terminals should display the image below. 😎
+	`);
 		process.exit();
-	} catch (error) {
+	})
+	.catch(() => {
 		console.error(`
   ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
@@ -92,8 +124,7 @@ if (!file) {
 
   – Insensical input like \`--start 10 --end 2\`
   – Carbon being down or taking too long to respond
-  – Your internet connection not working or being too slow
-	`);
+  – Your internet connection not working or being too slow`);
+
 		process.exit(1);
-	}
-})();
+	});
