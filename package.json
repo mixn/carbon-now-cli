@@ -55,7 +55,8 @@
 			"test/test-dummies/*.js"
 		],
 		"rules": {
-			"no-warning-comments": 0
+			"no-warning-comments": 0,
+			"promise/prefer-await-to-then": 0
 		}
 	}
 }

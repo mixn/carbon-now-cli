@@ -128,6 +128,8 @@ if (!file) {
 	]);
 
 	// Run tasks
+	// I like the control-flow-iness of .then() and .catch() here
+	// and prefer it to async/await in this case… go ahead, JUDGE ME
 	tasks
 		.run()
 		.then(async () => {
