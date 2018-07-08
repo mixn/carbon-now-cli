@@ -10,7 +10,9 @@
 
 `carbon-now-cli` gives you the **full power of Carbon** — right at your fingertips, **inside the terminal**.
 
-Generate beautiful images from a source file, or *sections of a source file*, by running a single command. Want to customize **everything** before generating the image? Run it in ⚡️ **interactive mode** ⚡️. 😎
+Generate beautiful images from a source file, or *sections of a source file*, by running a single command.
+
+Want to customize **everything** before generating the image? Run it in ⚡️ **interactive mode** ⚡️. 😎
 
 <!-- TODO: GIF demo here -->
 
@@ -18,7 +20,7 @@ Generate beautiful images from a source file, or *sections of a source file*, by
 
 - 🖼 Downloads the **real**, **high-quality** image (*no DOM screenshots*)
 - ✨ Detects file type **automatically**
-- 🗂 Supports **all** file extensions supported by [carbon.now.sh](carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
+- 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
 - 🖱 Allows selective highlighting via `--start` and `--end`
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
@@ -96,7 +98,7 @@ Given this input…
 
 ![Example 2, Output](static/example-2-2.png)
 
-If you’re not sure what the questions, e.g. “Make squared image?”, etc. refer to, just confirm by hitting **Enter** — they will default to sensible, nice-looking things.
+If you’re not sure what each question, e.g. “Make squared image?”, refers to, just confirm by hitting **Enter** — they will default to sensible, nice-looking things.
 
 If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/default-settings.js).
 
@@ -108,7 +110,7 @@ If needed, you can always check the [default settings](https://github.com/mixn/c
 
 Reads and creates image only of line `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
 
-**Of course** selective mode can be combined with interactive mode, just with like any other option. :)
+**Of course** selective mode can be combined with interactive mode, just with like any other option. 😊
 
 Result (without interactive mode):
 
@@ -124,11 +126,13 @@ For demonstration purposes, here is an example using all options.
 
 This saves a beautiful image of lines `3` to `6` to `~/Desktop`, after accepting custom wishes via interactive mode.
 
-If you’re not sure about how the image will turn out and you’d rather take a look at it in the browser first, you can always use `-o` or `--open`
+If you’re not sure about how the image will turn out you can always use `-o` or `--open`.
 
 ```
  $ carbon-now unfold.js -s 3 -e 6 -i -o
 ```
+
+This will open the image in the browser for final touches. 😌
 
 ## License
 
