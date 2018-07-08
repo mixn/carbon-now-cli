@@ -12,9 +12,9 @@ const Listr = require('listr');
 const processContent = require('./src/process-content.js');
 const getLanguage = require('./src/get-language.js');
 const headlessVisit = require('./src/headless-visit.js');
+const interactiveMode = require('./src/interactive-mode.js');
 
 // Helpers
-let url = 'https://carbon.now.sh/';
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
@@ -62,8 +62,10 @@ const cli = meow(`
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location} = cli.flags;
+const {start, end, open, location, interactive} = cli.flags;
+let url = 'https://carbon.now.sh/';
 
+// Deny everything if not at least one argument (file) specified
 if (!file) {
 	console.error(`
   ${chalk.red('Error: Please provide at least a file.')}
@@ -73,75 +75,91 @@ if (!file) {
 	process.exit(1);
 }
 
-const tasks = new Listr([
-	{
-		title: `Processing ${file}`,
-		task: async ctx => {
-			try {
-				const processedContent = await processContent(file, start, end);
-				ctx.encodedContent = encodeURIComponent(processedContent);
-			} catch (error) {
-				return Promise.reject(error);
-			}
-		}
-	},
-	{
-		title: 'Preparing connection',
-		task: ({encodedContent}) => {
-			settings = {
-				...settings,
-				code: encodedContent,
-				l: getLanguage(file)
-			};
-
-			url = `${url}?${queryString.stringify(settings)}`;
-		}
-	},
-	{
-		title: 'Opening in browser',
-		skip: () => !open,
-		task: () => {
-			opn(url);
-		}
-	},
-	{
-		title: 'Fetching beautiful image',
-		skip: () => open,
-		task: () => headlessVisit(url, location)
+// Run main CLI programm
+(async () => {
+	// If --interactive, enter interactive mode and adopt settings
+	if (interactive) {
+		settings = {
+			...settings,
+			...(await interactiveMode())
+		};
 	}
-]);
 
-tasks
-	.run()
-	.then(async () => {
-		const downloadedFile = `${location}/carbon.png`;
+	// Prepare tasks
+	const tasks = new Listr([
+		// Task 1: Process and encode file
+		{
+			title: `Processing ${file}`,
+			task: async ctx => {
+				try {
+					const processedContent = await processContent(file, start, end);
+					ctx.encodedContent = encodeURIComponent(processedContent);
+				} catch (error) {
+					return Promise.reject(error);
+				}
+			}
+		},
+		// Task 2: Merge all settings (interactive, given, default, detected)
+		{
+			title: 'Preparing connection',
+			task: ({encodedContent}) => {
+				settings = {
+					...settings,
+					code: encodedContent,
+					l: getLanguage(file)
+				};
 
-		console.log(`
+				url = `${url}?${queryString.stringify(settings)}`;
+			}
+		},
+		// Task 3: Open only browser if --open
+		{
+			title: 'Opening in browser',
+			skip: () => !open,
+			task: () => {
+				opn(url);
+			}
+		},
+		// Task 4: Download image to --location if not --open
+		{
+			title: 'Fetching beautiful image',
+			skip: () => open,
+			task: () => headlessVisit(url, location)
+		}
+	]);
+
+	// Run tasks
+	tasks
+		.run()
+		.then(async () => {
+			const downloadedFile = `${location}/carbon.png`;
+
+			console.log(`
   ${chalk.green('Done!')}`
-		);
-
-		if (open) {
-			console.log(`
-  Browser opened — finish your image there! 😌`
-			);
-		} else {
-			console.log(`
-  The file can be found here: ${downloadedFile} 😌`
 			);
 
-			if (process.env.TERM_PROGRAM.match('iTerm')) {
+			if (open) {
 				console.log(`
+  Browser opened — finish your image there! 😌`
+				);
+			} else {
+				console.log(`
+  The file can be found here: ${downloadedFile} 😌`
+				);
+
+				if (process.env.TERM_PROGRAM.match('iTerm')) {
+					console.log(`
   iTerm2 should display the image below. 😊
 
-  ${await terminalImage.file(downloadedFile)}`
-				);
+		${await terminalImage.file(downloadedFile)}`
+					);
+				}
 			}
-		}
 
-		process.exit();
-	})
-	.catch(() => {
-		console.error(`
+			process.exit();
+		})
+		.catch(() => {
+			console.error(`
   ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
   This is mostly due to:
@@ -150,5 +168,6 @@ tasks
   – Carbon being down or taking too long to respond
   – Your internet connection not working or being too slow`);
 
-		process.exit(1);
-	});
+			process.exit(1);
+		});
+})();
