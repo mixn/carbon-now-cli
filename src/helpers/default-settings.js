@@ -36,5 +36,10 @@ module.exports = {
 	wm: false,
 	// Export size
 	// 1x, 2x, 4x
-	es: '2x'
+	es: '2x',
+	// Export type
+	// This is not supported as a URL parameter by Carbon,
+	// instead used as a default settings on my part
+	// 'png', 'svg'
+	type: 'png'
 };

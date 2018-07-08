@@ -124,7 +124,7 @@ if (!file) {
 		{
 			title: 'Fetching beautiful image',
 			skip: () => open,
-			task: () => headlessVisit(url, location)
+			task: () => headlessVisit(url, location, settings.type)
 		}
 	]);
 
@@ -132,7 +132,7 @@ if (!file) {
 	tasks
 		.run()
 		.then(async () => {
-			const downloadedFile = `${location}/carbon.png`;
+			const downloadedFile = `${location}/carbon.${settings.type}`;
 
 			console.log(`
   ${chalk.green('Done!')}`
