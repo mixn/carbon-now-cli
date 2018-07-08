@@ -6,6 +6,10 @@ import del from 'del';
 // Source
 import headlessVisit from '../src/headless-visit';
 
+const defaultDownloadName = 'carbon.png';
+const downloadDir = 'carbon';
+const fullDownloadPath = `${downloadDir}/${defaultDownloadName}`;
+
 test('Fails due to wrong URL/timeout/event', async t => {
 	try {
 		await headlessVisit('foobar');
@@ -16,8 +20,6 @@ test('Fails due to wrong URL/timeout/event', async t => {
 });
 
 test('Downloads code image correctly', async t => {
-	const defaultDownloadName = 'carbon.png';
-
 	try {
 		// Glob for a potentially existing download
 		const globbed = await globby([defaultDownloadName]);
@@ -37,3 +39,17 @@ test('Downloads code image correctly', async t => {
 		t.fail();
 	}
 });
+
+test('Respects download location', async t => {
+	await headlessVisit('https://carbon.now.sh', downloadDir);
+
+	t.true((await globby([fullDownloadPath])).length > 0);
+});
+
+// Cleanup
+test.after.always((async () => {
+	await del([
+		defaultDownloadName,
+		downloadDir
+	]);
+}));
