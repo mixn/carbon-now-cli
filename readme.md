@@ -14,7 +14,7 @@ Generate beautiful images from a source file, or *sections of a source file*, by
 
 Want to customize **everything** before generating the image? Run it in ⚡️ **interactive mode** ⚡️. 😎
 
-<!-- TODO: GIF demo here -->
+![Basic example](static/demo.gif)
 
 ## Features
 
@@ -136,4 +136,4 @@ This will open the image in the browser for final touches. 😌
 
 ## License
 
-MIT © [@mixn](https://twitter.com/mixn), [Miloš Sutanovac](https://github.com/mixn)
+MIT © [Miloš Sutanovac](https://twitter.com/mixn)
