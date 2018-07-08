@@ -1,16 +1,16 @@
 {
-	"name": "carbon-now-sh-cli",
+	"name": "carbon-now-cli",
 	"version": "0.0.0",
 	"description": "Beautiful images of your code — from right inside your terminal.",
 	"license": "MIT",
-	"repository": "mixn/carbon-now-sh-cli",
+	"repository": "mixn/carbon-now-cli",
 	"author": {
 		"name": "Miloš Sutanovac",
 		"email": "sutanovac.milos@gmail.com",
 		"url": "https://mixn.io"
 	},
 	"bin": {
-		"carbon-now-sh": "cli.js"
+		"carbon-now": "cli.js"
 	},
 	"engines": {
 		"node": ">=6"

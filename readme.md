@@ -1,28 +1,28 @@
-# carbon-now-sh-cli [![Build Status](https://travis-ci.org/mixn/carbon-now-sh-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-sh-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
+# carbon-now-cli [![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 
 > Beautiful images of your code — from right inside your terminal. Powered by https://carbon.now.sh/.
 
 ## Install
 
 ```
-$ npm install --global carbon-now-sh-cli
+$ npm install --global carbon-now-cli
 ```
 
 ## Usage
 
 ```
-$ carbon-now-sh --help
+$ carbon-now --help
 
   Usage
-    carbon-now-sh [input]
+    carbon-now [input]
 
   Options
     --foo  Lorem ipsum [Default: false]
 
   Examples
-    $ carbon-now-sh
+    $ carbon-now
     unicorns & rainbows
-    $ carbon-now-sh ponies
+    $ carbon-now ponies
     ponies & rainbows
 ```
 

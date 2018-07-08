@@ -19,7 +19,7 @@ let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
 	${chalk.bold('Usage')}
-    $ carbon-now-sh [file]
+    $ carbon-now [file]
 		
 	${chalk.bold('Options')}
     -s, --start          Starting line of [file]
@@ -29,8 +29,8 @@ const cli = meow(`
     -o, --open           Open in browser instead of saving
 
   ${chalk.bold('Examples')}
-    $ carbon-now-sh foo.js
-    $ carbon-now-sh foo.js -s 3 -e 10 # Only copies lines 3-10
+    $ carbon-now foo.js
+    $ carbon-now foo.js -s 3 -e 10 # Only copies lines 3-10
 `,
 {
 	flags: {
@@ -70,7 +70,7 @@ if (!file) {
 	console.error(`
   ${chalk.red('Error: Please provide at least a file.')}
 		
-  $ carbon-now-sh [file]
+  $ carbon-now [file]
 	`);
 	process.exit(1);
 }
