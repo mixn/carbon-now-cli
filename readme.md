@@ -2,7 +2,7 @@
 
 > 🎨 Beautiful images of your code — from right inside your terminal.
 
-[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)[![License MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/mixn/carbon-now-cli/blob/master/license)
+[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![License MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/mixn/carbon-now-cli/blob/master/license)
 
 ## Description
 
@@ -43,11 +43,11 @@ $ carbon-now --help
 Beautiful images of your code — from right inside your terminal.
 
 Usage
-  $ carbon-now [file]
+  $ carbon-now <file>
 
 Options
-  -s, --start          Starting line of [file]
-  -e, --end            Ending line of [file]
+  -s, --start          Starting line of <file>
+  -e, --end            Ending line of <file>
   -i, --interactive    Interactive mode
   -l, --location       Image save location, default: cwd
   -o, --open           Open in browser instead of saving

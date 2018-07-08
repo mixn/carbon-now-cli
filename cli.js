@@ -19,11 +19,11 @@ let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
  ${chalk.bold('Usage')}
-   $ carbon-now [file]
+   $ carbon-now <file>
 		
  ${chalk.bold('Options')}
-   -s, --start          Starting line of [file]
-   -e, --end            Ending line of [file]
+   -s, --start          Starting line of <file>
+   -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
    -o, --open           Open in browser instead of saving
@@ -69,7 +69,7 @@ if (!file) {
 	console.error(`
   ${chalk.red('Error: Please provide at least a file.')}
 		
-  $ carbon-now [file]
+  $ carbon-now <file>
 	`);
 	process.exit(1);
 }
