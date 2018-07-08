@@ -6,6 +6,12 @@ module.exports = async (url, location = process.cwd(), type = 'png') => {
 	const browser = await puppeteer.launch();
 	// Open new page
 	const page = await browser.newPage();
+	// Set viewport to something big
+	// Prevents Carbon from cutting off lines
+	await page.setViewport({
+		width: 1600,
+		height: 1000
+	});
 	// Visit specified url
 	await page.goto(url, {
 		waitUntil: 'load' // https://goo.gl/BdRVnv
