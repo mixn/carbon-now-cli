@@ -18,19 +18,18 @@ const interactiveMode = require('./src/interactive-mode.js');
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
-	${chalk.bold('Usage')}
-    $ carbon-now [file]
+ ${chalk.bold('Usage')}
+   $ carbon-now [file]
 		
-	${chalk.bold('Options')}
-    -s, --start          Starting line of [file]
-    -e, --end            Ending line of [file]
-    -i, --interactive    Interactive mode
-    -l, --location       Screenshot save location, default: cwd
-    -o, --open           Open in browser instead of saving
+ ${chalk.bold('Options')}
+   -s, --start          Starting line of [file]
+   -e, --end            Ending line of [file]
+   -i, --interactive    Interactive mode
+   -l, --location       Screenshot save location, default: cwd
+   -o, --open           Open in browser instead of saving
 
-  ${chalk.bold('Examples')}
-    $ carbon-now foo.js
-    $ carbon-now foo.js -s 3 -e 10 # Only copies lines 3-10
+ ${chalk.bold('Examples')}
+   See: https://github.com/mixn/carbon-now-cli#examples
 `,
 {
 	flags: {
