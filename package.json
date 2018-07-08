@@ -49,5 +49,13 @@
 		"ava": "^0.25.0",
 		"execa": "^0.10.0",
 		"xo": "^0.21.0"
+	},
+	"xo": {
+		"ignores": [
+			"test/test-dummies/*.js"
+		],
+		"rules": {
+			"no-warning-comments": 0
+		}
 	}
 }
