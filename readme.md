@@ -38,19 +38,19 @@ $ npm i -g carbon-now-cli
 ## Usage
 
 ```
- $ carbon-now --help
+$ carbon-now --help
 
- Beautiful images of your code — from right inside your terminal.
+Beautiful images of your code — from right inside your terminal.
 
- Usage
-   $ carbon-now [file]
+Usage
+  $ carbon-now [file]
 
- Options
-   -s, --start          Starting line of [file]
-   -e, --end            Ending line of [file]
-   -i, --interactive    Interactive mode
-   -l, --location       Screenshot save location, default: cwd
-   -o, --open           Open in browser instead of saving
+Options
+  -s, --start          Starting line of [file]
+  -e, --end            Ending line of [file]
+  -i, --interactive    Interactive mode
+  -l, --location       Image save location, default: cwd
+  -o, --open           Open in browser instead of saving
 ```
 
 ## Examples
@@ -73,7 +73,7 @@ and you’d like to make a beautiful image out of it. You could approach this in
 #### Basic
 
 ```
- $ carbon-now unfold.js
+$ carbon-now unfold.js
 ```
 
 Takes the entire source of `unfold.js`, uses Carbon’s default settings and saves as `.png` into your `cwd`. 
@@ -85,7 +85,7 @@ Result:
 #### Fully customized
 
 ```
- $ carbon-now unfold.js -i
+$ carbon-now unfold.js -i
 ```
 
 Launches an interactive mode, prompting questions, allowing you to customize every aspect of Carbon, like syntax theme, font-family, padding, drop-shadow, etc.
@@ -105,10 +105,10 @@ If needed, you can always check the [default settings](https://github.com/mixn/c
 #### Selective
 
 ```
- $ carbon-now unfold.js -s 3 -e 6
+$ carbon-now unfold.js -s 3 -e 6
 ```
 
-Reads and creates image only of line `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
+Reads and creates image based only of lines `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
 
 **Of course** selective mode can be combined with interactive mode, just with like any other option. 😊
 
@@ -121,7 +121,7 @@ Result (without interactive mode):
 For demonstration purposes, here is an example using all options.
 
 ```
- $ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -i
+$ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -i
 ```
 
 This saves a beautiful image of lines `3` to `6` to `~/Desktop`, after accepting custom wishes via interactive mode.
@@ -129,10 +129,10 @@ This saves a beautiful image of lines `3` to `6` to `~/Desktop`, after accepting
 If you’re not sure about how the image will turn out you can always use `-o` or `--open`.
 
 ```
- $ carbon-now unfold.js -s 3 -e 6 -i -o
+$ carbon-now unfold.js -s 3 -e 6 -i -o
 ```
 
-This will open the image in the browser for final touches. 😌
+This will open the image in the browser for final touches, instead of saving it immediately. 😌
 
 ## License
 
