@@ -4,8 +4,8 @@ const inquirer = require('inquirer');
 // Helpers
 const carbonMap = require('./helpers/carbon-map.json');
 
-module.exports = () => {
-	return inquirer
+module.exports = async () => {
+	const answers = await inquirer
 		.prompt([
 			{
 				type: 'list',
@@ -110,24 +110,23 @@ module.exports = () => {
 				default: 'png',
 				choices: ['png', 'svg']
 			}
-		])
-		// Prepare: turn user-friendly, readable input into Carbon-friendly input
-		.then(answers => {
-			for (const identifier in answers) {
-				if (Object.prototype.hasOwnProperty.call(answers, identifier)) {
-					// Current answer, e.g. `anwsers['t']`
-					const answer = answers[identifier];
-					// See if e.g. `t` is present in `carbonMap`
-					// Specifically not using `identifier in carbonMap` here
-					// cause of multiple uses of `exist`
-					const exists = carbonMap[identifier];
+		]);
 
-					// Overwrite e.g. `Tomorrow Night` with `tomorrow-night-bright`
-					// if `t` exists in `carbonMap`
-					answers[identifier] = exists ? exists[answer] : answer;
-				}
-			}
+	// Prepare: turn user-friendly, readable input into Carbon-friendly input
+	for (const identifier in answers) {
+		if (Object.prototype.hasOwnProperty.call(answers, identifier)) {
+			// Current answer, e.g. `anwsers['t']`
+			const answer = answers[identifier];
+			// See if e.g. `t` is present in `carbonMap`
+			// Specifically not using `identifier in carbonMap` here
+			// cause of multiple uses of `exist`
+			const exists = carbonMap[identifier];
 
-			return answers;
-		});
+			// Overwrite e.g. `Tomorrow Night` with `tomorrow-night-bright`
+			// if `t` exists in `carbonMap`
+			answers[identifier] = exists ? exists[answer] : answer;
+		}
+	}
+
+	return answers;
 };
