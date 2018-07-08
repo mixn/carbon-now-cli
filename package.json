@@ -20,7 +20,8 @@
 		"ava": "ava"
 	},
 	"files": [
-		"cli.js"
+		"cli.js",
+		"src"
 	],
 	"keywords": [
 		"cli",
