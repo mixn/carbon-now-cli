@@ -2,7 +2,9 @@
 
 > 🎨 Beautiful images of your code — from right inside your terminal.
 
-[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![License MIT](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/mixn/carbon-now-cli/blob/master/license)
+[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+
+
 
 ## Description
 
@@ -22,10 +24,12 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - ✨ Detects file type **automatically**
 - 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
 - 🖱 Allows selective highlighting via `--start` and `--end`
+- ⚡️ Interactive mode via `--interactive`
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
 - 👀 Saves to given location or only opens in browser for manual finish
 - 🌈 Supports saving as `.png` or `.svg` — just like Carbon
+- 📏 Supports `2x`, `4x` or `1x` resolutions — just like Carbon
 - ✅ Tested
 - ⛏ Maintained
 
