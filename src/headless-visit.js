@@ -3,7 +3,9 @@ const puppeteer = require('puppeteer');
 
 module.exports = async (url, location = process.cwd(), type = 'png') => {
 	// Launch browser
-	const browser = await puppeteer.launch();
+	const browser = await puppeteer.launch({
+		headless: false
+	});
 	// Open new page
 	const page = await browser.newPage();
 	// Set viewport to something big
