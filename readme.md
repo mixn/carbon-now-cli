@@ -8,7 +8,7 @@
 
 ## Description
 
-[carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that let’s you generate beautiful images of your source code through a great UI, letting you customize aspects like fonts, themes, window controls and much more.
+[carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that lets you generate beautiful images of your source code through a great UI, letting you customize aspects like fonts, themes, window controls and much more.
 
 `carbon-now-cli` gives you the **full power of Carbon** — right at your fingertips, **inside the terminal**.
 
