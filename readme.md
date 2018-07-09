@@ -2,7 +2,7 @@
 
 > 🎨 Beautiful images of your code — from right inside your terminal.
 
-[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Build Status](https://travis-ci.org/mixn/carbon-now-cli.svg?branch=master)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mixn/carbon-now-cli/blob/master/license) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 
 
 
