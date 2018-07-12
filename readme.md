@@ -35,9 +35,24 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 
 ## Installation
 
+#### npm
 ```
 $ npm i -g carbon-now-cli
 ```
+
+#### yarn
+```
+$ yarn global add carbon-now-cli
+```
+
+#### npx
+```
+$ npx carbon-now-cli <file>
+```
+
+#### Requirements
+
+`carbon-now-cli` requires Node.js `>=8`.
 
 ## Usage
 
