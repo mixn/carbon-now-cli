@@ -65,11 +65,12 @@ Usage
   $ carbon-now <file>
 
 Options
-  -s, --start          Starting line of <file>
-  -e, --end            Ending line of <file>
-  -i, --interactive    Interactive mode
-  -l, --location       Image save location, default: cwd
-  -o, --open           Open in browser instead of saving
+  -s, --start           Starting line of <file>
+  -e, --end             Ending line of <file>
+  -i, --interactive     Interactive mode
+  -l, --location        Image save location, default: cwd
+  -o, --open            Open in browser instead of saving
+  -S, --disable-sandbox Disable sandbox
 ```
 
 ## Examples
