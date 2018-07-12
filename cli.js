@@ -22,11 +22,12 @@ const cli = meow(`
    $ carbon-now <file>
 		
  ${chalk.bold('Options')}
-   -s, --start          Starting line of <file>
-   -e, --end            Ending line of <file>
-   -i, --interactive    Interactive mode
-   -l, --location       Screenshot save location, default: cwd
-   -o, --open           Open in browser instead of saving
+   -s, --start           Starting line of <file>
+   -e, --end             Ending line of <file>
+   -i, --interactive     Interactive mode
+   -l, --location        Screenshot save location, default: cwd
+	 -o, --open            Open in browser instead of saving
+	 -S, --disable-sandbox Disable sandbox
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
