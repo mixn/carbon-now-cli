@@ -1,10 +1,11 @@
 // Packages
 const puppeteer = require('puppeteer');
 
-module.exports = async (url, location = process.cwd(), type = 'png') => {
+module.exports = async (url, location = process.cwd(), type = 'png', disableSandbox = false) => {
 	// Launch browser
 	const browser = await puppeteer.launch({
-		headless: false
+		headless: false,
+		args: disableSandbox ? ['--no-sandbox', '--disable-setuid-sandbox'] : []
 	});
 	// Open new page
 	const page = await browser.newPage();
