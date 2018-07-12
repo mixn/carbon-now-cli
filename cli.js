@@ -66,7 +66,7 @@ const cli = meow(`
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive} = cli.flags;
+const {start, end, open, location, interactive, disableSandbox} = cli.flags;
 let url = 'https://carbon.now.sh/';
 
 // Deny everything if not at least one argument (file) specified
@@ -128,7 +128,7 @@ if (!file) {
 		{
 			title: 'Fetching beautiful image',
 			skip: () => open,
-			task: () => headlessVisit(url, location, settings.type)
+			task: () => headlessVisit(url, location, settings.type, disableSandbox)
 		}
 	]);
 
