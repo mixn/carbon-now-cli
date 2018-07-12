@@ -57,6 +57,11 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'i',
 			default: false
+		},
+		disableSandbox: {
+			type: 'boolean',
+			alias: 'S',
+			default: false
 		}
 	}
 });
