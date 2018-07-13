@@ -35,6 +35,12 @@ module.exports = async () => {
 				default: '18px'
 			},
 			{
+				type: 'input',
+				name: 'bg',
+				message: 'Background color:',
+				default: 'none'
+			},
+			{
 				type: 'confirm',
 				name: 'wc',
 				message: 'Include window controls?',
