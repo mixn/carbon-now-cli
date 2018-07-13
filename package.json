@@ -36,6 +36,7 @@
 	"dependencies": {
 		"chalk": "^2.4.1",
 		"del": "^3.0.0",
+		"dom-to-image": "^2.6.0",
 		"file-extension": "^4.0.5",
 		"globby": "^8.0.1",
 		"inquirer": "^6.0.0",
