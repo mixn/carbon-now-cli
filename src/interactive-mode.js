@@ -115,6 +115,19 @@ module.exports = async () => {
 				message: 'Export as…',
 				default: 'png',
 				choices: ['png', 'svg']
+			},
+			{
+				type: 'confirm',
+				name: 'save',
+				message: 'Save these settings as a preset?',
+				default: 'false'
+			},
+			{
+				type: 'input',
+				name: 'preset',
+				message: 'Name of the preset? No spaces, please.',
+				default: 'latest-preset',
+				when: answers => answers.save
 			}
 		]);
 
