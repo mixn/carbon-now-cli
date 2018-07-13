@@ -22,11 +22,12 @@ const cli = meow(`
    $ carbon-now <file>
 		
  ${chalk.bold('Options')}
-   -s, --start          Starting line of <file>
-   -e, --end            Ending line of <file>
-   -i, --interactive    Interactive mode
-   -l, --location       Screenshot save location, default: cwd
-   -o, --open           Open in browser instead of saving
+   -s, --start           Starting line of <file>
+   -e, --end             Ending line of <file>
+   -i, --interactive     Interactive mode
+   -l, --location        Screenshot save location, default: cwd
+   -o, --open            Open in browser instead of saving
+   -S, --disable-sandbox Disable sandbox
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -57,11 +58,16 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'i',
 			default: false
+		},
+		disableSandbox: {
+			type: 'boolean',
+			alias: 'S',
+			default: false
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive} = cli.flags;
+const {start, end, open, location, interactive, disableSandbox} = cli.flags;
 let url = 'https://carbon.now.sh/';
 
 // Deny everything if not at least one argument (file) specified
@@ -123,7 +129,7 @@ if (!file) {
 		{
 			title: 'Fetching beautiful image',
 			skip: () => open,
-			task: () => headlessVisit(url, location, settings.type)
+			task: () => headlessVisit(url, location, settings.type, disableSandbox)
 		}
 	]);
 
@@ -148,7 +154,7 @@ if (!file) {
   The file can be found here: ${downloadedFile} 😌`
 				);
 
-				if (process.env.TERM_PROGRAM.match('iTerm')) {
+				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
 					console.log(`
   iTerm2 should display the image below. 😊
 
