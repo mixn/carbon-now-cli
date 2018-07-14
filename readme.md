@@ -70,6 +70,7 @@ Options
   -i, --interactive    Interactive mode
   -l, --location       Image save location, default: cwd
   -o, --open           Open in browser instead of saving
+  -r, --random         Use random settings
 ```
 
 ## Examples
