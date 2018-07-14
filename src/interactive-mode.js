@@ -125,7 +125,7 @@ module.exports = async () => {
 			{
 				type: 'input',
 				name: 'preset',
-				message: 'Name of the preset? No spaces, please.',
+				message: 'Name of the preset? Use kebab-case.',
 				default: 'latest-preset',
 				when: answers => answers.save
 			}
