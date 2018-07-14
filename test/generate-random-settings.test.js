@@ -13,8 +13,10 @@ test('Generate unique random settings', t => {
 
 test('Contains randomizable features', t => {
 	const randomSettings = generateRandomSettings();
-	t.truthy(randomSettings.wc);
-	t.truthy(randomSettings.ln);
+	// Manual boolean checks
+	t.not(randomSettings.wc, undefined);
+	t.not(randomSettings.ln, undefined);
+	// Automatic checks
 	Object.keys(carbonMap).forEach(featureKey =>
 		t.truthy(randomSettings[featureKey])
 	);
