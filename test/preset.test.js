@@ -6,7 +6,7 @@ import {isEqual} from 'lodash';
 import {readFileSync} from 'jsonfile';
 
 // Source
-import preset from '../src/preset';
+import presetHandler from '../src/preset';
 import {FULL_DUMMY_CONFIG_PATH} from '../src/helpers/globals';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
@@ -24,10 +24,10 @@ const deleteDummy = async () => {
 };
 
 // This test uses a dummy file to not potentially delete meaningful settings
-test.serial('Creates .carbon-now-dummy.json if it doesn’t exist', async t => {
+test.serial('Creates config file if it doesn’t exist', async t => {
 	await deleteDummy();
 
-	await preset.save(
+	await presetHandler.save(
 		DUMMY_PRESET_NAME_1,
 		DUMMY_PRESET_SETTINGS,
 		FULL_DUMMY_CONFIG_PATH
@@ -40,8 +40,8 @@ test.serial('Creates .carbon-now-dummy.json if it doesn’t exist', async t => {
 	}
 });
 
-test.serial('Appends correctly to existing config file', async t => {
-	await preset.save(
+test.serial('Appends preset correctly to existing config file', async t => {
+	await presetHandler.save(
 		DUMMY_PRESET_NAME_2,
 		DUMMY_PRESET_SETTINGS,
 		FULL_DUMMY_CONFIG_PATH
@@ -55,6 +55,34 @@ test.serial('Appends correctly to existing config file', async t => {
 	};
 
 	if (isEqual(currentConfig, shouldEqual)) {
+		t.pass();
+	} else {
+		t.fail();
+	}
+});
+
+test.serial('Correctly fetches existing preset', async t => {
+	const fetchedPreset = await presetHandler.get(
+		DUMMY_PRESET_NAME_1,
+		FULL_DUMMY_CONFIG_PATH
+	);
+
+	if (isEqual(fetchedPreset, DUMMY_PRESET_SETTINGS)) {
+		t.pass();
+	} else {
+		t.fail();
+	}
+});
+
+test.serial('Allows for non-existent preset', async t => {
+	await deleteDummy();
+
+	const nonExistentPreset = await presetHandler.get(
+		DUMMY_PRESET_NAME_1,
+		FULL_DUMMY_CONFIG_PATH
+	);
+
+	if (isEqual(nonExistentPreset, {})) {
 		t.pass();
 	} else {
 		t.fail();
