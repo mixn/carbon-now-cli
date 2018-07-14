@@ -120,7 +120,7 @@ module.exports = async () => {
 				type: 'confirm',
 				name: 'save',
 				message: 'Save these settings as a preset?',
-				default: 'false'
+				default: false
 			},
 			{
 				type: 'input',
