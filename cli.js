@@ -13,6 +13,7 @@ const processContent = require('./src/process-content.js');
 const getLanguage = require('./src/get-language.js');
 const headlessVisit = require('./src/headless-visit.js');
 const interactiveMode = require('./src/interactive-mode.js');
+const generateRandomSettings = require('./src/generate-random-settings.js');
 
 // Helpers
 let settings = require('./src/helpers/default-settings');
@@ -26,7 +27,8 @@ const cli = meow(`
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
-   -o, --open           Open in browser instead of saving
+	 -o, --open           Open in browser instead of saving
+	 -r, --random         Use random settings
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -57,11 +59,16 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'i',
 			default: false
+		},
+		random: {
+			type: 'boolean',
+			alias: 'r',
+			default: false
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive} = cli.flags;
+const {start, end, open, location, interactive, random} = cli.flags;
 let url = 'https://carbon.now.sh/';
 
 // Deny everything if not at least one argument (file) specified
@@ -81,6 +88,14 @@ if (!file) {
 		settings = {
 			...settings,
 			...(await interactiveMode())
+		};
+	}
+
+	// If --random, use generate random settings
+	if (random) {
+		settings = {
+			...settings,
+			...generateRandomSettings()
 		};
 	}
 
