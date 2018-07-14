@@ -29,7 +29,7 @@ const cli = meow(`
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
    -o, --open           Open in browser instead of saving
-   -p, --preset         Use a preset defined in ~/.carbon-now.json
+   -p, --preset         Use a saved preset
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
