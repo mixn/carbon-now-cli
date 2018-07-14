@@ -13,20 +13,23 @@ const processContent = require('./src/process-content.js');
 const getLanguage = require('./src/get-language.js');
 const headlessVisit = require('./src/headless-visit.js');
 const interactiveMode = require('./src/interactive-mode.js');
+const presetHandler = require('./src/preset.js');
 
 // Helpers
+const {CARBON_URL} = require('./src/helpers/globals');
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
  ${chalk.bold('Usage')}
    $ carbon-now <file>
-		
+
  ${chalk.bold('Options')}
    -s, --start          Starting line of <file>
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
    -o, --open           Open in browser instead of saving
+   -p, --preset         Use a preset defined in ~/.carbon-now.json
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -57,18 +60,23 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'i',
 			default: false
+		},
+		preset: {
+			type: 'string',
+			alias: 'p',
+			default: 'last-used-preset'
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive} = cli.flags;
-let url = 'https://carbon.now.sh/';
+const {start, end, open, location, interactive, preset} = cli.flags;
+let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
 if (!file) {
 	console.error(`
   ${chalk.red('Error: Please provide at least a file.')}
-		
+
   $ carbon-now <file>
 	`);
 	process.exit(1);
@@ -76,7 +84,15 @@ if (!file) {
 
 // Run main CLI programm
 (async () => {
+	if (preset) {
+		settings = {
+			...settings,
+			...(await presetHandler.get(preset))
+		};
+	}
+
 	// If --interactive, enter interactive mode and adopt settings
+	// This can be inside of Listr since it leads to rendering problems
 	if (interactive) {
 		settings = {
 			...settings,
@@ -98,10 +114,15 @@ if (!file) {
 				}
 			}
 		},
-		// Task 2: Merge all settings (interactive, given, default, detected)
+		// Task 2: Merge and save settings, prepare URL
 		{
 			title: 'Preparing connection',
-			task: ({encodedContent}) => {
+			task: async ({encodedContent}) => {
+				if (settings.save) {
+					await presetHandler.save(settings.preset, settings);
+				}
+
+				// Add code and language
 				settings = {
 					...settings,
 					code: encodedContent,
