@@ -4,7 +4,7 @@ const jsonFile = require('jsonfile');
 const {omit} = require('lodash');
 
 // Source
-const {FULL_CONFIG_PATH} = require('./helpers/globals');
+const {FULL_CONFIG_PATH, LATEST_PRESET} = require('./helpers/globals');
 
 // Creates or and/or writes (to) a config file
 const writeConfig = async (configLocation = FULL_CONFIG_PATH, settings = {}, options = {}) => {
@@ -47,7 +47,7 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 };
 
 // Saves a preset to the config file
-const savePreset = async (presetName, settings = {}, configLocation = FULL_CONFIG_PATH) => {
+const savePreset = async (presetName = LATEST_PRESET, settings = {}, configLocation = FULL_CONFIG_PATH) => {
 	try {
 		const currentConfig = await readConfig(configLocation);
 		const whiteListedSettings = omit(settings, ['save', 'preset', 'l']); // Inquirer or Carbon things, no needed
@@ -58,8 +58,11 @@ const savePreset = async (presetName, settings = {}, configLocation = FULL_CONFI
 			configLocation,
 			{
 				...currentConfig,
-				[presetName]: whiteListedSettings,
-				'latest-preset': whiteListedSettings
+				// If preset should be saved, use spread from an object
+				// which uses a computed property to set the name.
+				// Hard to read: probably, but short + commented :)
+				...(presetName !== LATEST_PRESET && {[presetName]: whiteListedSettings}),
+				[LATEST_PRESET]: whiteListedSettings
 			},
 			{
 				spaces: 2,

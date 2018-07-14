@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 
 // Helpers
 const carbonMap = require('./helpers/carbon-map.json');
+const {LATEST_PRESET} = require('./helpers/globals');
 
 module.exports = async () => {
 	const answers = await inquirer
@@ -126,7 +127,7 @@ module.exports = async () => {
 				type: 'input',
 				name: 'preset',
 				message: 'Name of the preset? Use kebab-case.',
-				default: 'latest-preset',
+				default: LATEST_PRESET,
 				when: answers => answers.save
 			}
 		]);

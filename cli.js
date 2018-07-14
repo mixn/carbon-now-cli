@@ -16,7 +16,7 @@ const interactiveMode = require('./src/interactive-mode.js');
 const presetHandler = require('./src/preset.js');
 
 // Helpers
-const {CARBON_URL} = require('./src/helpers/globals');
+const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
@@ -64,7 +64,7 @@ const cli = meow(`
 		preset: {
 			type: 'string',
 			alias: 'p',
-			default: 'latest-preset'
+			default: LATEST_PRESET
 		}
 	}
 });
@@ -118,9 +118,7 @@ if (!file) {
 		{
 			title: 'Preparing connection',
 			task: async ({encodedContent}) => {
-				if (settings.save) {
-					await presetHandler.save(settings.preset, settings);
-				}
+				await presetHandler.save(settings.preset, settings);
 
 				// Add code and language
 				settings = {

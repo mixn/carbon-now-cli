@@ -7,7 +7,7 @@ import {readFileSync} from 'jsonfile';
 
 // Source
 import presetHandler from '../src/preset';
-import {FULL_DUMMY_CONFIG_PATH} from '../src/helpers/globals';
+import {FULL_DUMMY_CONFIG_PATH, LATEST_PRESET} from '../src/helpers/globals';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';
@@ -51,7 +51,7 @@ test.serial('Appends preset correctly to existing config file', async t => {
 	const shouldEqual = {
 		[DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
 		[DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
-		'latest-preset': DUMMY_PRESET_SETTINGS
+		[LATEST_PRESET]: DUMMY_PRESET_SETTINGS
 	};
 
 	if (isEqual(currentConfig, shouldEqual)) {
