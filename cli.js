@@ -27,8 +27,8 @@ const cli = meow(`
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
-	 -o, --open           Open in browser instead of saving
-	 -r, --random         Use random settings
+   -o, --open           Open in browser instead of saving
+   -r, --random         Use random settings
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
