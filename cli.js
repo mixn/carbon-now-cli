@@ -84,6 +84,7 @@ if (!file) {
 
 // Run main CLI programm
 (async () => {
+	// If --preset present, take that particular preset
 	if (preset) {
 		settings = {
 			...settings,
@@ -92,7 +93,7 @@ if (!file) {
 	}
 
 	// If --interactive, enter interactive mode and adopt settings
-	// This can be inside of Listr since it leads to rendering problems
+	// This can’t be inside of Listr since it leads to rendering problems
 	if (interactive) {
 		settings = {
 			...settings,
@@ -178,7 +179,7 @@ if (!file) {
 
 			process.exit();
 		})
-		.catch(() => {
+		.catch(error => {
 			console.error(`
   ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
@@ -186,7 +187,11 @@ if (!file) {
 
   – Insensical input like \`--start 10 --end 2\`
   – Carbon being down or taking too long to respond
-  – Your internet connection not working or being too slow`);
+  – Your internet connection not working or being too slow
+
+  Additional info:
+
+  ${error}`);
 
 			process.exit(1);
 		});
