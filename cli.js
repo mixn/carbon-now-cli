@@ -64,7 +64,7 @@ const cli = meow(`
 		preset: {
 			type: 'string',
 			alias: 'p',
-			default: 'last-used-preset'
+			default: 'latest-preset'
 		}
 	}
 });

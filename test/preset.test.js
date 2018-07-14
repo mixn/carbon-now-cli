@@ -51,7 +51,7 @@ test.serial('Appends preset correctly to existing config file', async t => {
 	const shouldEqual = {
 		[DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
 		[DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
-		'last-used-preset': DUMMY_PRESET_SETTINGS
+		'latest-preset': DUMMY_PRESET_SETTINGS
 	};
 
 	if (isEqual(currentConfig, shouldEqual)) {

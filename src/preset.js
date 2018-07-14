@@ -59,7 +59,7 @@ const savePreset = async (presetName, settings = {}, configLocation = FULL_CONFI
 			{
 				...currentConfig,
 				[presetName]: whiteListedSettings,
-				'last-used-preset': whiteListedSettings
+				'latest-preset': whiteListedSettings
 			},
 			{
 				spaces: 2,
