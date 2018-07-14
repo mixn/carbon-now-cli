@@ -22,7 +22,7 @@ const writeConfig = async (configLocation = FULL_CONFIG_PATH, settings = {}, opt
 // Reads a config file
 const readConfig = async function readConfig(configLocation = FULL_CONFIG_PATH) {
 	try {
-		// Only read from if it exsists
+		// Only read from if it exists
 		if (await fileExists(configLocation)) {
 			return await jsonFile.readFileSync(configLocation);
 		}
@@ -50,8 +50,7 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 const savePreset = async (presetName, settings = {}, configLocation = FULL_CONFIG_PATH) => {
 	try {
 		const currentConfig = await readConfig(configLocation);
-		// Inquirer or Carbon specific things that can be left out the config
-		const whiteListedSettings = omit(settings, ['save', 'preset', 'l']);
+		const whiteListedSettings = omit(settings, ['save', 'preset', 'l']); // Inquirer or Carbon things, no needed
 
 		// If settings in the config exist, merge them with the new preset,
 		// remember the current preset as the last used and make it pretty
@@ -72,6 +71,7 @@ const savePreset = async (presetName, settings = {}, configLocation = FULL_CONFI
 	}
 };
 
+// Export API
 module.exports = {
 	get: getPreset,
 	save: savePreset
