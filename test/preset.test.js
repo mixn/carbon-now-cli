@@ -2,7 +2,6 @@
 import test from 'ava';
 import del from 'del';
 import fileExists from 'file-exists';
-import {isEqual} from 'lodash';
 import {readFileSync} from 'jsonfile';
 
 // Source
@@ -24,6 +23,7 @@ const deleteDummy = async () => {
 };
 
 // This test uses a dummy file to not potentially delete meaningful settings
+// TODO: Probably use https://goo.gl/wAC2Kk and/or https://goo.gl/qqrbjf
 test.serial('Creates config file if it doesn’t exist', async t => {
 	await deleteDummy();
 
@@ -54,11 +54,7 @@ test.serial('Appends preset correctly to existing config file', async t => {
 		[LATEST_PRESET]: DUMMY_PRESET_SETTINGS
 	};
 
-	if (isEqual(currentConfig, shouldEqual)) {
-		t.pass();
-	} else {
-		t.fail();
-	}
+	t.deepEqual(currentConfig, shouldEqual);
 });
 
 test.serial('Correctly fetches existing preset', async t => {
@@ -67,11 +63,7 @@ test.serial('Correctly fetches existing preset', async t => {
 		FULL_DUMMY_CONFIG_PATH
 	);
 
-	if (isEqual(fetchedPreset, DUMMY_PRESET_SETTINGS)) {
-		t.pass();
-	} else {
-		t.fail();
-	}
+	t.deepEqual(fetchedPreset, DUMMY_PRESET_SETTINGS);
 });
 
 test.serial('Allows for non-existent preset', async t => {
@@ -82,11 +74,7 @@ test.serial('Allows for non-existent preset', async t => {
 		FULL_DUMMY_CONFIG_PATH
 	);
 
-	if (isEqual(nonExistentPreset, {})) {
-		t.pass();
-	} else {
-		t.fail();
-	}
+	t.deepEqual(nonExistentPreset, {});
 });
 
 // Cleanup
