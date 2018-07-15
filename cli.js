@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 
+// Native
+const {promisify} = require('util');
+const {basename, extname} = require('path');
+const asyncRename = promisify(require('fs').rename);
+
 // Packages
 const meow = require('meow');
 const chalk = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
+const generate = require('nanoid/generate');
 const Listr = require('listr');
 
 // Source
@@ -148,7 +154,18 @@ if (!file) {
 		{
 			title: 'Fetching beautiful image',
 			skip: () => open,
-			task: () => headlessVisit(url, location, settings.type)
+			task: async ctx => {
+				const {type} = settings;
+				const	original = basename(file, extname(file));
+				const downloaded = `${location}/carbon.${type}`;
+				const	saveAs = `${location}/${original}-${generate('123456abcdef', 10)}.${type}`;
+
+				// Fetch image and rename it
+				await headlessVisit(url, location, type);
+				await asyncRename(downloaded, saveAs);
+
+				ctx.savedAs = saveAs;
+			}
 		}
 	]);
 
@@ -157,9 +174,7 @@ if (!file) {
 	// and prefer it to async/await in this case… go ahead, JUDGE ME
 	tasks
 		.run()
-		.then(async () => {
-			const downloadedFile = `${location}/carbon.${settings.type}`;
-
+		.then(async ({savedAs}) => {
 			console.log(`
   ${chalk.green('Done!')}`
 			);
@@ -170,14 +185,14 @@ if (!file) {
 				);
 			} else {
 				console.log(`
-  The file can be found here: ${downloadedFile} 😌`
+  The file can be found here: ${savedAs} 😌`
 				);
 
 				if (process.env.TERM_PROGRAM.match('iTerm')) {
 					console.log(`
   iTerm2 should display the image below. 😊
 
-		${await terminalImage.file(downloadedFile)}`
+		${await terminalImage.file(savedAs)}`
 					);
 				}
 			}
