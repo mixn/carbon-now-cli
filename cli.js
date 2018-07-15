@@ -84,7 +84,7 @@ if (!file) {
 
 // Run main CLI programm
 (async () => {
-	// If --preset present, take that particular preset
+	// If --preset given, take that particular preset
 	if (preset) {
 		settings = {
 			...settings,
@@ -93,7 +93,7 @@ if (!file) {
 	}
 
 	// If --interactive, enter interactive mode and adopt settings
-	// This can’t be inside of Listr since it leads to rendering problems
+	// This unfortunately can’t be inside of Listr since it leads to rendering problems
 	if (interactive) {
 		settings = {
 			...settings,
@@ -115,23 +115,28 @@ if (!file) {
 				}
 			}
 		},
-		// Task 2: Merge and save settings, prepare URL
+		// Task 2: Merge all given settings (default, preset, interactive), prepare URL
 		{
 			title: 'Preparing connection',
 			task: async ({encodedContent}) => {
+				// We always want to save the current settings,
+				// as we want it to be remembered as the 'latest-preset'
+				// The `save` method takes care of whether something should
+				// also be saved as a preset, or just as 'latest-preset'
 				await presetHandler.save(settings.preset, settings);
 
-				// Add code and language
+				// Add code and language, irrelevant for storage and always different
 				settings = {
 					...settings,
 					code: encodedContent,
 					l: getLanguage(file)
 				};
 
+				// Prepare the querystring that we’ll send to Carbon
 				url = `${url}?${queryString.stringify(settings)}`;
 			}
 		},
-		// Task 3: Open only browser if --open
+		// Task 3: Only open the browser if --open
 		{
 			title: 'Opening in browser',
 			skip: () => !open,

@@ -18,7 +18,7 @@ const DUMMY_PRESET_SETTINGS = {
 
 const deleteDummy = async () => {
 	await del([FULL_DUMMY_CONFIG_PATH], {
-		force: true
+		force: true // This allows deleting outside of cwd
 	});
 };
 
@@ -33,11 +33,7 @@ test.serial('Creates config file if it doesn’t exist', async t => {
 		FULL_DUMMY_CONFIG_PATH
 	);
 
-	if (await fileExists(FULL_DUMMY_CONFIG_PATH)) {
-		t.pass();
-	} else {
-		t.fail();
-	}
+	t.true(await fileExists(FULL_DUMMY_CONFIG_PATH));
 });
 
 test.serial('Appends preset correctly to existing config file', async t => {

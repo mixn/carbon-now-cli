@@ -49,19 +49,21 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 // Saves a preset to the config file
 const savePreset = async (presetName = LATEST_PRESET, settings = {}, configLocation = FULL_CONFIG_PATH) => {
 	try {
+		// Omit not needed Inquirer or Carbon things
+		const whiteListedSettings = omit(settings, ['save', 'preset', 'l']);
 		const currentConfig = await readConfig(configLocation);
-		const whiteListedSettings = omit(settings, ['save', 'preset', 'l']); // Inquirer or Carbon things, no needed
 
-		// If settings in the config exist, merge them with the new preset,
-		// remember the current preset as the last used and make it pretty
 		await writeConfig(
 			configLocation,
 			{
+				// Take and merge existing config to not overwrite
 				...currentConfig,
-				// If preset should be saved, use spread from an object
-				// which uses a computed property to set the name.
-				// Hard to read: probably, but short + commented :)
+				// Only additionally save this preset if the incoming `presetName` is not 'latest-preset'
+				// Reads: “If `presetName` doesn’t equal 'latest-preset', object spread the values of
+				// an object that has a computed property based on the name of `presetName` into the new settings”
+				// A bit hard to read, but avoids extra work outside this line + commented :)
 				...(presetName !== LATEST_PRESET && {[presetName]: whiteListedSettings}),
+				// Always save 'latest-preset'
 				[LATEST_PRESET]: whiteListedSettings
 			},
 			{
