@@ -31,7 +31,7 @@ test('Downloads code image correctly', async t => {
 		}
 
 		// Download image
-		await headlessVisit('https://carbon.now.sh');
+		await headlessVisit('https://carbon.now.sh', process.cwd(), {}, true);
 
 		// If it exists, pass
 		t.true((await globby([defaultDownloadName])).length > 0);
@@ -41,7 +41,7 @@ test('Downloads code image correctly', async t => {
 });
 
 test('Respects download location', async t => {
-	await headlessVisit('https://carbon.now.sh', downloadDir);
+	await headlessVisit('https://carbon.now.sh', downloadDir, {}, true);
 
 	t.true((await globby([fullDownloadPath])).length > 0);
 });
