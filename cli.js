@@ -129,7 +129,7 @@ if (!file) {
 		{
 			title: 'Fetching beautiful image',
 			skip: () => open,
-			task: () => headlessVisit(url, location, settings.type, disableSandbox)
+			task: () => headlessVisit(url, location, settings, disableSandbox)
 		}
 	]);
 
