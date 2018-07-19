@@ -25,6 +25,7 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
 - 🖱 Allows selective highlighting via `--start` and `--end`
 - ⚡️ Interactive mode via `--interactive`
+- 🎒 Presets: save and reuse your favorite settings
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
 - 👀 Saves to given location or only opens in browser for manual finish
@@ -70,6 +71,7 @@ Options
   -i, --interactive    Interactive mode
   -l, --location       Image save location, default: cwd
   -o, --open           Open in browser instead of saving
+  -p, --preset         Use a saved preset
 ```
 
 ## Examples
@@ -95,11 +97,13 @@ and you’d like to make a beautiful image out of it. You could approach this in
 $ carbon-now unfold.js
 ```
 
-Takes the entire source of `unfold.js`, uses Carbon’s default settings and saves as `.png` into your `cwd`. 
+Takes the entire source of `unfold.js`, uses Carbon’s default settings and saves as `.png` into your `cwd`.
 
 Result:
 
 ![Basic example](static/example-1.png)
+
+**Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
 
 #### Fully customized
 
@@ -135,6 +139,8 @@ Result (without interactive mode):
 
 ![Example 3](static/example-3.png)
 
+**Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
+
 #### Full Example
 
 For demonstration purposes, here is an example using all options.
@@ -152,6 +158,103 @@ $ carbon-now unfold.js -s 3 -e 6 -i -o
 ```
 
 This will open the image in the browser for final touches, instead of saving it immediately. 😌
+
+## Presets
+
+#### Disclaimer
+
+This feature is currently only available through `next`. If you’d like access to it, update/install like so
+
+```
+npm i -g carbon-now-cli@next
+```
+
+#### About
+
+The most requested feature after `carbon-now-cli`’s initial release has been the support for **reusable settings**, to not having to go through the entire process of answering all questions in interactive mode each time.
+
+Presets will be officially included as of `v1.1.0` of `carbon-now-cli`. 🎉
+
+#### Creating a preset
+
+However you use the `carbon-now` command, a `~/.carbon-now.json` file will be created for you. This is where all your presets and settings of the last interactive run will live.
+
+When running `carbon-now` with `-i`, you’ll be asked the following two questions last:
+
+![Presets 1](static/presets-1.png)
+
+Answering yes and naming the preset (in this case `presentation`) will result in it being saved to `~/.carbon-now.json`. In this particular case, `~/.carbon-now.json` will look like so:
+
+```
+{
+  "latest-preset": {
+    "t": "seti",
+    "bg": "none",
+    "wt": "none",
+    "wc": true,
+    "fm": "Hack",
+    "fs": "18px",
+    "ln": false,
+    "ds": false,
+    "dsyoff": "20px",
+    "dsblur": "68px",
+    "wa": true,
+    "pv": "48px",
+    "ph": "32px",
+    "si": false,
+    "wm": false,
+    "es": "2x",
+    "type": "png"
+  },
+  "presentation": {
+    "t": "base16-light",
+    "bg": "none",
+    "wt": "none",
+    "wc": true,
+    "fm": "Inconsolata",
+    "fs": "18px",
+    "ln": true,
+    "ds": true,
+    "dsyoff": "3px",
+    "dsblur": "5px",
+    "wa": true,
+    "pv": "15px",
+    "ph": "15px",
+    "si": false,
+    "wm": false,
+    "es": "2x",
+    "type": "png"
+  }
+}
+```
+
+#### Using a saved preset
+
+Reusing presets is as easy and straight-forward as:
+
+```
+carbon-now unfold.js -p <name-of-preset>
+```
+
+If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the **default settings**.
+
+Taken the `presentation` preset we have created above, this is all we have to do:
+
+```
+carbon-now unfold.js -p presentation
+```
+
+Result:
+
+![Presets 1](static/presets-2.png)
+
+#### Reusing the last used settings
+
+*It just works!* ™
+
+Any time you use `-i`, `carbon-now-cli` will automatically reuse those settings for its next run.
+
+So you can `carbon-now <file> -i` and `carbon-now <file>` from there on — the output will always look as pretty as the one where you’ve used `-i`. 😊
 
 ## License
 
