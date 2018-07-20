@@ -25,7 +25,7 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
 - 🖱 Allows selective highlighting via `--start` and `--end`
 - ⚡️ Interactive mode via `--interactive`
-- 🎒 Presets: save and reuse your favorite settings
+- 🎒 [Presets](https://github.com/mixn/carbon-now-cli#presets): save and reuse your favorite settings
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
 - 👀 Saves to given location or only opens in browser for manual finish
@@ -163,7 +163,7 @@ This will open the image in the browser for final touches, instead of saving it 
 
 #### Disclaimer
 
-This feature is currently only available through `next`. If you’d like access to it, update/install like so
+This feature is currently only available through `next`. If you’d like access to it, update/install via:
 
 ```
 npm i -g carbon-now-cli@next
@@ -173,7 +173,7 @@ npm i -g carbon-now-cli@next
 
 The most requested feature after `carbon-now-cli`’s initial release has been the support for **reusable settings**, to not having to go through the entire process of answering all questions in interactive mode each time.
 
-Presets will be officially included as of `v1.1.0` of `carbon-now-cli`. 🎉
+Presets will officially be included as of `v1.1.0` of `carbon-now-cli`. 🎉
 
 #### Creating a preset
 
@@ -236,7 +236,7 @@ Reusing presets is as easy and straight-forward as:
 carbon-now unfold.js -p <name-of-preset>
 ```
 
-If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the **default settings**.
+If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/default-settings.js).
 
 Taken the `presentation` preset we have created above, this is all we have to do:
 
