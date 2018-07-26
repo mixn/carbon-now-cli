@@ -8,7 +8,7 @@
 
 ## Description
 
-[carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that lets you generate beautiful images of your source code through a great UI, letting you customize aspects like fonts, themes, window controls and much more.
+[carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that lets you generate beautiful images of your source code through an intuitive UI, while letting you customize aspects like fonts, themes, window controls and much more.
 
 `carbon-now-cli` gives you the **full power of Carbon** — right at your fingertips, **inside the terminal**.
 
@@ -99,7 +99,7 @@ $ carbon-now unfold.js
 
 Takes the entire source of `unfold.js`, uses Carbon’s default settings and saves as `.png` into your `cwd`.
 
-Result:
+**Result**:
 
 ![Basic example](static/example-1.png)
 
@@ -121,7 +121,7 @@ Given this input…
 
 ![Example 2, Output](static/example-2-2.png)
 
-If you’re not sure what each question, e.g. “Make squared image?”, refers to, just confirm by hitting **Enter** — they will default to sensible, nice-looking things.
+If you’re not sure what each question, e.g. “Make squared image?”, refers to, just confirm by hitting **Enter** — it will default to a sensible, nice-looking thing.
 
 If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/default-settings.js).
 
@@ -131,11 +131,11 @@ If needed, you can always check the [default settings](https://github.com/mixn/c
 $ carbon-now unfold.js -s 3 -e 6
 ```
 
-Reads and creates image based only of lines `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
+Reads and creates an image based on lines `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
 
-**Of course** selective mode can be combined with interactive mode, just with like any other option. 😊
+Selective mode can of course be combined with interactive mode, just with like any other option. 😊
 
-Result (without interactive mode):
+**Result**:
 
 ![Example 3](static/example-3.png)
 
@@ -151,7 +151,7 @@ $ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -i
 
 This saves a beautiful image of lines `3` to `6` to `~/Desktop`, after accepting custom wishes via interactive mode.
 
-If you’re not sure about how the image will turn out you can always use `-o` or `--open`.
+If you’re not sure how exactly the image will turn out, you can always use `-o` or `--open`.
 
 ```
 $ carbon-now unfold.js -s 3 -e 6 -i -o
@@ -177,13 +177,13 @@ Presets will officially be included as of `v1.1.0` of `carbon-now-cli`. 🎉
 
 #### Creating a preset
 
-However you use the `carbon-now` command, a `~/.carbon-now.json` file will be created for you. This is where all your presets and settings of the last interactive run will live.
+However you use the `carbon-now` command, a `~/.carbon-now.json` file will be created for you. This is where all your presets and the settings of the last interactive run will live.
 
 When running `carbon-now` with `-i`, you’ll be asked the following two questions last:
 
 ![Presets 1](static/presets-1.png)
 
-Answering yes and naming the preset (in this case `presentation`) will result in it being saved to `~/.carbon-now.json`. In this particular case, `~/.carbon-now.json` will look like so:
+Answering with yes and naming the preset (in this case `presentation`) will result in the preset being saved to `~/.carbon-now.json`. In this particular case, `~/.carbon-now.json` will look like so:
 
 ```
 {
@@ -228,6 +228,8 @@ Answering yes and naming the preset (in this case `presentation`) will result in
 }
 ```
 
+`latest-preset` will be overwritten after each interactive run. `presentation` is meant to stay until you eventually decide to delete it manually.
+
 #### Using a saved preset
 
 Reusing presets is as easy and straight-forward as:
@@ -250,7 +252,7 @@ Result:
 
 #### Reusing the last used settings
 
-*It just works!* ™
+*It just works!* ™ 🎉
 
 Any time you use `-i`, `carbon-now-cli` will automatically reuse those settings for its next run.
 
