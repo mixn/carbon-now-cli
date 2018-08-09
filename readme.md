@@ -53,7 +53,7 @@ $ npx carbon-now-cli <file>
 
 #### Requirements
 
-`carbon-now-cli` requires Node.js `>=8`.
+`carbon-now-cli` requires Node.js `>=8.3`.
 
 ## Usage
 
