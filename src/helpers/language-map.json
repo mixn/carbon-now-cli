@@ -109,6 +109,7 @@
 	["swift", "swift"],
 	["tcl", "tcl"],
 	["tbc", "tcl"],
+	["toml", "toml"],
 	["ts", "application/typescript"],
 	["tsx", "application/typescript"],
 	["vb", "vb"],
