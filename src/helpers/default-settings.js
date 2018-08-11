@@ -26,6 +26,8 @@ module.exports = {
 	dsblur: '68px',
 	// Auto adjust width
 	wa: true,
+	// Line height
+	lh: '133%',
 	// Padding vertical
 	pv: '48px',
 	// Padding horizontal

@@ -61,6 +61,12 @@ module.exports = async () => {
 			},
 			{
 				type: 'input',
+				name: 'lh',
+				message: 'Line height:',
+				default: '133%'
+			},
+			{
+				type: 'input',
 				name: 'pv',
 				message: 'Vertical padding',
 				default: '0px'
