@@ -57,6 +57,7 @@
 	["jsx", "jsx"],
 	["kt", "text/x-kotlin"],
 	["kts", "text/x-kotlin"],
+	["tex", "stex"],
 	["lisp", "commonlisp"],
 	["cl", "commonlisp"],
 	["lsp", "commonlisp"],
