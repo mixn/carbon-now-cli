@@ -12,7 +12,7 @@ module.exports = async () => {
 				type: 'list',
 				name: 't',
 				message: 'Syntax theme:',
-				default: 'Seti',
+				default: '3024 Night',
 				choices: Object.keys(carbonMap.t)
 			},
 			{
