@@ -71,11 +71,16 @@ const cli = meow(`
 			type: 'string',
 			alias: 'p',
 			default: LATEST_PRESET
+		},
+		headless: {
+			type: 'boolean',
+			alias: 'h',
+			default: false
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive, preset} = cli.flags;
+const {start, end, open, location, interactive, preset, headless} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -161,7 +166,7 @@ if (!file) {
 				const	saveAs = `${location}/${original}-${generate('123456abcdef', 10)}.${type}`;
 
 				// Fetch image and rename it
-				await headlessVisit(url, location, type);
+				await headlessVisit(url, location, type, headless);
 				await asyncRename(downloaded, saveAs);
 
 				ctx.savedAs = saveAs;
