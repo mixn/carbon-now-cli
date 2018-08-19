@@ -6,7 +6,7 @@ module.exports = {
 	// Language
 	l: 'auto',
 	// Background
-	bg: 'none',
+	bg: '#ADB7C1',
 	// Window theme
 	// none, sharp, bw
 	wt: 'none',
