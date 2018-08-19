@@ -40,6 +40,24 @@ test('Downloads code image correctly', async t => {
 	}
 });
 
+test('Downloads code image correctly with `headless` set', async t => {
+	try {
+		const globbed = await globby([defaultDownloadName]);
+
+		if (globbed.length > 0) {
+			await del(globbed);
+		}
+
+		// Download image
+		await headlessVisit('https://carbon.now.sh', null, null, true);
+
+		// If it exists, pass
+		t.true((await globby([defaultDownloadName])).length > 0);
+	} catch (error) {
+		t.fail();
+	}
+});
+
 test('Respects download location', async t => {
 	await headlessVisit('https://carbon.now.sh', downloadDir);
 
