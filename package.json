@@ -59,6 +59,7 @@
 		"ignores": [
 			"test/test-dummies/*.js"
 		],
+		"globals": ["document"],
 		"rules": {
 			"no-warning-comments": 0,
 			"promise/prefer-await-to-then": 0
