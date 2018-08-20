@@ -22,6 +22,8 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 
 	if (headless) {
 		// If `-h` set, simply screenshot the `#container` element
+		// This means no svg support or 4x resolution, but a functioning
+		// download for everyone without using experimental Puppeteer features
 		const exportContainer = await page.waitForSelector('#container-bg');
 		const elementBounds = await exportContainer.boundingBox();
 
@@ -29,6 +31,8 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 			path: `${location}/carbon.png`,
 			clip: {
 				...elementBounds,
+				// This avoids a 1px black line towards the left side of images,
+				// which only occured when certain fonts were used, see https://goo.gl/JHHskx
 				x: Math.round(elementBounds.x)
 			}
 		});
