@@ -193,7 +193,7 @@ if (!file) {
   The file can be found here: ${savedAs} 😌`
 				);
 
-				if (process.env.TERM_PROGRAM.match('iTerm')) {
+				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
 					console.log(`
   iTerm2 should display the image below. 😊
 
