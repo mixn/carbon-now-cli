@@ -70,6 +70,7 @@ Options
   -l, --location       Image save location, default: cwd
   -o, --open           Open in browser instead of saving
   -p, --preset         Use a saved preset
+  -h, --headless       Use only non-experimental Puppeteer features
 ```
 
 ## Examples
