@@ -39,7 +39,7 @@ module.exports = async () => {
 				type: 'input',
 				name: 'bg',
 				message: 'Background color:',
-				default: 'none'
+				default: '#ADB7C1'
 			},
 			{
 				type: 'confirm',
