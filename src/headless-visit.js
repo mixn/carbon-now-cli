@@ -2,8 +2,6 @@
 const puppeteer = require('puppeteer');
 
 module.exports = async (url, location = process.cwd(), type = 'png', headless = false) => {
-	let exportContainer;
-
 	// Launch browser
 	const browser = await puppeteer.launch({
 		headless
@@ -24,10 +22,15 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 
 	if (headless) {
 		// If `-h` set, simply screenshot the `#container` element
-		exportContainer = await page.waitForSelector('#container-bg');
+		const exportContainer = await page.waitForSelector('#container-bg');
+		const elementBounds = await exportContainer.boundingBox();
 
 		await exportContainer.screenshot({
-			path: `${location}/carbon.png`
+			path: `${location}/carbon.png`,
+			clip: {
+				...elementBounds,
+				x: Math.round(elementBounds.x)
+			}
 		});
 	} else {
 		// Otherwise, allow files to be downloaded and set it to the CWD
