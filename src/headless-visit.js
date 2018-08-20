@@ -67,7 +67,7 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 
 	// Wait some more as `waitUntil: 'load'` or `waitUntil: 'networkidle0'
 	// is not always enough, see https://goo.gl/eTuogd
-	await page.waitFor(4000);
+	await page.waitFor(2000);
 	// Close browser
 	await browser.close();
 };
