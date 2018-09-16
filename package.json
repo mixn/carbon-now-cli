@@ -67,5 +67,11 @@
 			"no-warning-comments": 0,
 			"promise/prefer-await-to-then": 0
 		}
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm test",
+			"pre-push": "npm test"
+		}
 	}
 }
