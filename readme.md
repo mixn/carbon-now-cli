@@ -2,7 +2,7 @@
 
 > 🎨 Beautiful images of your code — from right inside your terminal.
 
-[![Build Status](https://badgen.net/travis/mixn/carbon-now-cli?icon=travis)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://badgen.net/badge/code%20style/XO?color=cyan)](https://github.com/xojs/xo) [![MIT license](https://badgen.net/badge/License/MIT/blue)](https://github.com/mixn/carbon-now-cli/blob/master/license) [![Maintenance](https://badgen.net/badge/Maintained%3F/Yes/green)](https://github.com/mixn/carbon-now-cli/graphs/commit-activity) [![Featured in awesome-nodejs](https://awesome.re/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#command-line-apps) [![Twitter Follow](https://img.shields.io/twitter/follow/mixn.svg?style=social&label=Follow)](https://twitter.com/mixn)
+[![Build Status](https://badgen.net/travis/mixn/carbon-now-cli?icon=travis)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://badgen.net/badge/code%20style/XO?color=cyan)](https://github.com/xojs/xo) [![Featured in awesome-nodejs](https://awesome.re/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#command-line-apps) [![Twitter Follow](https://img.shields.io/twitter/follow/mixn.svg?style=social&label=Follow)](https://twitter.com/mixn) [![Maintenance](https://badgen.net/badge/Maintained%3F/Yes/green)](https://github.com/mixn/carbon-now-cli/graphs/commit-activity) [![MIT license](https://badgen.net/badge/License/MIT/blue)](https://github.com/mixn/carbon-now-cli/blob/master/license)
 
 ## Description
 
