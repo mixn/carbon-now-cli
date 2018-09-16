@@ -160,19 +160,11 @@ This will open the image in the browser for final touches, instead of saving it 
 
 ## Presets
 
-#### Disclaimer
-
-This feature is currently only available through `next`. If you’d like access to it, update/install via:
-
-```
-npm i -g carbon-now-cli@next
-```
-
 #### About
 
 The most requested feature after `carbon-now-cli`’s initial release has been the support for **reusable settings**, to not having to go through the entire process of answering all questions in interactive mode each time.
 
-Presets will officially be included as of `v1.1.0` of `carbon-now-cli`. 🎉
+Presets are officially included as of `v1.1.0` of `carbon-now-cli`. 🎉
 
 #### Creating a preset
 
