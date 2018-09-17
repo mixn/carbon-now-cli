@@ -27,20 +27,20 @@ let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
  ${chalk.bold('Usage')}
-   $ carbon-now <file>
+	 $ carbon-now <file>
 
  ${chalk.bold('Options')}
-   -s, --start          Starting line of <file>
-   -e, --end            Ending line of <file>
-   -i, --interactive    Interactive mode
-   -l, --location       Screenshot save location, default: cwd
-   -o, --open           Open in browser instead of saving
-   -p, --preset         Use a saved preset
-   -h, --headless       Use only non-experimental Puppeteer features
-   -H, --nohash         Generate a filename without hash
+	 -s, --start          Starting line of <file>
+	 -e, --end            Ending line of <file>
+	 -i, --interactive    Interactive mode
+	 -l, --location       Screenshot save location, default: cwd
+	 -o, --open           Open in browser instead of saving
+	 -p, --preset         Use a saved preset
+	 -h, --headless       Use only non-experimental Puppeteer features
+	 -H, --nohash         Generate a filename without hash
 
  ${chalk.bold('Examples')}
-   See: https://github.com/mixn/carbon-now-cli#examples
+	 See: https://github.com/mixn/carbon-now-cli#examples
 `,
 {
 	flags: {
@@ -78,12 +78,12 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'h',
 			default: false
-    },
-    nohash: {
-      type: 'boolean',
-      alias: 'H',
-      default: false
-    }
+		},
+		nohash: {
+			type: 'boolean',
+			alias: 'H',
+			default: false
+		}
 	}
 });
 const [file] = cli.input;
@@ -93,9 +93,9 @@ let url = CARBON_URL;
 // Deny everything if not at least one argument (file) specified
 if (!file) {
 	console.error(`
-  ${chalk.red('Error: Please provide at least a file.')}
+	${chalk.red('Error: Please provide at least a file.')}
 
-  $ carbon-now <file>
+	$ carbon-now <file>
 	`);
 	process.exit(1);
 }
@@ -169,11 +169,11 @@ if (!file) {
 			task: async ctx => {
 				const {type} = settings;
 				const	original = basename(file, extname(file));
-        const downloaded = `${location}/carbon.${type}`;
-        const filename = `${location}/${original}`;
-        const hash = `-${generate('123456abcdef', 10)}`;
-        const extension = `.${type}`;
-        const saveAs = nohash ? `${filename}${extension}` : `${filename}${hash}${extension}`;
+				const downloaded = `${location}/carbon.${type}`;
+				const filename = `${location}/${original}`;
+				const hash = `-${generate('123456abcdef', 10)}`;
+				const extension = `.${type}`;
+				const saveAs = nohash ? `${filename}${extension}` : `${filename}${hash}${extension}`;
 
 				// Fetch image and rename it
 				await headlessVisit(url, location, type, headless);
@@ -191,21 +191,21 @@ if (!file) {
 		.run()
 		.then(async ({savedAs}) => {
 			console.log(`
-  ${chalk.green('Done!')}`
+	${chalk.green('Done!')}`
 			);
 
 			if (open) {
 				console.log(`
-  Browser opened — finish your image there! 😌`
+	Browser opened — finish your image there! 😌`
 				);
 			} else {
 				console.log(`
-  The file can be found here: ${savedAs} 😌`
+	The file can be found here: ${savedAs} 😌`
 				);
 
 				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
 					console.log(`
-  iTerm2 should display the image below. 😊
+	iTerm2 should display the image below. 😊
 
 		${await terminalImage.file(savedAs)}`
 					);
@@ -216,17 +216,17 @@ if (!file) {
 		})
 		.catch(error => {
 			console.error(`
-  ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
+	${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
-  This is mostly due to:
+	This is mostly due to:
 
-  – Insensical input like \`--start 10 --end 2\`
-  – Carbon being down or taking too long to respond
-  – Your internet connection not working or being too slow
+	– Insensical input like \`--start 10 --end 2\`
+	– Carbon being down or taking too long to respond
+	– Your internet connection not working or being too slow
 
-  Additional info:
+	Additional info:
 
-  ${error}`);
+	${error}`);
 
 			process.exit(1);
 		});
