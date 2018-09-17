@@ -37,6 +37,7 @@ const cli = meow(`
    -o, --open           Open in browser instead of saving
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
+   -H, --nohash         Generate a filename without hash
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -77,11 +78,16 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'h',
 			default: false
-		}
+    },
+    nohash: {
+      type: 'boolean',
+      alias: 'H',
+      default: false
+    }
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive, preset, headless} = cli.flags;
+const {start, end, open, location, interactive, preset, headless, nohash} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -163,8 +169,11 @@ if (!file) {
 			task: async ctx => {
 				const {type} = settings;
 				const	original = basename(file, extname(file));
-				const downloaded = `${location}/carbon.${type}`;
-				const	saveAs = `${location}/${original}-${generate('123456abcdef', 10)}.${type}`;
+        const downloaded = `${location}/carbon.${type}`;
+        const filename = `${location}/${original}`;
+        const hash = `-${generate('123456abcdef', 10)}`;
+        const extension = `.${type}`;
+        const saveAs = nohash ? `${filename}${extension}` : `${filename}${hash}${extension}`;
 
 				// Fetch image and rename it
 				await headlessVisit(url, location, type, headless);
