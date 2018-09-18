@@ -39,8 +39,6 @@
 		"file-exists": "^5.0.1",
 		"file-extension": "^4.0.5",
 		"globby": "^8.0.1",
-		"image-aspect-ratio": "^1.0.0",
-		"image-size": "^0.6.3",
 		"inquirer": "^6.0.0",
 		"jsonfile": "^4.0.0",
 		"listr": "^0.14.1",

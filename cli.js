@@ -8,8 +8,6 @@ const asyncRename = promisify(require('fs').rename);
 const fs = require('fs');
 const path = require('path');
 const resizeImg = require('resize-img');
-const sizeOf = require('image-size');
-const imageAspectRatio = require('image-aspect-ratio');
 
 // Packages
 const meow = require('meow');
@@ -44,6 +42,7 @@ const cli = meow(`
 	 -p, --preset         Use a saved preset
 	 -h, --headless       Use only non-experimental Puppeteer features
 	 -H, --nohash         Generate a filename without hash
+	 -r, --resize		Resize generated image to the target width specified in settings file
 
  ${chalk.bold('Examples')}
 	 See: https://github.com/mixn/carbon-now-cli#examples
@@ -89,11 +88,16 @@ const cli = meow(`
 			type: 'boolean',
 			alias: 'H',
 			default: false
+		},
+		resize: {
+			type: 'boolean',
+			alias: 'r',
+			default: false
 		}
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive, preset, headless, nohash} = cli.flags;
+const {start, end, open, location, interactive, preset, headless, nohash, resize} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -191,13 +195,9 @@ if (!file) {
 		// Task 5: Resize image
 		{
 			title: 'Resizing image...',
+			skip: () => !resize,
 			task: async ({savedAs}) => {
-				const targetWidth = 640;
-				const targetHeight = 640;
-				const {width, height} = sizeOf(savedAs);
-				const imageRatio = await imageAspectRatio.calculate(width, height, targetWidth, targetHeight);
-
-				await resizeImg(fs.readFileSync(savedAs), {width: imageRatio.width, height: imageRatio.height}).then(buf => {
+				await resizeImg(fs.readFileSync(savedAs), {width: settings.imgWidth}).then(buf => {
 					fs.writeFileSync(path.basename(savedAs), buf);
 				});
 			}
