@@ -4,6 +4,12 @@
 const {promisify} = require('util');
 const {basename, extname} = require('path');
 const asyncRename = promisify(require('fs').rename);
+// Image resize
+const fs = require('fs');
+const path = require('path');
+const resizeImg = require('resize-img');
+const sizeOf = require('image-size');
+const imageAspectRatio = require("image-aspect-ratio");
 
 // Packages
 const meow = require('meow');
@@ -180,6 +186,20 @@ if (!file) {
 				await asyncRename(downloaded, saveAs);
 
 				ctx.savedAs = saveAs;
+			}
+		},
+		// Task 5: Resize image
+		{
+			title: 'Resizing image...',
+			task: async ({savedAs}) => {
+				const targetWidth = 640;
+				const targetHeight = 640;
+				const {width, height} = sizeOf(savedAs);
+				const imageRatio = await imageAspectRatio.calculate(width, height, targetWidth, targetHeight);
+
+				await resizeImg(fs.readFileSync(savedAs), { width: imageRatio.width, height: imageRatio.height }).then(buf => {
+					fs.writeFileSync(path.basename(savedAs), buf);
+				});
 			}
 		}
 	]);
