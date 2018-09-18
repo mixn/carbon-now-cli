@@ -4,6 +4,8 @@ module.exports = {
 	// Theme
 	t: 'seti',
 	// Language
+	// Detected automatically based on language-map.json,
+	// setting this manually will be ignored
 	l: 'auto',
 	// Background
 	bg: '#ADB7C1',
