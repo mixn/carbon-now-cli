@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const resizeImg = require('resize-img');
 const sizeOf = require('image-size');
-const imageAspectRatio = require("image-aspect-ratio");
+const imageAspectRatio = require('image-aspect-ratio');
 
 // Packages
 const meow = require('meow');
@@ -197,7 +197,7 @@ if (!file) {
 				const {width, height} = sizeOf(savedAs);
 				const imageRatio = await imageAspectRatio.calculate(width, height, targetWidth, targetHeight);
 
-				await resizeImg(fs.readFileSync(savedAs), { width: imageRatio.width, height: imageRatio.height }).then(buf => {
+				await resizeImg(fs.readFileSync(savedAs), {width: imageRatio.width, height: imageRatio.height}).then(buf => {
 					fs.writeFileSync(path.basename(savedAs), buf);
 				});
 			}
