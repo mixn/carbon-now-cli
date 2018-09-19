@@ -68,6 +68,7 @@ Options
   -e, --end            Ending line of <file>
   -i, --interactive    Interactive mode
   -l, --location       Image save location, default: cwd
+  -t, --target         Screenshot file name, default: original-hash.{png|svg}
   -o, --open           Open in browser instead of saving
   -p, --preset         Use a saved preset
   -h, --headless       Use only non-experimental Puppeteer features
@@ -145,10 +146,10 @@ Selective mode can of course be combined with interactive mode, just with like a
 For demonstration purposes, here is an example using all options.
 
 ```
-$ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -i
+$ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -t example-23 -i
 ```
 
-This saves a beautiful image of lines `3` to `6` to `~/Desktop`, after accepting custom wishes via interactive mode.
+This saves a beautiful image of lines `3` to `6` to `~/Desktop/example-23.png`, after accepting custom wishes via interactive mode.
 
 If you’re not sure how exactly the image will turn out, you can always use `-o` or `--open`.
 
