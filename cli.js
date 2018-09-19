@@ -197,7 +197,7 @@ if (!file) {
 			title: 'Resizing image...',
 			skip: () => !resize,
 			task: async ({savedAs}) => {
-				await resizeImg(fs.readFileSync(savedAs), {width: settings.imgWidth}).then(buf => {
+				await resizeImg(fs.readFileSync(savedAs), {width: +settings.imgWidth }).then(buf => {
 					fs.writeFileSync(path.basename(savedAs), buf);
 				});
 			}

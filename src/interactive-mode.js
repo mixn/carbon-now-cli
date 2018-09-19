@@ -127,7 +127,7 @@ module.exports = async () => {
 				type: 'input',
 				name: 'imgWidth',
 				message: 'If resize is set to true, target width (dont include px)',
-				default: '640'
+				default: 640
 			},
 			{
 				type: 'confirm',
