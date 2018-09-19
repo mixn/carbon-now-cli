@@ -34,6 +34,7 @@ const cli = meow(`
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Screenshot save location, default: cwd
+   -t, --target         Screenshot file name, default: original-hash.{png|svg}
    -o, --open           Open in browser instead of saving
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
@@ -63,6 +64,11 @@ const cli = meow(`
 			alias: 'l',
 			default: process.cwd()
 		},
+		target: {
+			type: 'string',
+			alias: 't',
+			default: null
+		},
 		interactive: {
 			type: 'boolean',
 			alias: 'i',
@@ -81,7 +87,7 @@ const cli = meow(`
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, interactive, preset, headless} = cli.flags;
+const {start, end, open, location, target, interactive, preset, headless} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -164,7 +170,8 @@ if (!file) {
 				const {type} = settings;
 				const	original = basename(file, extname(file));
 				const downloaded = `${location}/carbon.${type}`;
-				const	saveAs = `${location}/${original}-${generate('123456abcdef', 10)}.${type}`;
+				const fileName = target || `${original}-${generate('123456abcdef', 10)}`;
+				const saveAs = `${location}/${fileName}.${type}`;
 
 				// Fetch image and rename it
 				await headlessVisit(url, location, type, headless);
