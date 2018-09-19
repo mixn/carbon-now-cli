@@ -43,5 +43,7 @@ module.exports = {
 	// This is not supported as a URL parameter by Carbon,
 	// instead used as a default setting on my part
 	// 'png', 'svg'
-	type: 'png'
+	type: 'png',
+	// Width
+	imgWidth: 640
 };

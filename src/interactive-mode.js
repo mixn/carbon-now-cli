@@ -124,6 +124,12 @@ module.exports = async () => {
 				choices: ['png', 'svg']
 			},
 			{
+				type: 'input',
+				name: 'imgWidth',
+				message: 'If resize is set to true, target width (dont include px)',
+				default: 640
+			},
+			{
 				type: 'confirm',
 				name: 'save',
 				message: 'Save these settings as a preset?',
