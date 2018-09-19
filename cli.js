@@ -33,8 +33,8 @@ const cli = meow(`
    -s, --start          Starting line of <file>
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
-   -l, --location       Screenshot save location, default: cwd
-   -t, --target         Screenshot file name, default: original-hash.{png|svg}
+   -l, --location       Image save location, default: cwd
+   -t, --target         Image name, default: original-hash.{png|svg}
    -o, --open           Open in browser instead of saving
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
