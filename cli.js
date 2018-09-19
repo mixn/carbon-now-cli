@@ -189,6 +189,7 @@ if (!file) {
 				await headlessVisit(url, location, type, headless);
 				await asyncRename(downloaded, saveAs);
 
+				ctx.location = location;
 				ctx.savedAs = saveAs;
 			}
 		},
@@ -196,9 +197,9 @@ if (!file) {
 		{
 			title: 'Resizing image...',
 			skip: () => !resize,
-			task: async ({savedAs}) => {
+			task: async ({savedAs, location}) => {
 				await resizeImg(fs.readFileSync(savedAs), {width: Number(settings.imgWidth)}).then(buf => {
-					fs.writeFileSync(path.basename(savedAs), buf);
+					fs.writeFileSync(`${location}/${path.basename(savedAs)}`, buf);
 				});
 			}
 		}
