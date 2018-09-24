@@ -16,8 +16,8 @@
 		"node": ">=8.3"
 	},
 	"scripts": {
-		"test": "xo && ava",
-		"ava": "ava"
+		"test": "xo && ava --serial",
+		"ava": "ava --serial"
 	},
 	"files": [
 		"cli.js",
