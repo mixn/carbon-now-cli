@@ -15,6 +15,7 @@ test('Handles languages correctly', t => {
 	t.is(getLanguage('-whut-'), 'auto');
 	t.is(getLanguage('index.html'), 'htmlmixed');
 	t.is(getLanguage('main.r'), 'r');
+	t.is(getLanguage('install.sh'), 'application/x-sh');
 	t.is(getLanguage('main.foo.rs'), 'rust');
 
 	// All 😎

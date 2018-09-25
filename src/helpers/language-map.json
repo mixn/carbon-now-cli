@@ -1,5 +1,6 @@
 [
 	["htaccess", "text/apache"],
+	["sh", "application/x-sh"],
 	["c", "text/x-csrc"],
 	["h", "text/x-csrc"],
 	["C", "text/x-c++src"],
