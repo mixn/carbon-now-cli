@@ -142,7 +142,8 @@ if (!file) {
 		{
 			title: 'Preparing connection',
 			task: async ({encodedContent}) => {
-				// Save the current settings as 'latest-preset' not a local config
+				// Save the current settings as 'latest-preset' to global config
+				// Don’t do so for local configs passed via --config
 				// The `save` method takes care of whether something should
 				// also be saved as a preset, or just as 'latest-preset'
 				if (!config) {

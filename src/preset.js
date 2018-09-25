@@ -28,7 +28,8 @@ const readConfig = async function readConfig(configLocation = FULL_CONFIG_PATH) 
 			return await jsonFile.readFileSync(configLocation);
 		}
 
-		// If it doesn’t exist and is global (no --config), create first, then read
+		// If it doesn’t exist and is global config, create first, then read
+		// Never create local configs passed in via --config
 		if (configLocation === FULL_CONFIG_PATH) {
 			await writeConfig(configLocation);
 			return await readConfig(configLocation);
@@ -48,6 +49,7 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 		return currentConfig[presetName];
 	}
 
+	// Warn if anything but 'latest-preset' is passed, but non-existent
 	if (presetName !== LATEST_PRESET) {
 		console.error(`
   ${chalk.yellow('Warning: Preset doesn’t exist. Using default settings…\n')}`
