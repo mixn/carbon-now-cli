@@ -46,7 +46,9 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 
 	if (presetName in currentConfig) {
 		return currentConfig[presetName];
-	} else if (presetName !== LATEST_PRESET) {
+	}
+
+	if (presetName !== LATEST_PRESET) {
 		console.error(`
   ${chalk.yellow('Warning: Preset doesn’t exist. Using default settings…\n')}`
 		);
