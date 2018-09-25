@@ -1,6 +1,7 @@
 // Packages
 const fileExists = require('file-exists');
 const jsonFile = require('jsonfile');
+const chalk = require('chalk');
 const {omit} = require('lodash');
 
 // Source
@@ -27,9 +28,13 @@ const readConfig = async function readConfig(configLocation = FULL_CONFIG_PATH) 
 			return await jsonFile.readFileSync(configLocation);
 		}
 
-		// If it doesn’t, create first, then read
-		await writeConfig(configLocation);
-		return await readConfig(configLocation);
+		// If it doesn’t exist and is global (no --config), create first, then read
+		if (configLocation === FULL_CONFIG_PATH) {
+			await writeConfig(configLocation);
+			return await readConfig(configLocation);
+		}
+
+		return {};
 	} catch (error) {
 		return Promise.reject(error);
 	}
@@ -41,6 +46,10 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 
 	if (presetName in currentConfig) {
 		return currentConfig[presetName];
+	} else if (presetName !== LATEST_PRESET) {
+		console.error(`
+  ${chalk.yellow('Warning: Preset doesn’t exist. Using default settings…\n')}`
+		);
 	}
 
 	return {};

@@ -38,6 +38,7 @@ const cli = meow(`
    -o, --open           Open in browser instead of saving
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
+   --config             Use a different, local config (read-only)
 
  ${chalk.bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -79,6 +80,10 @@ const cli = meow(`
 			alias: 'p',
 			default: LATEST_PRESET
 		},
+		config: {
+			type: 'string',
+			default: undefined // So that default params trigger
+		},
 		headless: {
 			type: 'boolean',
 			alias: 'h',
@@ -87,7 +92,7 @@ const cli = meow(`
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, target, interactive, preset, headless} = cli.flags;
+const {start, end, open, location, target, interactive, preset, config, headless} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -106,7 +111,7 @@ if (!file) {
 	if (preset) {
 		settings = {
 			...settings,
-			...(await presetHandler.get(preset))
+			...(await presetHandler.get(preset, config))
 		};
 	}
 
@@ -137,11 +142,12 @@ if (!file) {
 		{
 			title: 'Preparing connection',
 			task: async ({encodedContent}) => {
-				// We always want to save the current settings,
-				// as we want it to be remembered as the 'latest-preset'
+				// Save the current settings as 'latest-preset' not a local config
 				// The `save` method takes care of whether something should
 				// also be saved as a preset, or just as 'latest-preset'
-				await presetHandler.save(settings.preset, settings);
+				if (!config) {
+					await presetHandler.save(settings.preset, settings);
+				}
 
 				// Add code and language, irrelevant for storage and always different
 				settings = {
