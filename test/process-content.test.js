@@ -1,17 +1,11 @@
-// Native
-import fs from 'fs';
-import {promisify} from 'util';
-
 // Packages
 import test from 'ava';
 
 // Source
 import process from '../src/process-content';
 
-const readFileAsync = promisify(fs.readFile); // Fixing Ryan’s mistakes… *sigh* https://goo.gl/fMr85g JK gr8 talk m8 I r8 8/8 👍
-const readFileAsyncEncoded = file => readFileAsync(file, {
-	encoding: 'utf8'
-});
+// Util
+import readFileAsync from '../src/util/readfile-async';
 
 test('Correctly processes full length of files', async t => {
 	const [js, rust, html] = [
@@ -23,13 +17,13 @@ test('Correctly processes full length of files', async t => {
 
 	try {
 		// TODO: Make this better
-		expected = await readFileAsyncEncoded(js);
+		expected = await readFileAsync(js);
 		t.is(await process(js), expected);
 
-		expected = await readFileAsyncEncoded(rust);
+		expected = await readFileAsync(rust);
 		t.is(await process(rust), expected);
 
-		expected = await readFileAsyncEncoded(html);
+		expected = await readFileAsync(html);
 		t.is(await process(html), expected);
 	} catch (error) {
 		t.fail();
@@ -45,7 +39,7 @@ test('Correctly processes in between given lines', async t => {
 	try {
 		t.is(
 			await process(full, 3, 6),
-			await readFileAsyncEncoded(partial)
+			await readFileAsync(partial)
 		);
 	} catch (error) {
 		t.fail();
