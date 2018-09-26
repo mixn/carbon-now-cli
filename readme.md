@@ -61,7 +61,7 @@ $ npx carbon-now-cli <file>
 
 #### Requirements
 
-`carbon-now-cli` requires Node.js `>=8.3`.
+![Minimum Node.js version](https://badgen.net/badge/node/%3E=8.3/green)
 
 ## Usage
 
@@ -262,6 +262,8 @@ Any time you use `-i`, `carbon-now-cli` will automatically reuse those settings 
 So you can `carbon-now <file> -i` and `carbon-now <file>` from there on — the output will always look as pretty as the one where you’ve used `-i`. 😊
 
 #### Local configs
+
+![Local config minium npm version](https://badgen.net/badge/npm/@next/blue)
 
 It is possible to use local configuration files via the `--config` flag.
 
