@@ -72,6 +72,7 @@ Options
   -o, --open           Open in browser instead of saving
   -p, --preset         Use a saved preset
   -h, --headless       Use only non-experimental Puppeteer features
+  --config             Use a different, local config (read-only)
 ```
 
 ## Examples
@@ -249,6 +250,21 @@ Result:
 Any time you use `-i`, `carbon-now-cli` will automatically reuse those settings for its next run.
 
 So you can `carbon-now <file> -i` and `carbon-now <file>` from there on — the output will always look as pretty as the one where you’ve used `-i`. 😊
+
+#### Local configs
+
+It is possible to use local configuration files via the `--config` flag.
+
+This is convenient if you’re using `carbon-now-cli` via a script and would like to share presets among the users of your project.
+
+```
+carbon-now unfold.js --config local-config.json -p dark
+```
+
+Local configs differ from `~/.carbon-now.json` in the sense that they behave in a **read-only** manner, hence:
+
+1. `local-config.json` won’t be created if it doesn’t exist
+2. `latest-preset` will not be written to `local-config.json`
 
 ## License
 
