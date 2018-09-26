@@ -4,6 +4,16 @@
 
 [![Build Status](https://badgen.net/travis/mixn/carbon-now-cli?icon=travis)](https://travis-ci.org/mixn/carbon-now-cli) [![XO code style](https://badgen.net/badge/code%20style/XO?color=cyan)](https://github.com/xojs/xo) [![Featured in awesome-nodejs](https://awesome.re/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#command-line-apps) [![Twitter Follow](https://img.shields.io/twitter/follow/mixn.svg?style=social&label=Follow)](https://twitter.com/mixn) [![Maintenance](https://badgen.net/badge/Maintained%3F/Yes/green)](https://github.com/mixn/carbon-now-cli/graphs/commit-activity) [![MIT license](https://badgen.net/badge/License/MIT/blue)](https://github.com/mixn/carbon-now-cli/blob/master/license)
 
+## Table of Contents
+
+- [Description](#description)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Presets](#presets)
+- [License](#license)
+
 ## Description
 
 [carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that lets you generate beautiful images of your source code through an intuitive UI, while letting you customize aspects like fonts, themes, window controls and much more.
