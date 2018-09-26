@@ -21,12 +21,12 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - 🖼 Downloads the **real**, **high-quality** image (*no DOM screenshots*)
 - ✨ Detects file type **automatically**
 - 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
-- 🖱 Allows selective highlighting via `--start` and `--end`
-- ⚡️ Interactive mode via `--interactive`
-- 🎒 [Presets](https://github.com/mixn/carbon-now-cli#presets): save and reuse your favorite settings
+- ⚡️ [Interactive mode](#fully-customized) via `--interactive`
+- 🎒 [Presets](#presets): save and reuse your favorite settings
+- 🖱 [Selective highlighting](#selective) via `--start` and `--end`
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
-- 👀 Saves to given location or only opens in browser for manual finish
+- 👀 Saves to [given location](#full-example) or [only opens in browser](#full-example) for manual finish
 - 🌈 Supports saving as `.png` or `.svg` — just like Carbon
 - 📏 Supports `2x`, `4x` or `1x` resolutions — just like Carbon
 - ✅ Tested
