@@ -65,6 +65,7 @@
 	["md", "markdown"],
 	["nb", "mathematica"],
 	["wl", "mathematica"],
+	["nt", "ntriples"],
 	["conf", "nginx"],
 	["nim", "nimrod"],
 	["m", "text/x-objectivec"],
