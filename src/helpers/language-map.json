@@ -113,6 +113,7 @@
 	["tcl", "tcl"],
 	["tbc", "tcl"],
 	["toml", "toml"],
+	["ttl", "turtle"],
 	["ts", "application/typescript"],
 	["tsx", "application/typescript"],
 	["vb", "vb"],
