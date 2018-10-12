@@ -56,6 +56,17 @@ test.serial('Doesn’t modify local config, treats it as read-only', async t => 
 	t.is(BEFORE, AFTER);
 });
 
+test.serial('Make sure the end line is larger that start line', async t => {
+	await execa(SCRIPT, [
+		DUMMY_FROM,
+		'--start=2',
+		'--end=10',
+		`-t=${DUMMY_TARGET_NAME}`
+	]);
+
+	t.true(await fileExists(DUMMY_FILE_NAME));
+});
+
 // Cleanup
 test.afterEach((async () => {
 	await del([
