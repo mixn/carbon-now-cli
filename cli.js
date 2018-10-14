@@ -46,12 +46,12 @@ const cli = meow(`
 {
 	flags: {
 		start: {
-			type: 'string',
+			type: 'number',
 			alias: 's',
 			default: 1
 		},
 		end: {
-			type: 'string',
+			type: 'number',
 			alias: 'e',
 			default: 1000
 		},
