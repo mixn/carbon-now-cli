@@ -56,7 +56,7 @@ test.serial('Doesn’t modify local config, treats it as read-only', async t => 
 	t.is(BEFORE, AFTER);
 });
 
-test.serial('Make sure the end line is larger that start line', async t => {
+test.serial('Makes sure the end line is larger than start line', async t => {
 	await execa(SCRIPT, [
 		DUMMY_FROM,
 		'--start=2',
