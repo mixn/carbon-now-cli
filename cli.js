@@ -14,9 +14,11 @@ const terminalImage = require('terminal-image');
 const generate = require('nanoid/generate');
 const execa = require('execa');
 const tempy = require('tempy');
+const updateNotifier = require('update-notifier');
 const Listr = require('listr');
 
 // Source
+const pkg = require('./package.json');
 const processContent = require('./src/process-content');
 const getLanguage = require('./src/get-language');
 const headlessVisit = require('./src/headless-visit');
@@ -269,6 +271,8 @@ if (!FILE) {
 					);
 				}
 			}
+
+			updateNotifier({pkg}).notify();
 
 			process.exit();
 		})
