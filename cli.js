@@ -17,11 +17,11 @@ const tempy = require('tempy');
 const Listr = require('listr');
 
 // Source
-const processContent = require('./src/process-content.js');
-const getLanguage = require('./src/get-language.js');
-const headlessVisit = require('./src/headless-visit.js');
-const interactiveMode = require('./src/interactive-mode.js');
-const presetHandler = require('./src/preset.js');
+const processContent = require('./src/process-content');
+const getLanguage = require('./src/get-language');
+const headlessVisit = require('./src/headless-visit');
+const interactiveMode = require('./src/interactive-mode');
+const presetHandler = require('./src/preset');
 
 // Helpers
 const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
