@@ -12,6 +12,8 @@ const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
 const generate = require('nanoid/generate');
+const execa = require('execa');
+const tempy = require('tempy');
 const Listr = require('listr');
 
 // Source
@@ -36,6 +38,7 @@ const cli = meow(`
    -l, --location       Image save location, default: cwd
    -t, --target         Image name, default: original-hash.{png|svg}
    -o, --open           Open in browser instead of saving
+   -c, --copy           Copy image to clipboard
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
    --config             Use a different, local config (read-only)
@@ -80,6 +83,11 @@ const cli = meow(`
 			alias: 'p',
 			default: LATEST_PRESET
 		},
+		copy: {
+			type: 'boolean',
+			alias: 'c',
+			default: false
+		},
 		config: {
 			type: 'string',
 			default: undefined // So that default params trigger
@@ -92,7 +100,7 @@ const cli = meow(`
 	}
 });
 const [file] = cli.input;
-const {start, end, open, location, target, interactive, preset, config, headless} = cli.flags;
+const {start, end, open, location, target, copy, interactive, preset, config, headless} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
@@ -174,17 +182,46 @@ if (!file) {
 			title: 'Fetching beautiful image',
 			skip: () => open,
 			task: async ctx => {
-				const {type} = settings;
-				const	original = basename(file, extname(file));
-				const downloaded = `${location}/carbon.${type}`;
-				const fileName = target || `${original}-${generate('123456abcdef', 10)}`;
-				const saveAs = `${location}/${fileName}.${type}`;
+				const {type: TYPE} = settings;
+				const SAVE_DIRECTORY = copy ? tempy.directory() : location;
+				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${TYPE}`;
+				const	ORIGINAL_FILE_NAME = basename(file, extname(file));
+				const NEW_FILE_NAME = target || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
+				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${TYPE}`;
 
-				// Fetch image and rename it
-				await headlessVisit(url, location, type, headless);
-				await asyncRename(downloaded, saveAs);
+				// Fetch image
+				await headlessVisit(url, SAVE_DIRECTORY, TYPE, headless);
 
-				ctx.savedAs = saveAs;
+				// Only rename file if not --copy
+				if (!copy) {
+					await asyncRename(FULL_DOWNLOADED_PATH, FULL_SAVE_PATH);
+				}
+
+				ctx.savedAs = FULL_SAVE_PATH;
+				ctx.downloadedAs = FULL_DOWNLOADED_PATH;
+			}
+		},
+		// Task 5: Copy image to clipboard if --copy
+		{
+			title: 'Copying image to clipboard',
+			skip: () => !copy || open,
+			task: async ({downloadedAs}) => {
+				let SCRIPT;
+
+				switch (process.platform) {
+					case 'darwin':
+						SCRIPT = `osascript -e 'set the clipboard to (read (POSIX file "${downloadedAs}") as JPEG picture)'`;
+						break;
+					case 'win32':
+						SCRIPT = `nircmd clipboard copyimage ${downloadedAs}`;
+						break;
+					default:
+						SCRIPT = `xclip -selection clipboard -t image/png -i ${downloadedAs}`;
+				}
+
+				await execa(SCRIPT, [], {
+					shell: true
+				});
 			}
 		}
 	]);
@@ -202,6 +239,10 @@ if (!file) {
 			if (open) {
 				console.log(`
   Browser opened — finish your image there! 😌`
+				);
+			} else if (copy) {
+				console.log(`
+  Image copied to clipboard! 😌`
 				);
 			} else {
 				console.log(`
