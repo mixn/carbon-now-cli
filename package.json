@@ -49,7 +49,8 @@
 		"puppeteer": "^1.5.0",
 		"query-string": "^6.1.0",
 		"tempy": "^0.2.1",
-		"terminal-image": "^0.1.1"
+		"terminal-image": "^0.1.1",
+		"update-notifier": "^2.5.0"
 	},
 	"devDependencies": {
 		"ava": "^0.25.0",
