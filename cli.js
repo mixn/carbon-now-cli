@@ -99,33 +99,45 @@ const cli = meow(`
 		}
 	}
 });
-const [file] = cli.input;
-const {start, end, open, location, target, copy, interactive, preset, config, headless} = cli.flags;
+const [FILE] = cli.input;
+const {
+	start: START,
+	end: END,
+	open: OPEN,
+	location: LOCATION,
+	target: TARGET,
+	copy: COPY,
+	interactive: INTERACTIVE,
+	preset: PRESET,
+	config: CONFIG,
+	headless: HEADLESS
+} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
-if (!file) {
+if (!FILE) {
 	console.error(`
   ${red('Error: Please provide at least a file.')}
 
   $ carbon-now <file>
 	`);
+
 	process.exit(1);
 }
 
 // Run main CLI programm
 (async () => {
 	// If --preset given, take that particular preset
-	if (preset) {
+	if (PRESET) {
 		settings = {
 			...settings,
-			...(await presetHandler.get(preset, config))
+			...(await presetHandler.get(PRESET, CONFIG))
 		};
 	}
 
 	// If --interactive, enter interactive mode and adopt settings
 	// This unfortunately can’t be inside of Listr since it leads to rendering problems
-	if (interactive) {
+	if (INTERACTIVE) {
 		settings = {
 			...settings,
 			...(await interactiveMode())
@@ -136,10 +148,10 @@ if (!file) {
 	const tasks = new Listr([
 		// Task 1: Process and encode file
 		{
-			title: `Processing ${file}`,
+			title: `Processing ${FILE}`,
 			task: async ctx => {
 				try {
-					const processedContent = await processContent(file, start, end);
+					const processedContent = await processContent(FILE, START, END);
 					ctx.encodedContent = encodeURIComponent(processedContent);
 				} catch (error) {
 					return Promise.reject(error);
@@ -154,7 +166,7 @@ if (!file) {
 				// Don’t do so for local configs passed via --config
 				// The `save` method takes care of whether something should
 				// also be saved as a preset, or just as 'latest-preset'
-				if (!config) {
+				if (!CONFIG) {
 					await presetHandler.save(settings.preset, settings);
 				}
 
@@ -162,7 +174,7 @@ if (!file) {
 				settings = {
 					...settings,
 					code: encodedContent,
-					l: getLanguage(file)
+					l: getLanguage(FILE)
 				};
 
 				// Prepare the querystring that we’ll send to Carbon
@@ -172,7 +184,7 @@ if (!file) {
 		// Task 3: Only open the browser if --open
 		{
 			title: 'Opening in browser',
-			skip: () => !open,
+			skip: () => !OPEN,
 			task: () => {
 				opn(url);
 			}
@@ -180,20 +192,20 @@ if (!file) {
 		// Task 4: Download image to --location if not --open
 		{
 			title: 'Fetching beautiful image',
-			skip: () => open,
+			skip: () => OPEN,
 			task: async ctx => {
 				const {type: TYPE} = settings;
-				const SAVE_DIRECTORY = copy ? tempy.directory() : location;
+				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
 				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${TYPE}`;
-				const	ORIGINAL_FILE_NAME = basename(file, extname(file));
-				const NEW_FILE_NAME = target || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
+				const	ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
+				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
 				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${TYPE}`;
 
 				// Fetch image
-				await headlessVisit(url, SAVE_DIRECTORY, TYPE, headless);
+				await headlessVisit(url, SAVE_DIRECTORY, TYPE, HEADLESS);
 
 				// Only rename file if not --copy
-				if (!copy) {
+				if (!COPY) {
 					await asyncRename(FULL_DOWNLOADED_PATH, FULL_SAVE_PATH);
 				}
 
@@ -204,7 +216,7 @@ if (!file) {
 		// Task 5: Copy image to clipboard if --copy
 		{
 			title: 'Copying image to clipboard',
-			skip: () => !copy || open,
+			skip: () => !COPY || OPEN,
 			task: async ({downloadedAs}) => {
 				let SCRIPT;
 
@@ -236,11 +248,11 @@ if (!file) {
   ${green('Done!')}`
 			);
 
-			if (open) {
+			if (OPEN) {
 				console.log(`
   Browser opened — finish your image there! 😌`
 				);
-			} else if (copy) {
+			} else if (COPY) {
 				console.log(`
   Image copied to clipboard! 😌`
 				);
