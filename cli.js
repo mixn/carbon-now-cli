@@ -7,7 +7,7 @@ const asyncRename = promisify(require('fs').rename);
 
 // Packages
 const meow = require('meow');
-const chalk = require('chalk');
+const {bold, red, green} = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
@@ -28,10 +28,10 @@ const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
- ${chalk.bold('Usage')}
+ ${bold('Usage')}
    $ carbon-now <file>
 
- ${chalk.bold('Options')}
+ ${bold('Options')}
    -s, --start          Starting line of <file>
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
@@ -43,7 +43,7 @@ const cli = meow(`
    -h, --headless       Use only non-experimental Puppeteer features
    --config             Use a different, local config (read-only)
 
- ${chalk.bold('Examples')}
+ ${bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
 `,
 {
@@ -106,7 +106,7 @@ let url = CARBON_URL;
 // Deny everything if not at least one argument (file) specified
 if (!file) {
 	console.error(`
-  ${chalk.red('Error: Please provide at least a file.')}
+  ${red('Error: Please provide at least a file.')}
 
   $ carbon-now <file>
 	`);
@@ -233,7 +233,7 @@ if (!file) {
 		.run()
 		.then(async ({savedAs}) => {
 			console.log(`
-  ${chalk.green('Done!')}`
+  ${green('Done!')}`
 			);
 
 			if (open) {
@@ -262,7 +262,7 @@ if (!file) {
 		})
 		.catch(error => {
 			console.error(`
-  ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
+  ${red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
   This is mostly due to:
 
