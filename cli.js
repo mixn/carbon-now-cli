@@ -199,7 +199,7 @@ if (!FILE) {
 				const {type: TYPE} = settings;
 				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
 				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${TYPE}`;
-				const	ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
+				const ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
 				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
 				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${TYPE}`;
 
