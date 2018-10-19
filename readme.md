@@ -295,8 +295,6 @@ So you can `carbon-now <file> -i` and `carbon-now <file>` from there on — the 
 
 #### Local configs
 
-![Local config minium npm version](https://badgen.net/badge/npm/@next/blue)
-
 It is possible to use local configuration files via the `--config` flag.
 
 This is convenient if you’re using `carbon-now-cli` via a script and would like to share presets among the users of your project.
