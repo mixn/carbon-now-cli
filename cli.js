@@ -12,7 +12,6 @@ const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
 const generate = require('nanoid/generate');
-const execa = require('execa');
 const tempy = require('tempy');
 const updateNotifier = require('update-notifier');
 const Listr = require('listr');
