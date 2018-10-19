@@ -16,9 +16,9 @@ module.exports = async imgPath => {
 			SCRIPT = `xclip -selection clipboard -t image/png -i ${imgPath}`;
 	}
 
-	// Running `await execa` leads to `Listr` not resolving the last task in Linux
-	// Hence, we need to distinguis between OS’s and run it with or without `await``
-	// This solution is not too beautiful, but made it work cross-OS ¯\_(ツ)_/¯
+	// Running `await execa` leads to `Listr` not resolving the last task on Linux
+	// Hence, we need to distinguish between OS’s and run it with or without `await`
+	// This solution is not insanely beautiful, but makes it work cross-OS ¯\_(ツ)_/¯
 	if (OS === 'darwin' || OS === 'win32') {
 		await execa(SCRIPT, [], {
 			shell: true
