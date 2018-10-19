@@ -34,6 +34,7 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - ⚡️ [Interactive mode](#fully-customized) via `--interactive`
 - 🎒 [Presets](#presets): save and reuse your favorite settings
 - 🖱 [Selective highlighting](#selective) via `--start` and `--end`
+- 📎 [Copies image to clipboard](#copying-to-clipboard) via `--copy` (**cross-OS** 😱)
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
 - 👀 Saves to [given location](#full-example) or [only opens in browser](#full-example) for manual finish
@@ -80,6 +81,7 @@ Options
   -l, --location       Image save location, default: cwd
   -t, --target         Image name, default: original-hash.{png|svg}
   -o, --open           Open in browser instead of saving
+  -c, --copy           Copy image to clipboard
   -p, --preset         Use a saved preset
   -h, --headless       Use only non-experimental Puppeteer features
   --config             Use a different, local config (read-only)
@@ -151,6 +153,36 @@ Selective mode can of course be combined with interactive mode, just with like a
 ![Example 3](static/example-3.png)
 
 **Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
+
+#### Copying to clipboard
+
+It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--copy`/`-c` flag is for.
+
+```
+$ carbon-now unfold.js -c
+```
+
+will copy the image to clipboard instead of downloading it to a given directory.
+
+Please be aware that this requires some binaries to be present on certain OS.
+
+##### Linux
+
+[`xclip`](https://linux.die.net/man/1/xclip) is required. You can install it via
+
+```
+sudo apt-get install xclip
+```
+
+##### Windows
+
+[`NirCmd`](https://linux.die.net/man/1/xclip) is required. It can be installed via
+
+```
+choco install nircmd
+```
+
+Also make sure the `nircmd` command is globally accessible/inside your Windows directory.
 
 #### Full Example
 
