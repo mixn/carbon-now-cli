@@ -78,6 +78,16 @@ test.serial('Saves to temporary system folder when --copy is present', async t =
 	t.false(await fileExists(DUMMY_FILE_NAME));
 });
 
+test.serial('Downloads correctly with --headless / makes sure Carbon’s selector is still the same', async t => {
+	await execa(SCRIPT, [
+		DUMMY_FROM,
+		`--headless`,
+		`-t=${DUMMY_TARGET_NAME}`
+	]);
+
+	t.true(await fileExists(DUMMY_FILE_NAME));
+});
+
 // Cleanup
 test.afterEach((async () => {
 	await del([
