@@ -7,40 +7,45 @@ const asyncRename = promisify(require('fs').rename);
 
 // Packages
 const meow = require('meow');
-const chalk = require('chalk');
+const {bold, red, green} = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
 const generate = require('nanoid/generate');
+const tempy = require('tempy');
+const updateNotifier = require('update-notifier');
 const Listr = require('listr');
 
 // Source
-const processContent = require('./src/process-content.js');
-const getLanguage = require('./src/get-language.js');
-const headlessVisit = require('./src/headless-visit.js');
-const interactiveMode = require('./src/interactive-mode.js');
-const presetHandler = require('./src/preset.js');
+const pkg = require('./package.json');
+const processContent = require('./src/process-content');
+const getLanguage = require('./src/get-language');
+const headlessVisit = require('./src/headless-visit');
+const interactiveMode = require('./src/interactive-mode');
+const presetHandler = require('./src/preset');
+const imgToClipboard = require('./src/util/img-to-clipboard');
 
 // Helpers
 const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
 let settings = require('./src/helpers/default-settings');
 
 const cli = meow(`
- ${chalk.bold('Usage')}
+ ${bold('Usage')}
    $ carbon-now <file>
 
- ${chalk.bold('Options')}
+ ${bold('Options')}
    -s, --start          Starting line of <file>
    -e, --end            Ending line of <file>
    -i, --interactive    Interactive mode
    -l, --location       Image save location, default: cwd
    -t, --target         Image name, default: original-hash.{png|svg}
    -o, --open           Open in browser instead of saving
+   -c, --copy           Copy image to clipboard
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
    --config             Use a different, local config (read-only)
 
- ${chalk.bold('Examples')}
+ ${bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
 `,
 {
@@ -80,6 +85,11 @@ const cli = meow(`
 			alias: 'p',
 			default: LATEST_PRESET
 		},
+		copy: {
+			type: 'boolean',
+			alias: 'c',
+			default: false
+		},
 		config: {
 			type: 'string',
 			default: undefined // So that default params trigger
@@ -91,33 +101,45 @@ const cli = meow(`
 		}
 	}
 });
-const [file] = cli.input;
-const {start, end, open, location, target, interactive, preset, config, headless} = cli.flags;
+const [FILE] = cli.input;
+const {
+	start: START,
+	end: END,
+	open: OPEN,
+	location: LOCATION,
+	target: TARGET,
+	copy: COPY,
+	interactive: INTERACTIVE,
+	preset: PRESET,
+	config: CONFIG,
+	headless: HEADLESS
+} = cli.flags;
 let url = CARBON_URL;
 
 // Deny everything if not at least one argument (file) specified
-if (!file) {
+if (!FILE) {
 	console.error(`
-  ${chalk.red('Error: Please provide at least a file.')}
+  ${red('Error: Please provide at least a file.')}
 
   $ carbon-now <file>
 	`);
+
 	process.exit(1);
 }
 
 // Run main CLI programm
 (async () => {
 	// If --preset given, take that particular preset
-	if (preset) {
+	if (PRESET) {
 		settings = {
 			...settings,
-			...(await presetHandler.get(preset, config))
+			...(await presetHandler.get(PRESET, CONFIG))
 		};
 	}
 
 	// If --interactive, enter interactive mode and adopt settings
 	// This unfortunately can’t be inside of Listr since it leads to rendering problems
-	if (interactive) {
+	if (INTERACTIVE) {
 		settings = {
 			...settings,
 			...(await interactiveMode())
@@ -128,10 +150,10 @@ if (!file) {
 	const tasks = new Listr([
 		// Task 1: Process and encode file
 		{
-			title: `Processing ${file}`,
+			title: `Processing ${FILE}`,
 			task: async ctx => {
 				try {
-					const processedContent = await processContent(file, start, end);
+					const processedContent = await processContent(FILE, START, END);
 					ctx.encodedContent = encodeURIComponent(processedContent);
 				} catch (error) {
 					return Promise.reject(error);
@@ -146,7 +168,7 @@ if (!file) {
 				// Don’t do so for local configs passed via --config
 				// The `save` method takes care of whether something should
 				// also be saved as a preset, or just as 'latest-preset'
-				if (!config) {
+				if (!CONFIG) {
 					await presetHandler.save(settings.preset, settings);
 				}
 
@@ -154,7 +176,7 @@ if (!file) {
 				settings = {
 					...settings,
 					code: encodedContent,
-					l: getLanguage(file)
+					l: getLanguage(FILE)
 				};
 
 				// Prepare the querystring that we’ll send to Carbon
@@ -164,7 +186,7 @@ if (!file) {
 		// Task 3: Only open the browser if --open
 		{
 			title: 'Opening in browser',
-			skip: () => !open,
+			skip: () => !OPEN,
 			task: () => {
 				opn(url);
 			}
@@ -172,19 +194,33 @@ if (!file) {
 		// Task 4: Download image to --location if not --open
 		{
 			title: 'Fetching beautiful image',
-			skip: () => open,
+			skip: () => OPEN,
 			task: async ctx => {
-				const {type} = settings;
-				const	original = basename(file, extname(file));
-				const downloaded = `${location}/carbon.${type}`;
-				const fileName = target || `${original}-${generate('123456abcdef', 10)}`;
-				const saveAs = `${location}/${fileName}.${type}`;
+				const {type: TYPE} = settings;
+				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
+				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${TYPE}`;
+				const ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
+				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
+				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${TYPE}`;
 
-				// Fetch image and rename it
-				await headlessVisit(url, location, type, headless);
-				await asyncRename(downloaded, saveAs);
+				// Fetch image
+				await headlessVisit(url, SAVE_DIRECTORY, TYPE, HEADLESS);
 
-				ctx.savedAs = saveAs;
+				// Only rename file if not --copy
+				if (!COPY) {
+					await asyncRename(FULL_DOWNLOADED_PATH, FULL_SAVE_PATH);
+				}
+
+				ctx.savedAs = FULL_SAVE_PATH;
+				ctx.downloadedAs = FULL_DOWNLOADED_PATH;
+			}
+		},
+		// Task 5: Copy image to clipboard if --copy
+		{
+			title: 'Copying image to clipboard',
+			skip: () => !COPY || OPEN,
+			task: async ({downloadedAs}) => {
+				await imgToClipboard(downloadedAs);
 			}
 		}
 	]);
@@ -196,12 +232,16 @@ if (!file) {
 		.run()
 		.then(async ({savedAs}) => {
 			console.log(`
-  ${chalk.green('Done!')}`
+  ${green('Done!')}`
 			);
 
-			if (open) {
+			if (OPEN) {
 				console.log(`
   Browser opened — finish your image there! 😌`
+				);
+			} else if (COPY) {
+				console.log(`
+  Image copied to clipboard! 😌`
 				);
 			} else {
 				console.log(`
@@ -217,11 +257,13 @@ if (!file) {
 				}
 			}
 
+			updateNotifier({pkg}).notify();
+
 			process.exit();
 		})
 		.catch(error => {
 			console.error(`
-  ${chalk.red('Error: Sending code to https://carbon.now.sh went wrong.')}
+  ${red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
   This is mostly due to:
 

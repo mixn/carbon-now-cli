@@ -1,7 +1,7 @@
 // Packages
 const fileExists = require('file-exists');
 const jsonFile = require('jsonfile');
-const chalk = require('chalk');
+const {yellow} = require('chalk');
 const {omit} = require('lodash');
 
 // Source
@@ -52,7 +52,7 @@ const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
 	// Warn if anything but 'latest-preset' is passed, but non-existent
 	if (presetName !== LATEST_PRESET) {
 		console.error(`
-  ${chalk.yellow('Warning: Preset doesn’t exist. Using default settings…\n')}`
+  ${yellow('Warning: Preset doesn’t exist. Using default settings…\n')}`
 		);
 	}
 

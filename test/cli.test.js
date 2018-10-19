@@ -67,6 +67,17 @@ test.serial('Makes sure the end line is larger than start line', async t => {
 	t.true(await fileExists(DUMMY_FILE_NAME));
 });
 
+test.serial('Saves to temporary system folder when --copy is present', async t => {
+	await execa(SCRIPT, [
+		DUMMY_FROM,
+		`--copy`,
+		`--preset=bright`,
+		`-t=${DUMMY_TARGET_NAME}`
+	]);
+
+	t.false(await fileExists(DUMMY_FILE_NAME));
+});
+
 // Cleanup
 test.afterEach((async () => {
 	await del([
