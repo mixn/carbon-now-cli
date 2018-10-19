@@ -24,6 +24,7 @@ const getLanguage = require('./src/get-language');
 const headlessVisit = require('./src/headless-visit');
 const interactiveMode = require('./src/interactive-mode');
 const presetHandler = require('./src/preset');
+const imgToClipboard = require('./src/util/img-to-clipboard');
 
 // Helpers
 const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
@@ -220,22 +221,7 @@ if (!FILE) {
 			title: 'Copying image to clipboard',
 			skip: () => !COPY || OPEN,
 			task: async ({downloadedAs}) => {
-				let SCRIPT;
-
-				switch (process.platform) {
-					case 'darwin':
-						SCRIPT = `osascript -e 'set the clipboard to (read (POSIX file "${downloadedAs}") as JPEG picture)'`;
-						break;
-					case 'win32':
-						SCRIPT = `nircmd clipboard copyimage ${downloadedAs}`;
-						break;
-					default:
-						SCRIPT = `xclip -selection clipboard -t image/png -i ${downloadedAs}`;
-				}
-
-				await execa(SCRIPT, [], {
-					shell: true
-				});
+				await imgToClipboard(downloadedAs);
 			}
 		}
 	]);
