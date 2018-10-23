@@ -103,8 +103,8 @@ const cli = meow(`
 });
 const [FILE] = cli.input;
 const {
-	start: START,
-	end: END,
+	start: START_LINE,
+	end: END_LINE,
 	open: OPEN,
 	location: LOCATION,
 	target: TARGET,
@@ -152,18 +152,14 @@ if (!FILE) {
 		{
 			title: `Processing ${FILE}`,
 			task: async ctx => {
-				try {
-					const processedContent = await processContent(FILE, START, END);
-					ctx.encodedContent = encodeURIComponent(processedContent);
-				} catch (error) {
-					return Promise.reject(error);
-				}
+				const processedContent = await processContent(FILE, START_LINE, END_LINE);
+				ctx.urlEncodedContent = encodeURIComponent(processedContent);
 			}
 		},
 		// Task 2: Merge all given settings (default, preset, interactive), prepare URL
 		{
 			title: 'Preparing connection',
-			task: async ({encodedContent}) => {
+			task: async ({urlEncodedContent}) => {
 				// Save the current settings as 'latest-preset' to global config
 				// Don’t do so for local configs passed via --config
 				// The `save` method takes care of whether something should
@@ -175,7 +171,7 @@ if (!FILE) {
 				// Add code and language, irrelevant for storage and always different
 				settings = {
 					...settings,
-					code: encodedContent,
+					code: urlEncodedContent,
 					l: getLanguage(FILE)
 				};
 
@@ -196,23 +192,23 @@ if (!FILE) {
 			title: 'Fetching beautiful image',
 			skip: () => OPEN,
 			task: async ctx => {
-				const {type: TYPE} = settings;
+				const {type: IMG_TYPE} = settings;
 				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
-				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${TYPE}`;
+				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${IMG_TYPE}`;
 				const ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
 				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
-				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${TYPE}`;
+				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${IMG_TYPE}`;
 
 				// Fetch image
-				await headlessVisit(url, SAVE_DIRECTORY, TYPE, HEADLESS);
+				await headlessVisit(url, SAVE_DIRECTORY, IMG_TYPE, HEADLESS);
 
-				// Only rename file if not --copy
-				if (!COPY) {
+				// Don’t rename file if --copy
+				if (COPY) {
+					ctx.downloadedAs = FULL_DOWNLOADED_PATH;
+				} else {
 					await asyncRename(FULL_DOWNLOADED_PATH, FULL_SAVE_PATH);
+					ctx.downloadedAs = FULL_SAVE_PATH;
 				}
-
-				ctx.savedAs = FULL_SAVE_PATH;
-				ctx.downloadedAs = FULL_DOWNLOADED_PATH;
 			}
 		},
 		// Task 5: Copy image to clipboard if --copy
@@ -225,44 +221,40 @@ if (!FILE) {
 		}
 	]);
 
-	// Run tasks
-	// I like the control-flow-iness of .then() and .catch() here
-	// and prefer it to async/await in this case… go ahead, JUDGE ME
-	tasks
-		.run()
-		.then(async ({savedAs}) => {
-			console.log(`
+	try {
+		const {downloadedAs} = await tasks.run();
+
+		console.log(`
   ${green('Done!')}`
+		);
+
+		if (OPEN) {
+			console.log(`
+  Browser opened — finish your image there! 😌`
+			);
+		} else if (COPY) {
+			console.log(`
+  Image copied to clipboard! 😌`
+			);
+		} else {
+			console.log(`
+  The file can be found here: ${downloadedAs} 😌`
 			);
 
-			if (OPEN) {
+			if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
 				console.log(`
-  Browser opened — finish your image there! 😌`
-				);
-			} else if (COPY) {
-				console.log(`
-  Image copied to clipboard! 😌`
-				);
-			} else {
-				console.log(`
-  The file can be found here: ${savedAs} 😌`
-				);
-
-				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
-					console.log(`
   iTerm2 should display the image below. 😊
 
-		${await terminalImage.file(savedAs)}`
-					);
-				}
+				${await terminalImage.file(downloadedAs)}`
+				);
 			}
+		}
 
-			updateNotifier({pkg}).notify();
+		updateNotifier({pkg}).notify();
 
-			process.exit();
-		})
-		.catch(error => {
-			console.error(`
+		process.exit();
+	} catch (error) {
+		console.error(`
   ${red('Error: Sending code to https://carbon.now.sh went wrong.')}
 
   This is mostly due to:
@@ -275,6 +267,6 @@ if (!FILE) {
 
   ${error}`);
 
-			process.exit(1);
-		});
+		process.exit(1);
+	}
 })();
