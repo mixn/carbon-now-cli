@@ -33,17 +33,6 @@ test.serial('Downloads code image correctly', async t => {
 	}
 });
 
-// Test.serial('Downloads code image correctly with `headless` set', async t => {
-// 	try {
-// 		// Download image with `-h`
-// 		await headlessVisit(CARBON_URL, null, null, true);
-
-// 		t.true(await fileExists(DEFAULT_DOWNLOAD_NAME));
-// 	} catch (error) {
-// 		t.fail();
-// 	}
-// });
-
 test.serial('Respects download location', async t => {
 	await headlessVisit(CARBON_URL, DOWNLOAD_DIR);
 
