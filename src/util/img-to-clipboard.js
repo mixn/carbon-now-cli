@@ -6,14 +6,17 @@ module.exports = async imgPath => {
 	let SCRIPT;
 
 	switch (OS) {
-		case 'darwin':
+		case 'darwin': {
 			SCRIPT = `osascript -e 'set the clipboard to (read (POSIX file "${imgPath}") as JPEG picture)'`;
 			break;
-		case 'win32':
+		}
+		case 'win32': {
 			SCRIPT = `nircmd clipboard copyimage ${imgPath}`;
 			break;
-		default:
+		}
+		default: {
 			SCRIPT = `xclip -selection clipboard -t image/png -i ${imgPath}`;
+		}
 	}
 
 	// Running `await execa` leads to `Listr` not resolving the last task on Linux

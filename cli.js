@@ -228,25 +228,31 @@ if (!FILE) {
   ${green('Done!')}`
 		);
 
-		if (OPEN) {
-			console.log(`
-  Browser opened — finish your image there! 😌`
-			);
-		} else if (COPY) {
-			console.log(`
-  Image copied to clipboard! 😌`
-			);
-		} else {
-			console.log(`
-  The file can be found here: ${downloadedAs} 😌`
-			);
-
-			if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
+		switch (true) {
+			case OPEN: {
 				console.log(`
+  Browser opened — finish your image there! 😌`
+				);
+				break;
+			}
+			case COPY: {
+				console.log(`
+  Image copied to clipboard! 😌`
+				);
+				break;
+			}
+			default: {
+				console.log(`
+  The file can be found here: ${downloadedAs} 😌`
+				);
+
+				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
+					console.log(`
   iTerm2 should display the image below. 😊
 
-				${await terminalImage.file(downloadedAs)}`
-				);
+  ${await terminalImage.file(downloadedAs)}`
+					);
+				}
 			}
 		}
 

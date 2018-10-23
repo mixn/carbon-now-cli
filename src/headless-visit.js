@@ -55,14 +55,17 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 		const svgExportTrigger = await page.$('#downshift-2-item-1');
 
 		switch (type) {
-			case 'png':
+			case 'png': {
 				await pngExportTrigger.click();
 				break;
-			case 'svg':
+			}
+			case 'svg': {
 				await svgExportTrigger.click();
 				break;
-			default:
+			}
+			default: {
 				throw new Error('Only png and svg are supported.');
+			}
 		}
 	}
 
