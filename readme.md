@@ -85,6 +85,9 @@ Options
   -p, --preset         Use a saved preset
   -h, --headless       Use only non-experimental Puppeteer features
   --config             Use a different, local config (read-only)
+
+Examples
+  See: https://github.com/mixn/carbon-now-cli#examples
 ```
 
 ## Examples
