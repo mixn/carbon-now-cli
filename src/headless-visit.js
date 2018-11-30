@@ -24,7 +24,7 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 		// If `-h` set, simply screenshot the `#container` element
 		// This means no svg support or 4x resolution, but a functioning
 		// download for everyone without using experimental Puppeteer features
-		const exportContainer = await page.waitForSelector('.export-container');
+		const exportContainer = await page.waitForSelector('#export-container');
 		const elementBounds = await exportContainer.boundingBox();
 
 		await exportContainer.screenshot({
@@ -47,12 +47,12 @@ module.exports = async (url, location = process.cwd(), type = 'png', headless = 
 		});
 
 		// `page.waitForSelector` https://goo.gl/gGLKBL ➝ exactly what I needed 👍
-		const saveImageTrigger = await page.waitForSelector('[aria-labelledby="downshift-2-label"]');
+		const saveImageTrigger = await page.waitForSelector('#export-menu');
 		// Only after this is clicked, the png and svg triggers will exist in the DOM
 		await saveImageTrigger.click();
 
-		const pngExportTrigger = await page.$('#downshift-2-item-0');
-		const svgExportTrigger = await page.$('#downshift-2-item-1');
+		const pngExportTrigger = await page.$('#export-png');
+		const svgExportTrigger = await page.$('#export-svg');
 
 		switch (type) {
 			case 'png': {
