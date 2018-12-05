@@ -284,7 +284,7 @@ Taken the `presentation` preset we have created above, this is all we have to do
 carbon-now unfold.js -p presentation
 ```
 
-Result:
+**Result**:
 
 ![Presets 1](static/presets-2.png)
 
