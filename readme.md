@@ -159,6 +159,8 @@ Selective mode can of course be combined with interactive mode, just with like a
 
 #### Copying to clipboard
 
+![Copying to Clipboard](static/clipboard-demo.gif)
+
 It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--copy`/`-c` flag is for.
 
 ```
