@@ -39,24 +39,24 @@
 		"file-exists": "^5.0.1",
 		"file-extension": "^4.0.5",
 		"globby": "^8.0.1",
-		"inquirer": "^6.0.0",
-		"jsonfile": "^4.0.0",
-		"listr": "^0.14.1",
-		"lodash": "^4.17.10",
+		"inquirer": "^6.2.1",
+		"jsonfile": "^5.0.0",
+		"listr": "^0.14.3",
+		"lodash": "^4.17.11",
 		"meow": "^5.0.0",
-		"nanoid": "^1.1.0",
-		"opn": "^5.3.0",
-		"puppeteer": "^1.5.0",
-		"query-string": "^6.1.0",
+		"nanoid": "^2.0.0",
+		"opn": "^5.4.0",
+		"puppeteer": "^1.11.0",
+		"query-string": "^6.2.0",
 		"tempy": "^0.2.1",
-		"terminal-image": "^0.1.1",
+		"terminal-image": "^0.1.2",
 		"update-notifier": "^2.5.0"
 	},
 	"devDependencies": {
 		"ava": "^0.25.0",
-		"execa": "^0.10.0",
+		"execa": "^1.0.0",
 		"husky": "^1.0.0-rc.14",
-		"xo": "^0.21.0"
+		"xo": "^0.21.1"
 	},
 	"xo": {
 		"ignores": [
