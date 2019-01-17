@@ -181,7 +181,7 @@ sudo apt-get install xclip
 
 ##### Windows
 
-[`NirCmd`](https://linux.die.net/man/1/xclip) is required. It can be installed via
+[`NirCmd`](http://www.nirsoft.net/utils/nircmd.html) is required. It can be installed via
 
 ```
 choco install nircmd
