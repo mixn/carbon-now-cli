@@ -38,6 +38,7 @@
 		"del": "^3.0.0",
 		"file-exists": "^5.0.1",
 		"file-extension": "^4.0.5",
+		"get-stdin": "^6.0.0",
 		"globby": "^8.0.1",
 		"inquirer": "^6.2.1",
 		"jsonfile": "^5.0.0",
