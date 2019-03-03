@@ -3,6 +3,7 @@ import test from 'ava';
 import execa from 'execa';
 import fileExists from 'file-exists';
 import del from 'del';
+import {exec} from 'child-process-promise';
 
 // Util
 import readfileAsync from '../src/util/readfile-async';
@@ -14,12 +15,15 @@ const DUMMY_FILE_NAME = `${DUMMY_TARGET_NAME}.png`;
 const ABSENT_DUMMY_CONFIG = './non-existent.json';
 const PRESENT_DUMMY_CONFIG = './test/test-dummies/_config.json';
 
-test.serial('Running `carbon-now` fails without at least one argument', async t => {
+test.serial('Running `carbon-now` fails without file or stdin', async t => {
 	try {
-		await execa.stdout(SCRIPT);
+		// https://github.com/sindresorhus/get-stdin/issues/13#issuecomment-279234249
+		const command = exec(`node ${SCRIPT}`);
+		command.childProcess.stdin.end();
+		await command;
 		t.fail();
 	} catch (error) {
-		t.true(error.failed);
+		t.pass();
 	}
 });
 
