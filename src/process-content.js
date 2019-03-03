@@ -1,29 +1,18 @@
-// Native
-const fs = require('fs');
-const readline = require('readline');
+module.exports = (input, START = 0, END = 1000) => {
+	const NEW_LINE = '\n';
 
-module.exports = (file, start = 0, end = 1000) => {
 	return new Promise((resolve, reject) => {
 		// Reject immediately when nonsensical input
-		if (start > end) {
-			reject();
+		if (START > END) {
+			return reject();
 		}
 
-		const lines = [];
-		const rlStream = readline.createInterface({
-			input: fs.createReadStream(file)
-		});
-		let currentLine = 1;
-
-		rlStream.on('line', line => {
-			if (currentLine >= start && currentLine <= end) {
-				lines.push(line);
-			}
-			currentLine++;
-		});
-
-		rlStream.on('close', () => {
-			resolve(lines.join('\n'));
-		});
+		// Otherwise resolve with the correct section
+		resolve(
+			input.split(NEW_LINE).filter((line, index) => {
+				const CURRENT_LINE = index + 1;
+				return CURRENT_LINE >= START && CURRENT_LINE <= END;
+			}).join(NEW_LINE)
+		);
 	});
 };
