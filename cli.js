@@ -214,7 +214,12 @@ let input;
 				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${IMG_TYPE}`;
 
 				// Fetch image
-				await headlessVisit(url, SAVE_DIRECTORY, IMG_TYPE, HEADLESS);
+				await headlessVisit({
+					url,
+					location: SAVE_DIRECTORY,
+					type: IMG_TYPE,
+					headless: HEADLESS
+				});
 
 				// Don’t rename file if --copy
 				if (COPY) {
