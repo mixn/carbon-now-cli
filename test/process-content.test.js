@@ -18,13 +18,13 @@ test('Correctly processes full length of files', async t => {
 	try {
 		// TODO: Make this better
 		expected = await readFileAsync(js);
-		t.is(await process(js), expected);
+		t.is(await process(expected), expected);
 
 		expected = await readFileAsync(rust);
-		t.is(await process(rust), expected);
+		t.is(await process(expected), expected);
 
 		expected = await readFileAsync(html);
-		t.is(await process(html), expected);
+		t.is(await process(expected), expected);
 	} catch (error) {
 		t.fail();
 	}
@@ -38,7 +38,7 @@ test('Correctly processes in between given lines', async t => {
 
 	try {
 		t.is(
-			await process(full, 3, 6),
+			await process(await readFileAsync(full), 3, 6),
 			await readFileAsync(partial)
 		);
 	} catch (error) {

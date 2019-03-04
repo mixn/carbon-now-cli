@@ -18,6 +18,7 @@ const Listr = require('listr');
 
 // Source
 const pkg = require('./package.json');
+const getInputFromSource = require('./src/get-input');
 const processContent = require('./src/process-content');
 const getLanguage = require('./src/get-language');
 const headlessVisit = require('./src/headless-visit');
@@ -32,6 +33,8 @@ let settings = require('./src/helpers/default-settings');
 const cli = meow(`
  ${bold('Usage')}
    $ carbon-now <file>
+   $ pbpaste | carbon-now
+   $ carbon-now --from-clipboard
 
  ${bold('Options')}
    -s, --start          Starting line of <file>
@@ -44,6 +47,7 @@ const cli = meow(`
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
    --config             Use a different, local config (read-only)
+   --from-clipboard     Read input from clipboard instead of file
 
  ${bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -94,6 +98,10 @@ const cli = meow(`
 			type: 'string',
 			default: undefined // So that default params trigger
 		},
+		fromClipboard: {
+			type: 'boolean',
+			default: false
+		},
 		headless: {
 			type: 'boolean',
 			alias: 'h',
@@ -112,23 +120,29 @@ const {
 	interactive: INTERACTIVE,
 	preset: PRESET,
 	config: CONFIG,
+	fromClipboard: FROM_CLIPBOARD,
 	headless: HEADLESS
 } = cli.flags;
 let url = CARBON_URL;
-
-// Deny everything if not at least one argument (file) specified
-if (!FILE) {
-	console.error(`
-  ${red('Error: Please provide at least a file.')}
-
-  $ carbon-now <file>
-	`);
-
-	process.exit(1);
-}
+let input;
 
 // Run main CLI programm
 (async () => {
+	try {
+		input = await getInputFromSource(FILE, FROM_CLIPBOARD);
+	} catch (error) {
+		console.error(`
+  ${red(error)}
+
+  ${bold('Usage')}
+    $ carbon-now <file>
+    $ pbpaste | carbon-now
+    $ carbon-now --from-clipboard
+		`);
+
+		process.exit(1);
+	}
+
 	// If --preset given, take that particular preset
 	if (PRESET) {
 		settings = {
@@ -150,9 +164,9 @@ if (!FILE) {
 	const tasks = new Listr([
 		// Task 1: Process and encode file
 		{
-			title: `Processing ${FILE}`,
+			title: `Processing ${FILE || 'stdin'}`,
 			task: async ctx => {
-				const processedContent = await processContent(FILE, START_LINE, END_LINE);
+				const processedContent = await processContent(input, START_LINE, END_LINE);
 				ctx.urlEncodedContent = encodeURIComponent(processedContent);
 			}
 		},
@@ -172,7 +186,7 @@ if (!FILE) {
 				settings = {
 					...settings,
 					code: urlEncodedContent,
-					l: getLanguage(FILE)
+					l: FILE ? getLanguage(FILE) : 'auto'
 				};
 
 				// Prepare the querystring that we’ll send to Carbon
@@ -195,12 +209,17 @@ if (!FILE) {
 				const {type: IMG_TYPE} = settings;
 				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
 				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${IMG_TYPE}`;
-				const ORIGINAL_FILE_NAME = basename(FILE, extname(FILE));
+				const ORIGINAL_FILE_NAME = FILE ? basename(FILE, extname(FILE)) : 'stdin';
 				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
 				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${IMG_TYPE}`;
 
 				// Fetch image
-				await headlessVisit(url, SAVE_DIRECTORY, IMG_TYPE, HEADLESS);
+				await headlessVisit({
+					url,
+					location: SAVE_DIRECTORY,
+					type: IMG_TYPE,
+					headless: HEADLESS
+				});
 
 				// Don’t rename file if --copy
 				if (COPY) {
