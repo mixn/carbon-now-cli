@@ -35,6 +35,7 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - 🎒 [Presets](#presets): save and reuse your favorite settings
 - 🖱 [Selective highlighting](#selective) via `--start` and `--end`
 - 📎 [Copies image to clipboard](#copying-to-clipboard) via `--copy` (**cross-OS** 😱)
+- 📚 Accepts [file, `stdin` or clipboard content](#input-sources) as input
 - 🐶 Displays image directly in supported terminals
 - ⏱ Reports each step and therefore *shortens the wait*
 - 👀 Saves to [given location](#full-example) or [only opens in browser](#full-example) for manual finish
@@ -73,6 +74,8 @@ Beautiful images of your code — from right inside your terminal.
 
 Usage
   $ carbon-now <file>
+  $ pbpaste | carbon-now
+  $ carbon-now --from-clipboard
 
 Options
   -s, --start          Starting line of <file>
@@ -85,6 +88,7 @@ Options
   -p, --preset         Use a saved preset
   -h, --headless       Use only non-experimental Puppeteer features
   --config             Use a different, local config (read-only)
+  --from-clipboard     Read input from clipboard instead of file
 
 Examples
   See: https://github.com/mixn/carbon-now-cli#examples
@@ -188,6 +192,25 @@ choco install nircmd
 ```
 
 Also make sure the `nircmd` command is globally accessible/inside your Windows directory.
+
+#### Input Sources
+
+You’ll sometimes find yourself in a situation where you’d like to create an image based on a piece of code, but don’t want to be creating a file for it first.
+
+In addition to files, `carbon-now-cli` therefore also accepts input coming from `stdin` or the clipboard.
+
+##### `stdin`
+
+```
+$ pbpaste | carbon-now
+$ echo '<h1>Hi</h1>' | carbon-now
+```
+
+##### Clipboard
+
+```
+$ carbon-now --from-clipboard
+```
 
 #### Full Example
 

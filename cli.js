@@ -33,6 +33,8 @@ let settings = require('./src/helpers/default-settings');
 const cli = meow(`
  ${bold('Usage')}
    $ carbon-now <file>
+   $ pbpaste | carbon-now
+   $ carbon-now --from-clipboard
 
  ${bold('Options')}
    -s, --start          Starting line of <file>
@@ -45,6 +47,7 @@ const cli = meow(`
    -p, --preset         Use a saved preset
    -h, --headless       Use only non-experimental Puppeteer features
    --config             Use a different, local config (read-only)
+   --from-clipboard     Read input from clipboard instead of file
 
  ${bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
@@ -129,11 +132,12 @@ let input;
 		input = await getInputFromSource(FILE, FROM_CLIPBOARD);
 	} catch (error) {
 		console.error(`
-  ${red(`Error: ${error}.`)}
+  ${red(error)}
 
-  $ carbon-now <file>
-  $ pbpaste | carbon-now
-  $ echo "console.log('Hi!');" | carbon-now
+  ${bold('Usage')}
+    $ carbon-now <file>
+    $ pbpaste | carbon-now
+    $ carbon-now --from-clipboard
 		`);
 
 		process.exit(1);
