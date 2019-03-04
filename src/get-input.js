@@ -18,7 +18,7 @@ module.exports = (FILE, FROM_CLIPBOARD) => {
 			if (STDIN) {
 				resolve(STDIN);
 			} else {
-				reject(new Error('No file or stdin given'));
+				reject(new Error('No file or stdin given.'));
 			}
 		}
 	});
