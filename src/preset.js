@@ -43,7 +43,7 @@ const readConfig = async function readConfig(configLocation = FULL_CONFIG_PATH) 
 
 // Fetches a preset, if existent
 const getPreset = async (presetName, configLocation = FULL_CONFIG_PATH) => {
-	const currentConfig = await readConfig(configLocation);
+	const currentConfig = await readConfig(configLocation || FULL_CONFIG_PATH);
 
 	if (presetName in currentConfig) {
 		return currentConfig[presetName];

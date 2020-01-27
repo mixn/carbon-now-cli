@@ -26,6 +26,7 @@ test('Correctly processes full length of files', async t => {
 		expected = await readFileAsync(html);
 		t.is(await process(expected), expected);
 	} catch (error) {
+		console.error(error);
 		t.fail();
 	}
 });
@@ -42,6 +43,7 @@ test('Correctly processes in between given lines', async t => {
 			await readFileAsync(partial)
 		);
 	} catch (error) {
+		console.error(error);
 		t.fail();
 	}
 });

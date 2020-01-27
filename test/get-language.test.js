@@ -3,7 +3,7 @@ import test from 'ava';
 
 // Source
 import getLanguage from '../src/get-language';
-import languageMap from '../src/helpers/language-map';
+import languageMap from '../src/helpers/language-map.json';
 
 test('Handles languages correctly', t => {
 	// Some manual ones ¯\_(ツ)_/¯

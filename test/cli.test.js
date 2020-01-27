@@ -23,6 +23,7 @@ test.serial('Running `carbon-now` fails without file or stdin', async t => {
 		await command;
 		t.fail();
 	} catch (error) {
+		console.error(error);
 		t.pass();
 	}
 });
@@ -74,8 +75,8 @@ test.serial('Makes sure the end line is larger than start line', async t => {
 test.serial('Saves to temporary system folder when --copy is present', async t => {
 	await execa(SCRIPT, [
 		DUMMY_FROM,
-		`--copy`,
-		`--preset=bright`,
+		'--copy',
+		'--preset=bright',
 		`-t=${DUMMY_TARGET_NAME}`
 	]);
 
@@ -85,7 +86,7 @@ test.serial('Saves to temporary system folder when --copy is present', async t =
 test.serial('Downloads correctly with --headless / makes sure Carbon’s selector is still the same', async t => {
 	await execa(SCRIPT, [
 		DUMMY_FROM,
-		`--headless`,
+		'--headless',
 		`-t=${DUMMY_TARGET_NAME}`
 	]);
 

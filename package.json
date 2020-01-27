@@ -1,11 +1,11 @@
 {
 	"name": "carbon-now-cli",
-	"version": "1.4.0",
+	"version": "2.0.0",
 	"description": "Beautiful images of your code — from right inside your terminal.",
 	"license": "MIT",
 	"repository": "mixn/carbon-now-cli",
 	"author": {
-		"name": "Miloš Sutanovac",
+		"name": "Miloš Sutanovac, Yurii Chikhrai<y.chihray@gmail.com>",
 		"email": "sutanovac.milos@gmail.com",
 		"url": "https://mixn.io"
 	},
@@ -34,32 +34,46 @@
 		"beautiful"
 	],
 	"dependencies": {
-		"chalk": "^2.4.1",
-		"clipboardy": "^1.2.3",
-		"del": "^3.0.0",
+		"bluebird": "^3.7.2",
+		"chalk": "^3.0.0",
+		"clipboardy": "^2.1.0",
+		"del": "^5.1.0",
 		"file-exists": "^5.0.1",
 		"file-extension": "^4.0.5",
-		"get-stdin": "^6.0.0",
-		"globby": "^8.0.1",
-		"inquirer": "^6.2.1",
+		"get-stdin": "^7.0.0",
+		"globby": "^11.0.0",
+		"inquirer": "^7.0.4",
 		"jsonfile": "^5.0.0",
 		"listr": "^0.14.3",
-		"lodash": "^4.17.11",
-		"meow": "^5.0.0",
-		"nanoid": "^2.0.0",
+		"lodash": "^4.17.15",
+		"meow": "^6.0.0",
+		"nanoid": "^2.1.10",
 		"opn": "^5.4.0",
-		"puppeteer": "^1.11.0",
-		"query-string": "^6.2.0",
-		"tempy": "^0.2.1",
-		"terminal-image": "^0.1.2",
-		"update-notifier": "^2.5.0"
+		"puppeteer": "^2.0.0",
+		"query-string": "^6.10.1",
+		"tempy": "^0.3.0",
+		"terminal-image": "^0.2.0",
+		"update-notifier": "^4.0.0"
 	},
 	"devDependencies": {
-		"ava": "^0.25.0",
+		"@ava/babel": "^1.0.0",
+		"@babel/cli": "^7.8.3",
+		"@babel/core": "^7.8.3",
+		"@babel/preset-env": "^7.8.3",
+		"@babel/register": "^7.8.3",
+		"ava": "^3.1.0",
+		"babel-loader": "^8.0.6",
 		"child-process-promise": "^2.2.1",
-		"execa": "^1.0.0",
-		"husky": "^1.0.0-rc.14",
-		"xo": "^0.21.1"
+		"execa": "^4.0.0",
+		"husky": "^4.2.1",
+		"xo": "^0.25.3"
+	},
+	"ava": {
+		"files": [
+			"test/**/*.js"
+		],
+		"serial": true,
+		"babel": true
 	},
 	"xo": {
 		"ignores": [
@@ -70,7 +84,8 @@
 		],
 		"rules": {
 			"no-warning-comments": 0,
-			"promise/prefer-await-to-then": 0
+			"promise/prefer-await-to-then": 0,
+			"unicorn/catch-error-name": 0
 		}
 	},
 	"husky": {

@@ -21,6 +21,7 @@ test.serial('Fails due to wrong URL/timeout/event', async t => {
 		});
 		t.fail();
 	} catch (error) {
+		console.error(error);
 		t.pass();
 	}
 });
@@ -36,6 +37,7 @@ test.serial('Downloads code image correctly', async t => {
 		// If it exists, pass
 		t.true(await fileExists(DEFAULT_DOWNLOAD_NAME));
 	} catch (error) {
+		console.error(error);
 		t.fail();
 	}
 });

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 // Native
-const {promisify} = require('util');
 const {basename, extname} = require('path');
-const asyncRename = promisify(require('fs').rename);
+const {rename} = require('fs');
+const {promisify} = require('bluebird');
+const asyncRename = promisify(rename);
 
 // Packages
 const meow = require('meow');
@@ -77,7 +78,7 @@ const cli = meow(`
 		target: {
 			type: 'string',
 			alias: 't',
-			default: null
+			default: ''
 		},
 		interactive: {
 			type: 'boolean',
@@ -96,7 +97,7 @@ const cli = meow(`
 		},
 		config: {
 			type: 'string',
-			default: undefined // So that default params trigger
+			default: '' // So that default params trigger
 		},
 		fromClipboard: {
 			type: 'boolean',
@@ -254,12 +255,14 @@ let input;
 				);
 				break;
 			}
+
 			case COPY: {
 				console.log(`
   Image copied to clipboard! 😌`
 				);
 				break;
 			}
+
 			default: {
 				console.log(`
   The file can be found here: ${downloadedAs} 😌`

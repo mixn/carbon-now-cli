@@ -10,10 +10,12 @@ module.exports = async imgPath => {
 			SCRIPT = `osascript -e 'set the clipboard to (read (POSIX file "${imgPath}") as JPEG picture)'`;
 			break;
 		}
+
 		case 'win32': {
 			SCRIPT = `nircmd clipboard copyimage ${imgPath}`;
 			break;
 		}
+
 		default: {
 			SCRIPT = `xclip -selection clipboard -t image/png -i ${imgPath}`;
 		}
