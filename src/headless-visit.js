@@ -1,5 +1,8 @@
 // Packages
+const os = require('os');
 const puppeteer = require('puppeteer');
+const {username} = os.userInfo().username;
+const currentOs = os.platform();
 
 module.exports = async ({url, location = process.cwd(), type = 'png', headless = false, timeout = 2000}) => {
 	let browser;
@@ -7,7 +10,12 @@ module.exports = async ({url, location = process.cwd(), type = 'png', headless =
 	try {
 		// Launch browser
 		browser = await puppeteer.launch({
-			headless
+			headless,
+			args: [...(
+				username === 'root' && currentOs === 'linux' ?
+					['--no-sandbox', '--disable-setuid-sandbox'] :
+					[]
+			)]
 		});
 		// Open new page
 		const page = await browser.newPage();
