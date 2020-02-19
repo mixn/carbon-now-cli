@@ -1,7 +1,7 @@
 // Packages
 const os = require('os');
 const puppeteer = require('puppeteer');
-const {username} = os.userInfo().username;
+const {username} = os.userInfo();
 const currentOs = os.platform();
 
 module.exports = async ({url, location = process.cwd(), type = 'png', headless = false, timeout = 2000}) => {
