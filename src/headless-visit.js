@@ -1,5 +1,24 @@
 // Packages
 const puppeteer = require('puppeteer');
+const fs = require("fs");
+
+async function waitFile (filename) {
+	return new Promise(async (resolve, reject) => {
+		if (!fs.existsSync(filename)) {
+			await delay(3000);
+			await waitFile(filename);
+			resolve();
+		} else {
+		  resolve();
+		}
+	});
+}
+
+function delay(time) {
+	return new Promise(function(resolve) { 
+		setTimeout(resolve, time)
+	});
+}
 
 module.exports = async ({url, location = process.cwd(), type = 'png', headless = false, timeout = 2000}) => {
 	// Launch browser
@@ -57,10 +76,12 @@ module.exports = async ({url, location = process.cwd(), type = 'png', headless =
 		switch (type) {
 			case 'png': {
 				await pngExportTrigger.click();
+				await waitFile(`${location}/carbon.png`);
 				break;
 			}
 			case 'svg': {
 				await svgExportTrigger.click();
+				await waitFile(`${location}/carbon.svg`);
 				break;
 			}
 			default: {
