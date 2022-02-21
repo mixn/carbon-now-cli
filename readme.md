@@ -58,7 +58,7 @@ yarn global add carbon-now-cli
 
 #### npx
 ```
-npx carbon-now-cli <file>
+$ npx carbon-now-cli <file>
 ```
 
 #### Requirements
