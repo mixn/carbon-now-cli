@@ -24,7 +24,7 @@ const writeConfig = async (configLocation = FULL_CONFIG_PATH, settings = {}, opt
 const readConfig = async function readConfig(configLocation = FULL_CONFIG_PATH) {
 	try {
 		// Only read from if it exists
-		if (await fileExists(configLocation)) {
+		if (await fileExists(configLocation,{root: process.cwd()})) {
 			return await jsonFile.readFileSync(configLocation);
 		}
 
