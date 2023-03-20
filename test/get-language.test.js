@@ -5,7 +5,7 @@ import test from 'ava';
 import getLanguage from '../src/get-language';
 import languageMap from '../src/helpers/language-map';
 
-test('Handles languages correctly', t => {
+test('Handles languages correctly', (t) => {
 	// Some manual ones ¯\_(ツ)_/¯
 	t.is(getLanguage('.htaccess'), 'text/apache');
 	t.is(getLanguage('foo.C'), 'text/x-c++src');

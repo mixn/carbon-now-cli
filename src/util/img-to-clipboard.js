@@ -1,7 +1,7 @@
 // Packages
 const execa = require('execa');
 
-module.exports = async imgPath => {
+module.exports = async (imgPath) => {
 	const OS = process.platform;
 	let SCRIPT;
 
@@ -24,11 +24,11 @@ module.exports = async imgPath => {
 	// This solution is not insanely beautiful, but makes it work cross-OS ¯\_(ツ)_/¯
 	if (OS === 'darwin' || OS === 'win32') {
 		await execa(SCRIPT, [], {
-			shell: true
+			shell: true,
 		});
 	} else {
 		execa(SCRIPT, [], {
-			shell: true
+			shell: true,
 		});
 	}
 };

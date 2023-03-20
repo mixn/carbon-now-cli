@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
 // Native
-const {promisify} = require('util');
-const {basename, extname} = require('path');
+const { promisify } = require('util');
+const { basename, extname } = require('path');
 const asyncRename = promisify(require('fs').rename);
 
 // Packages
 const meow = require('meow');
-const {bold, red, green} = require('chalk');
+const { bold, red, green } = require('chalk');
 const opn = require('opn');
 const queryString = require('query-string');
 const terminalImage = require('terminal-image');
@@ -27,10 +27,11 @@ const presetHandler = require('./src/preset');
 const imgToClipboard = require('./src/util/img-to-clipboard');
 
 // Helpers
-const {CARBON_URL, LATEST_PRESET} = require('./src/helpers/globals');
+const { CARBON_URL, LATEST_PRESET } = require('./src/helpers/globals');
 let settings = require('./src/helpers/default-settings');
 
-const cli = meow(`
+const cli = meow(
+	`
  ${bold('Usage')}
    $ carbon-now <file>
    $ pbpaste | carbon-now
@@ -52,63 +53,64 @@ const cli = meow(`
  ${bold('Examples')}
    See: https://github.com/mixn/carbon-now-cli#examples
 `,
-{
-	flags: {
-		start: {
-			type: 'number',
-			alias: 's',
-			default: 1
+	{
+		flags: {
+			start: {
+				type: 'number',
+				alias: 's',
+				default: 1,
+			},
+			end: {
+				type: 'number',
+				alias: 'e',
+				default: 1000,
+			},
+			open: {
+				type: 'boolean',
+				alias: 'o',
+				default: false,
+			},
+			location: {
+				type: 'string',
+				alias: 'l',
+				default: process.cwd(),
+			},
+			target: {
+				type: 'string',
+				alias: 't',
+				default: null,
+			},
+			interactive: {
+				type: 'boolean',
+				alias: 'i',
+				default: false,
+			},
+			preset: {
+				type: 'string',
+				alias: 'p',
+				default: LATEST_PRESET,
+			},
+			copy: {
+				type: 'boolean',
+				alias: 'c',
+				default: false,
+			},
+			config: {
+				type: 'string',
+				default: undefined, // So that default params trigger
+			},
+			fromClipboard: {
+				type: 'boolean',
+				default: false,
+			},
+			headless: {
+				type: 'boolean',
+				alias: 'h',
+				default: false,
+			},
 		},
-		end: {
-			type: 'number',
-			alias: 'e',
-			default: 1000
-		},
-		open: {
-			type: 'boolean',
-			alias: 'o',
-			default: false
-		},
-		location: {
-			type: 'string',
-			alias: 'l',
-			default: process.cwd()
-		},
-		target: {
-			type: 'string',
-			alias: 't',
-			default: null
-		},
-		interactive: {
-			type: 'boolean',
-			alias: 'i',
-			default: false
-		},
-		preset: {
-			type: 'string',
-			alias: 'p',
-			default: LATEST_PRESET
-		},
-		copy: {
-			type: 'boolean',
-			alias: 'c',
-			default: false
-		},
-		config: {
-			type: 'string',
-			default: undefined // So that default params trigger
-		},
-		fromClipboard: {
-			type: 'boolean',
-			default: false
-		},
-		headless: {
-			type: 'boolean',
-			alias: 'h',
-			default: false
-		}
 	}
-});
+);
 const [FILE] = cli.input;
 const {
 	start: START_LINE,
@@ -121,7 +123,7 @@ const {
 	preset: PRESET,
 	config: CONFIG,
 	fromClipboard: FROM_CLIPBOARD,
-	headless: HEADLESS
+	headless: HEADLESS,
 } = cli.flags;
 let url = CARBON_URL;
 let input;
@@ -147,7 +149,7 @@ let input;
 	if (PRESET) {
 		settings = {
 			...settings,
-			...(await presetHandler.get(PRESET, CONFIG))
+			...(await presetHandler.get(PRESET, CONFIG)),
 		};
 	}
 
@@ -156,7 +158,7 @@ let input;
 	if (INTERACTIVE) {
 		settings = {
 			...settings,
-			...(await interactiveMode())
+			...(await interactiveMode()),
 		};
 	}
 
@@ -165,15 +167,19 @@ let input;
 		// Task 1: Process and encode file
 		{
 			title: `Processing ${FILE || 'stdin'}`,
-			task: async ctx => {
-				const processedContent = await processContent(input, START_LINE, END_LINE);
+			task: async (ctx) => {
+				const processedContent = await processContent(
+					input,
+					START_LINE,
+					END_LINE
+				);
 				ctx.urlEncodedContent = encodeURIComponent(processedContent);
-			}
+			},
 		},
 		// Task 2: Merge all given settings (default, preset, interactive), prepare URL
 		{
 			title: 'Preparing connection',
-			task: async ({urlEncodedContent}) => {
+			task: async ({ urlEncodedContent }) => {
 				// Save the current settings as 'latest-preset' to global config
 				// Don’t do so for local configs passed via --config
 				// The `save` method takes care of whether something should
@@ -186,12 +192,12 @@ let input;
 				settings = {
 					...settings,
 					code: urlEncodedContent,
-					l: FILE ? getLanguage(FILE) : 'auto'
+					l: FILE ? getLanguage(FILE) : 'auto',
 				};
 
 				// Prepare the querystring that we’ll send to Carbon
 				url = `${url}?${queryString.stringify(settings)}`;
-			}
+			},
 		},
 		// Task 3: Only open the browser if --open
 		{
@@ -199,18 +205,21 @@ let input;
 			skip: () => !OPEN,
 			task: () => {
 				opn(url);
-			}
+			},
 		},
 		// Task 4: Download image to --location if not --open
 		{
 			title: 'Fetching beautiful image',
 			skip: () => OPEN,
-			task: async ctx => {
-				const {type: IMG_TYPE} = settings;
+			task: async (ctx) => {
+				const { type: IMG_TYPE } = settings;
 				const SAVE_DIRECTORY = COPY ? tempy.directory() : LOCATION;
 				const FULL_DOWNLOADED_PATH = `${SAVE_DIRECTORY}/carbon.${IMG_TYPE}`;
-				const ORIGINAL_FILE_NAME = FILE ? basename(FILE, extname(FILE)) : 'stdin';
-				const NEW_FILE_NAME = TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
+				const ORIGINAL_FILE_NAME = FILE
+					? basename(FILE, extname(FILE))
+					: 'stdin';
+				const NEW_FILE_NAME =
+					TARGET || `${ORIGINAL_FILE_NAME}-${generate('123456abcdef', 10)}`;
 				const FULL_SAVE_PATH = `${SAVE_DIRECTORY}/${NEW_FILE_NAME}.${IMG_TYPE}`;
 
 				// Fetch image
@@ -218,7 +227,7 @@ let input;
 					url,
 					location: SAVE_DIRECTORY,
 					type: IMG_TYPE,
-					headless: HEADLESS
+					headless: HEADLESS,
 				});
 
 				// Don’t rename file if --copy
@@ -228,54 +237,52 @@ let input;
 					await asyncRename(FULL_DOWNLOADED_PATH, FULL_SAVE_PATH);
 					ctx.downloadedAs = FULL_SAVE_PATH;
 				}
-			}
+			},
 		},
 		// Task 5: Copy image to clipboard if --copy
 		{
 			title: 'Copying image to clipboard',
 			skip: () => !COPY || OPEN,
-			task: async ({downloadedAs}) => {
+			task: async ({ downloadedAs }) => {
 				await imgToClipboard(downloadedAs);
-			}
-		}
+			},
+		},
 	]);
 
 	try {
-		const {downloadedAs} = await tasks.run();
+		const { downloadedAs } = await tasks.run();
 
 		console.log(`
-  ${green('Done!')}`
-		);
+  ${green('Done!')}`);
 
 		switch (true) {
 			case OPEN: {
 				console.log(`
-  Browser opened — finish your image there! 😌`
-				);
+  Browser opened — finish your image there! 😌`);
 				break;
 			}
 			case COPY: {
 				console.log(`
-  Image copied to clipboard! 😌`
-				);
+  Image copied to clipboard! 😌`);
 				break;
 			}
 			default: {
 				console.log(`
-  The file can be found here: ${downloadedAs} 😌`
-				);
+  The file can be found here: ${downloadedAs} 😌`);
 
-				if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
+				if (
+					process.env.TERM_PROGRAM &&
+					process.env.TERM_PROGRAM.match('iTerm')
+				) {
 					console.log(`
   iTerm2 should display the image below. 😊
 
-  ${await terminalImage.file(downloadedAs)}`
-					);
+  ${await terminalImage.file(downloadedAs)}`);
 				}
 			}
 		}
 
-		updateNotifier({pkg}).notify();
+		updateNotifier({ pkg }).notify();
 
 		process.exit();
 	} catch (error) {

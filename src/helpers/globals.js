@@ -1,5 +1,5 @@
 // Native
-const {homedir} = require('os');
+const { homedir } = require('os');
 
 const HOMEDIR = homedir();
 const CONFIG_FILE = '.carbon-now.json';
@@ -15,5 +15,5 @@ module.exports = {
 	FULL_CONFIG_PATH,
 	FULL_DUMMY_CONFIG_PATH,
 	CARBON_URL,
-	LATEST_PRESET
+	LATEST_PRESET,
 };

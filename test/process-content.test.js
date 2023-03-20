@@ -7,11 +7,11 @@ import process from '../src/process-content';
 // Util
 import readFileAsync from '../src/util/readfile-async';
 
-test('Correctly processes full length of files', async t => {
+test('Correctly processes full length of files', async (t) => {
 	const [js, rust, html] = [
 		'./test/test-dummies/_unfold.js',
 		'./test/test-dummies/_main.rs',
-		'./test/test-dummies/_index.html'
+		'./test/test-dummies/_index.html',
 	];
 	let expected;
 
@@ -30,10 +30,10 @@ test('Correctly processes full length of files', async t => {
 	}
 });
 
-test('Correctly processes in between given lines', async t => {
+test('Correctly processes in between given lines', async (t) => {
 	const [full, partial] = [
 		'./test/test-dummies/_unfold.js',
-		'./test/test-dummies/_unfold-partial.js'
+		'./test/test-dummies/_unfold-partial.js',
 	];
 
 	try {

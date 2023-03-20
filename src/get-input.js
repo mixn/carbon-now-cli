@@ -1,5 +1,5 @@
 // Native
-const {promisify} = require('util');
+const { promisify } = require('util');
 const readFileAsync = promisify(require('fs').readFile);
 
 // Dependencies
@@ -12,7 +12,7 @@ module.exports = (FILE, FROM_CLIPBOARD) => {
 			resolve(await readFileAsync(FILE, 'utf8'));
 		} else if (FROM_CLIPBOARD) {
 			resolve(clipboardy.readSync());
-		}	else {
+		} else {
 			const STDIN = await getStdin();
 
 			if (STDIN) {

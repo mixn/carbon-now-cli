@@ -16,7 +16,8 @@
 		"node": ">=8.3"
 	},
 	"scripts": {
-		"test": "xo && ava --serial",
+		"prettier": "prettier ./**/* --check",
+		"test": "npm run prettier && ava --serial",
 		"ava": "ava --serial"
 	},
 	"files": [
@@ -59,19 +60,7 @@
 		"child-process-promise": "^2.2.1",
 		"execa": "^1.0.0",
 		"husky": "^1.0.0-rc.14",
-		"xo": "^0.21.1"
-	},
-	"xo": {
-		"ignores": [
-			"test/test-dummies/*.js"
-		],
-		"globals": [
-			"document"
-		],
-		"rules": {
-			"no-warning-comments": 0,
-			"promise/prefer-await-to-then": 0
-		}
+		"prettier": "^2.8.5"
 	},
 	"husky": {
 		"hooks": {

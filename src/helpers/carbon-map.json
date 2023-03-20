@@ -1,53 +1,53 @@
 {
-  "t": {
-    "3024 Night": "3024-night",
-    "Blackboard": "blackboard",
-    "Base 16 (Dark)": "base16-dark",
-    "Base 16 (Light)": "base16-light",
-    "Cobalt": "cobalt",
-    "Dracula": "dracula",
-    "Duotone": "duotone-dark",
-    "Hopscotch": "hopscotch",
-    "Lucario": "lucario",
-    "Material": "material",
-    "Monokai": "monokai",
-    "Night Owl": "night-owl",
-    "Nord": "nord",
-    "Oceanic Next": "oceanic-next",
-    "One Dark": "one-dark",
-    "Panda": "panda-syntax",
-    "Paraiso": "paraiso-dark",
-    "Seti": "seti",
-    "Solarized (Dark)": "solarized dark",
-    "Solarized (Light)": "solarized light",
-    "Tomorrow Night": "tomorrow-night-bright",
-    "Twilight": "twilight",
-    "Verminal": "verminal",
-    "Yeti": "yeti",
-    "Zenburn": "zenburn"
-  },
-  "wt": {
-    "None": "none",
-    "Sharp": "sharp",
-    "Black & White": "bw"
-  },
-  "fm": {
-    "Dank Mono": "dm",
-    "Anonymous Pro": "Anonymous Pro",
-    "Droid Sans Mono": "Droid Sans Mono",
-    "Fantasque Sans Mono": "Fantasque Sans Mono",
-    "Fira Code": "Fira Code",
-    "Monoid": "Monoid",
-    "Hack": "Hack",
-    "IBM Plex Mono": "IBM Plex Mono",
-    "Iosevka": "Iosevka",
-    "Inconsolata": "Inconsolata",
-    "Source Code Pro": "Source Code Pro",
-    "Ubuntu Mono": "Ubuntu Mono"
-  },
-  "es": {
-    "2x": "2x",
-    "1x": "1x",
-    "4x": "4x"
-  }
+	"t": {
+		"3024 Night": "3024-night",
+		"Blackboard": "blackboard",
+		"Base 16 (Dark)": "base16-dark",
+		"Base 16 (Light)": "base16-light",
+		"Cobalt": "cobalt",
+		"Dracula": "dracula",
+		"Duotone": "duotone-dark",
+		"Hopscotch": "hopscotch",
+		"Lucario": "lucario",
+		"Material": "material",
+		"Monokai": "monokai",
+		"Night Owl": "night-owl",
+		"Nord": "nord",
+		"Oceanic Next": "oceanic-next",
+		"One Dark": "one-dark",
+		"Panda": "panda-syntax",
+		"Paraiso": "paraiso-dark",
+		"Seti": "seti",
+		"Solarized (Dark)": "solarized dark",
+		"Solarized (Light)": "solarized light",
+		"Tomorrow Night": "tomorrow-night-bright",
+		"Twilight": "twilight",
+		"Verminal": "verminal",
+		"Yeti": "yeti",
+		"Zenburn": "zenburn"
+	},
+	"wt": {
+		"None": "none",
+		"Sharp": "sharp",
+		"Black & White": "bw"
+	},
+	"fm": {
+		"Dank Mono": "dm",
+		"Anonymous Pro": "Anonymous Pro",
+		"Droid Sans Mono": "Droid Sans Mono",
+		"Fantasque Sans Mono": "Fantasque Sans Mono",
+		"Fira Code": "Fira Code",
+		"Monoid": "Monoid",
+		"Hack": "Hack",
+		"IBM Plex Mono": "IBM Plex Mono",
+		"Iosevka": "Iosevka",
+		"Inconsolata": "Inconsolata",
+		"Source Code Pro": "Source Code Pro",
+		"Ubuntu Mono": "Ubuntu Mono"
+	},
+	"es": {
+		"2x": "2x",
+		"1x": "1x",
+		"4x": "4x"
+	}
 }

@@ -1,10 +1,16 @@
 // Packages
 const puppeteer = require('puppeteer');
 
-module.exports = async ({url, location = process.cwd(), type = 'png', headless = false, timeout = 2000}) => {
+module.exports = async ({
+	url,
+	location = process.cwd(),
+	type = 'png',
+	headless = false,
+	timeout = 2000,
+}) => {
 	// Launch browser
 	const browser = await puppeteer.launch({
-		headless
+		headless,
 	});
 	// Open new page
 	const page = await browser.newPage();
@@ -13,11 +19,11 @@ module.exports = async ({url, location = process.cwd(), type = 'png', headless =
 	await page.setViewport({
 		width: 1600,
 		height: 1000,
-		deviceScaleFactor: 2
+		deviceScaleFactor: 2,
 	});
 	// Visit specified url
 	await page.goto(url, {
-		waitUntil: 'load' // https://goo.gl/BdRVnv
+		waitUntil: 'load', // https://goo.gl/BdRVnv
 	});
 
 	if (headless) {
@@ -34,8 +40,8 @@ module.exports = async ({url, location = process.cwd(), type = 'png', headless =
 				// This avoids a black line towards the left and bottom side of images,
 				// which only occured when certain fonts were used, see https://goo.gl/JHHskx
 				x: Math.round(elementBounds.x),
-				height: Math.round(elementBounds.height) - 1
-			}
+				height: Math.round(elementBounds.height) - 1,
+			},
 		});
 	} else {
 		// Otherwise, allow files to be downloaded and set it to the CWD
@@ -43,7 +49,7 @@ module.exports = async ({url, location = process.cwd(), type = 'png', headless =
 		// Let’s hope it remains a thing… 🤞
 		await page._client.send('Page.setDownloadBehavior', {
 			behavior: 'allow',
-			downloadPath: `${location}/`
+			downloadPath: `${location}/`,
 		});
 
 		// `page.waitForSelector` https://goo.gl/gGLKBL ➝ exactly what I needed 👍
