@@ -4,18 +4,21 @@
 	"description": "Beautiful images of your code — from right inside your terminal.",
 	"license": "MIT",
 	"repository": "mixn/carbon-now-cli",
+	"type": "module",
 	"author": {
 		"name": "Miloš Sutanovac",
 		"email": "sutanovac.milos@gmail.com",
 		"url": "https://mixn.io"
 	},
-	"bin": {
-		"carbon-now": "cli.js"
-	},
+	"exports": "./cli.js",
 	"engines": {
-		"node": ">=8.3"
+		"node": ">=14.16"
 	},
 	"scripts": {
+		"dev": "nodemon cli.ts",
+		"build": "trash dist/ && tsc",
+		"run:build": "node dist/cli.js",
+		"buildrun": "npm run build && npm run run:build",
 		"prettier": "prettier ./**/* --check",
 		"test": "npm run prettier && ava --serial",
 		"ava": "ava --serial"
@@ -46,7 +49,7 @@
 		"jsonfile": "^5.0.0",
 		"listr": "^0.14.3",
 		"lodash": "^4.17.11",
-		"meow": "^5.0.0",
+		"meow": "^11.0.0",
 		"nanoid": "^2.0.0",
 		"opn": "^5.4.0",
 		"puppeteer": "^1.11.0",
@@ -60,7 +63,10 @@
 		"child-process-promise": "^2.2.1",
 		"execa": "^1.0.0",
 		"husky": "^1.0.0-rc.14",
-		"prettier": "^2.8.5"
+		"nodemon": "^2.0.22",
+		"prettier": "^2.8.5",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.0.2"
 	},
 	"husky": {
 		"hooks": {
