@@ -1,0 +1,55 @@
+import { LATEST_PRESET } from '../../helpers/cli/constants.js';
+
+export default {
+	start: {
+		type: 'number',
+		alias: 's',
+		default: 1,
+	},
+	end: {
+		type: 'number',
+		alias: 'e',
+		default: 1000,
+	},
+	open: {
+		type: 'boolean',
+		alias: 'o',
+		default: false,
+	},
+	location: {
+		type: 'string',
+		alias: 'l',
+		default: process.cwd(),
+	},
+	target: {
+		type: 'string',
+		alias: 't',
+	},
+	interactive: {
+		type: 'boolean',
+		alias: 'i',
+		default: false,
+	},
+	preset: {
+		type: 'string',
+		alias: 'p',
+		default: LATEST_PRESET,
+	},
+	copy: {
+		type: 'boolean',
+		alias: 'c',
+		default: false,
+	},
+	config: {
+		type: 'string',
+	},
+	fromClipboard: {
+		type: 'boolean',
+		default: false,
+	},
+	headless: {
+		type: 'boolean',
+		alias: 'h',
+		default: false,
+	},
+} as const;

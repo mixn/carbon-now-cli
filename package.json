@@ -15,12 +15,14 @@
 		"node": ">=14.16"
 	},
 	"scripts": {
-		"dev": "nodemon cli.ts",
+		"dev": "nodemon cli.ts test/test-dummies/_unfold.js",
+		"once": "ts-node --esm cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --interactive --preset twitter --from-clipboard --headless",
 		"build": "trash dist/ && tsc",
-		"run:build": "node dist/cli.js",
+		"run:build": "node dist/cli.js test/test-dummies/_unfold.js",
 		"buildrun": "npm run build && npm run run:build",
 		"prettier": "prettier ./**/* --check",
 		"test": "npm run prettier && ava --serial",
+		"jest": "jest",
 		"ava": "ava --serial"
 	},
 	"files": [
@@ -38,7 +40,7 @@
 		"beautiful"
 	],
 	"dependencies": {
-		"chalk": "^2.4.1",
+		"chalk": "^5.2.0",
 		"clipboardy": "^1.2.3",
 		"del": "^3.0.0",
 		"file-exists": "^5.0.1",
@@ -59,12 +61,16 @@
 		"update-notifier": "^2.5.0"
 	},
 	"devDependencies": {
+		"@jest/globals": "^29.5.0",
+		"@types/jest": "^29.5.0",
 		"ava": "^0.25.0",
 		"child-process-promise": "^2.2.1",
 		"execa": "^1.0.0",
 		"husky": "^1.0.0-rc.14",
+		"jest": "^29.5.0",
 		"nodemon": "^2.0.22",
 		"prettier": "^2.8.5",
+		"ts-jest": "^29.0.5",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.0.2"
 	},
