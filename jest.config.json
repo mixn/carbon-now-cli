@@ -1,11 +1,16 @@
 {
+	"preset": "ts-jest",
 	"extensionsToTreatAsEsm": [".ts"],
+	"testEnvironment": "node",
 	"moduleNameMapper": {
 		"^(\\.{1,2}/.*)\\.js$": "$1"
 	},
-	"modulePathIgnorePatterns": ["<rootDir>/test-DEPRECATED/"],
+	"modulePathIgnorePatterns": ["<rootDir>/test-deprecated/", "<rootDir>/dist/"],
+	"transformIgnorePatterns": [
+		"<rootDir>/node_modules/(?!get-stdin|clipboardy)"
+	],
 	"transform": {
-		"^.+\\.tsx?$": [
+		"^.+\\.[tj]s$": [
 			"ts-jest",
 			{
 				"useESM": true

@@ -22,6 +22,7 @@ import {
 	FLAG_FROM_CLIPBOARD,
 	FLAG_HEADLESS,
 } from './src/modules/meow/index.js';
+import readInput from './src/utils/read-input.util.js';
 // const opn = require('opn');
 // const queryString = require('query-string');
 // const terminalImage = require('terminal-image');
@@ -45,6 +46,10 @@ import {
 
 // let url = CARBON_URL;
 // let input;
+
+// console.log(await readFileAsync(CLI_FILE));
+console.log(await readInput(CLI_FILE, FLAG_FROM_CLIPBOARD));
+// console.log(await readInput(undefined, false));
 
 // // Run main CLI programm
 // (async () => {

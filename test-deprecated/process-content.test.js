@@ -5,7 +5,7 @@ import test from 'ava';
 import process from '../src/process-content';
 
 // Util
-import readFileAsync from '../src/util/readfile-async';
+import readFileAsync from '../src/utils/read-file-async.util';
 
 test('Correctly processes full length of files', async (t) => {
 	const [js, rust, html] = [

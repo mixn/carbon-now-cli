@@ -1,4 +1,4 @@
-import { LATEST_PRESET } from '../../helpers/cli/constants.js';
+import { LATEST_PRESET } from '../../helpers/cli/constants.helper.js';
 
 export default {
 	start: {

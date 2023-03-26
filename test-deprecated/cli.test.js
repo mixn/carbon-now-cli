@@ -6,7 +6,7 @@ import del from 'del';
 import { exec } from 'child-process-promise';
 
 // Util
-import readfileAsync from '../src/util/readfile-async';
+import readfileAsync from '../src/utils/read-file-async.util';
 
 const SCRIPT = './cli.js';
 const DUMMY_FROM = './test/test-dummies/_unfold.js';
