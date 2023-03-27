@@ -1,4 +1,4 @@
-import { LATEST_PRESET } from '../../helpers/cli/constants.helper.js';
+import { CONFIG_LATEST_PRESET } from '../../helpers/cli/constants.helper.js';
 
 export default {
 	start: {
@@ -33,7 +33,7 @@ export default {
 	preset: {
 		type: 'string',
 		alias: 'p',
-		default: LATEST_PRESET,
+		default: CONFIG_LATEST_PRESET,
 	},
 	copy: {
 		type: 'boolean',

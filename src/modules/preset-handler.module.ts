@@ -6,8 +6,10 @@ import {
 	CONFIG_PATH,
 	CONFIG_LATEST_PRESET,
 } from '../helpers/cli/constants.helper.js';
+import { CarbonCLIConfig, CarbonCLIPreset } from '../types/cli/types.js';
 
 class PresetHandler {
+	constructor(private configPath: string = CONFIG_PATH) {}
 	private async writeConfig(
 		configLocation = CONFIG_PATH,
 		settings = {},
@@ -20,7 +22,7 @@ class PresetHandler {
 		}
 	}
 	// TODO: Improve Promise<object>
-	private async readConfig(configLocation = CONFIG_PATH): Promise<object> {
+	private async readConfig(configLocation = CONFIG_PATH): Promise<{}> {
 		try {
 			// Only read from config if it exists
 			if (await fileExists(configLocation)) {
@@ -40,22 +42,23 @@ class PresetHandler {
 			return Promise.reject(error);
 		}
 	}
-	async getPreset(presetName: string, configLocation = CONFIG_PATH) {
-		const currentConfig: any = await this.readConfig(configLocation);
-
-		if (presetName in currentConfig) {
-			return currentConfig[presetName];
-		}
-
-		// Warn if anything but 'latest-preset' is passed, but non-existent
-		if (presetName !== CONFIG_LATEST_PRESET) {
-			console.warn(`
+	private warn(preset: string) {
+		console.warn(`
 		${chalk.yellow(
-			`Warning: Preset '${presetName}' doesn’t exist. Using default settings…\n`
+			`Warning: Preset \`${preset}\` doesn’t exist. Using default settings…\n`
 		)}`);
+	}
+	async getPreset(preset: string): Promise<CarbonCLIPreset> {
+		const currentConfig: CarbonCLIConfig = await this.readConfig(
+			this.configPath
+		);
+
+		if (preset in currentConfig) {
+			return currentConfig[preset];
 		}
 
-		return {};
+		this.warn(preset);
+		return {} as CarbonCLIPreset;
 	}
 	async savePreset(
 		presetName = CONFIG_LATEST_PRESET,

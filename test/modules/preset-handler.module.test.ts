@@ -34,7 +34,7 @@ test('Should create config file if one doesn’t exist', async () => {
 
 test('Should correctly get an existing preset', async () => {
 	expect(
-		await new PresetHandler().getPreset(DUMMY_PRESET_NAME_1, CONFIG_DUMMY_PATH)
+		await new PresetHandler(CONFIG_DUMMY_PATH).getPreset(DUMMY_PRESET_NAME_1)
 	).toEqual(DUMMY_PRESET_SETTINGS);
 });
 
@@ -58,10 +58,17 @@ test('Should append a new preset correctly to an existing config file', async ()
 test('Should return empty preset when config doesn’t exist', async () => {
 	await deleteDummy();
 
-	const nonExistentPreset = await new PresetHandler().getPreset(
-		DUMMY_PRESET_NAME_1,
+	const nonExistentPreset = await new PresetHandler(
 		CONFIG_DUMMY_PATH
-	);
+	).getPreset(DUMMY_PRESET_NAME_1);
+
+	expect(nonExistentPreset).toEqual({});
+});
+
+test('Should return empty preset when preset name doesn’t match a preset', async () => {
+	const nonExistentPreset = await new PresetHandler(
+		CONFIG_DUMMY_PATH
+	).getPreset('nope');
 
 	expect(nonExistentPreset).toEqual({});
 });
