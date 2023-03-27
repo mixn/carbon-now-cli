@@ -1,8 +1,11 @@
 import clipboard from 'clipboardy';
 import getStdin from 'get-stdin';
-import readFileAsync from './read-file-async.util.js';
+import readFileAsync from '../../utils/read-file-async.util.js';
 
-export default (FILE: string | undefined, FROM_CLIPBOARD?: boolean) =>
+export default (
+	FILE: string | undefined,
+	FROM_CLIPBOARD?: boolean
+): Promise<string> =>
 	new Promise(async (resolve, reject) => {
 		let STDIN;
 

@@ -16,5 +16,6 @@
 				"useESM": true
 			}
 		]
-	}
+	},
+	"silent": true
 }
