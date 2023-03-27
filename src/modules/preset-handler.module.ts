@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
-import { omit } from 'lodash';
+import lodash from 'lodash';
 import {
 	CONFIG_PATH,
 	CONFIG_LATEST_PRESET,
@@ -10,89 +10,60 @@ import { CarbonCLIConfig, CarbonCLIPreset } from '../types/cli/types.js';
 
 class PresetHandler {
 	constructor(private configPath: string = CONFIG_PATH) {}
+
 	private async writeConfig(
-		configLocation = CONFIG_PATH,
 		settings = {},
-		options = {}
-	) {
-		try {
-			await jsonFile.writeFileSync(configLocation, settings, options);
-		} catch (error) {
-			return Promise.reject(error);
-		}
+		jsonFileOptions = {}
+	): Promise<void> {
+		await jsonFile.writeFileSync(this.configPath, settings, jsonFileOptions);
 	}
-	// TODO: Improve Promise<object>
-	private async readConfig(configLocation = CONFIG_PATH): Promise<{}> {
-		try {
-			// Only read from config if it exists
-			if (await fileExists(configLocation)) {
-				return await jsonFile.readFileSync(configLocation);
-			}
 
-			// Only if CONFIG_PATH is the default, global path, create config first, then read
-			// This (rightly) won’t create a config if a custom one is passed in via --config
-			if (configLocation === CONFIG_PATH) {
-				await this.writeConfig(configLocation);
-				return await this.readConfig(configLocation);
-			}
-
-			// Empty config by default
-			return {};
-		} catch (error) {
-			return Promise.reject(error);
+	private async readConfig(): Promise<CarbonCLIConfig> {
+		const configPath = this.configPath;
+		if (await fileExists(configPath)) {
+			return await jsonFile.readFileSync(configPath);
 		}
+		// Only create a global config, hence don’t overwrite custom --config
+		if (configPath === CONFIG_PATH) {
+			await this.writeConfig();
+			return await this.readConfig();
+		}
+		return {};
 	}
-	private warn(preset: string) {
+
+	private warn(preset: string): void {
 		console.warn(`
 		${chalk.yellow(
 			`Warning: Preset \`${preset}\` doesn’t exist. Using default settings…\n`
 		)}`);
 	}
-	async getPreset(preset: string): Promise<CarbonCLIPreset> {
-		const currentConfig: CarbonCLIConfig = await this.readConfig(
-			this.configPath
-		);
 
+	async getPreset(preset: string): Promise<CarbonCLIPreset> {
+		const currentConfig: CarbonCLIConfig = await this.readConfig();
 		if (preset in currentConfig) {
 			return currentConfig[preset];
 		}
-
 		this.warn(preset);
-		return {} as CarbonCLIPreset;
+		return {};
 	}
-	async savePreset(
-		presetName = CONFIG_LATEST_PRESET,
-		settings = {},
-		configLocation = CONFIG_PATH
-	) {
-		try {
-			// Omit not needed Inquirer or Carbon things
-			const whiteListedSettings = omit(settings, ['save', 'preset', 'l']);
-			const currentConfig = await this.readConfig(configLocation);
 
-			await this.writeConfig(
-				configLocation,
-				{
-					// Take and merge existing config to not overwrite
-					...currentConfig,
-					// Only additionally save this preset if the incoming `presetName` is not 'latest-preset'
-					// Reads: “If `presetName` doesn’t equal 'latest-preset', object spread the values of
-					// an object that has a computed property based on the name of `presetName` into the new settings”
-					// A bit hard to read, but avoids extra work outside this line + commented :)
-					...(presetName !== CONFIG_LATEST_PRESET && {
-						[presetName]: whiteListedSettings,
-					}),
-					// Always save 'latest-preset'
-					[CONFIG_LATEST_PRESET]: whiteListedSettings,
-				},
-				{
-					spaces: 2,
-					EOL: '\r\n',
-				}
-			);
-		} catch (error) {
-			Promise.reject(error);
-		}
+	async savePreset(
+		preset = CONFIG_LATEST_PRESET,
+		settings = {}
+	): Promise<void> {
+		const whiteListedSettings = lodash.omit(settings, ['save', 'preset', 'l']);
+		const currentConfig = await this.readConfig();
+		const upcomingConfig = {
+			...currentConfig,
+			...(preset !== CONFIG_LATEST_PRESET && {
+				[preset]: whiteListedSettings,
+			}),
+			[CONFIG_LATEST_PRESET]: whiteListedSettings,
+		};
+		await this.writeConfig(upcomingConfig, {
+			spaces: 2,
+			EOL: '\r\n',
+		});
 	}
 }
 

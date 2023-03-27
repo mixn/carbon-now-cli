@@ -20,15 +20,13 @@ const deleteDummy = async () => {
 	});
 };
 
-afterAll(async () => await deleteDummy());
+// afterAll(async () => await deleteDummy());
 
 test('Should create config file if one doesn’t exist', async () => {
-	await new PresetHandler().savePreset(
+	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
 		DUMMY_PRESET_NAME_1,
-		DUMMY_PRESET_SETTINGS,
-		CONFIG_DUMMY_PATH
+		DUMMY_PRESET_SETTINGS
 	);
-
 	expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(true);
 });
 
@@ -39,36 +37,46 @@ test('Should correctly get an existing preset', async () => {
 });
 
 test('Should append a new preset correctly to an existing config file', async () => {
-	await new PresetHandler().savePreset(
+	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
 		DUMMY_PRESET_NAME_2,
-		DUMMY_PRESET_SETTINGS,
-		CONFIG_DUMMY_PATH
+		DUMMY_PRESET_SETTINGS
 	);
-
 	const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
 	const shouldEqual = {
 		[DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
 		[DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
 		[CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
 	};
-
 	expect(currentConfig).toEqual(shouldEqual);
 });
 
 test('Should return empty preset when config doesn’t exist', async () => {
 	await deleteDummy();
-
 	const nonExistentPreset = await new PresetHandler(
 		CONFIG_DUMMY_PATH
 	).getPreset(DUMMY_PRESET_NAME_1);
-
 	expect(nonExistentPreset).toEqual({});
 });
 
-test('Should return empty preset when preset name doesn’t match a preset', async () => {
+test('Should return empty preset when no matching preset is found', async () => {
 	const nonExistentPreset = await new PresetHandler(
 		CONFIG_DUMMY_PATH
 	).getPreset('nope');
-
 	expect(nonExistentPreset).toEqual({});
+});
+
+test('Should handle multiple preset saves correctly', async () => {
+	await deleteDummy();
+	const PresetHandlerInstance = new PresetHandler(CONFIG_DUMMY_PATH);
+	await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_1, {
+		foo: 'foo',
+	});
+	await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_2, {
+		bar: 'bar',
+	});
+	expect(await readFileSync(CONFIG_DUMMY_PATH)).toEqual({
+		[DUMMY_PRESET_NAME_1]: { foo: 'foo' },
+		[DUMMY_PRESET_NAME_2]: { bar: 'bar' },
+		[CONFIG_LATEST_PRESET]: { bar: 'bar' },
+	});
 });

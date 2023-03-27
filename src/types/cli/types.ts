@@ -1,7 +1,6 @@
 type CarbonLanguages = 'seti';
 type CarbonFontFamilies = 'Hack';
-
-export interface CarbonCLIPreset {
+interface CarbonCLIPresetInterface {
 	t: CarbonLanguages;
 	l: 'auto';
 	bg: string;
@@ -23,6 +22,7 @@ export interface CarbonCLIPreset {
 	type: 'png' | 'svg';
 }
 
+export type CarbonCLIPreset = CarbonCLIPresetInterface | {};
 export interface CarbonCLIConfig {
 	[key: string]: CarbonCLIPreset;
 }
