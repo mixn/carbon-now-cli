@@ -46,7 +46,7 @@
 		"file-extension": "^4.0.5",
 		"get-stdin": "^9.0.0",
 		"globby": "^8.0.1",
-		"inquirer": "^6.2.1",
+		"inquirer": "^9.1.5",
 		"jsonfile": "^6.1.0",
 		"listr": "^0.14.3",
 		"lodash": "^4.17.21",
@@ -62,6 +62,7 @@
 	"devDependencies": {
 		"@jest/globals": "^29.5.0",
 		"@types/file-exists": "^5.0.0",
+		"@types/inquirer": "^9.0.3",
 		"@types/jest": "^29.5.0",
 		"@types/jsonfile": "^6.1.1",
 		"@types/lodash": "^4.14.191",

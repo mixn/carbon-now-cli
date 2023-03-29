@@ -2,11 +2,12 @@ import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
 import lodash from 'lodash';
+import { CarbonCLIConfig, CarbonCLIPreset } from '../types/cli/types.js';
 import {
 	CONFIG_PATH,
 	CONFIG_LATEST_PRESET,
 } from '../helpers/cli/constants.helper.js';
-import { CarbonCLIConfig, CarbonCLIPreset } from '../types/cli/types.js';
+import presetMissingView from '../views/preset-missing.view.js';
 
 class PresetHandler {
 	constructor(private configPath: string = CONFIG_PATH) {}
@@ -32,10 +33,7 @@ class PresetHandler {
 	}
 
 	private warn(preset: string): void {
-		console.warn(`
-		${chalk.yellow(
-			`Warning: Preset \`${preset}\` doesn’t exist. Using default settings…\n`
-		)}`);
+		console.warn(presetMissingView(preset));
 	}
 
 	async getPreset(preset: string): Promise<CarbonCLIPreset> {

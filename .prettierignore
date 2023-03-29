@@ -1,4 +1,5 @@
 test/test-dummies/*
+test-deprecated/test-dummies/*
 dist/
 static/*
 readme.md

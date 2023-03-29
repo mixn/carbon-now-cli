@@ -6,6 +6,7 @@
 // const asyncRename = promisify(require('fs').rename);
 import chalk from 'chalk';
 import PresetHandler from './src/modules/preset-handler.module.js';
+import Prompt from './src/modules/prompt.module.js';
 import {
 	CLI_FILE,
 	FLAG_START,

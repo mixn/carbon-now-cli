@@ -1,8 +1,7 @@
-type CarbonLanguages = 'seti';
+type CarbonThemes = 'seti';
 type CarbonFontFamilies = 'Hack';
 interface CarbonCLIPresetInterface {
-	t: CarbonLanguages;
-	l: 'auto';
+	t: CarbonThemes;
 	bg: string;
 	wt: 'none' | 'sharp' | 'bw';
 	wc: boolean;
@@ -25,4 +24,12 @@ interface CarbonCLIPresetInterface {
 export type CarbonCLIPreset = CarbonCLIPresetInterface | {};
 export interface CarbonCLIConfig {
 	[key: string]: CarbonCLIPreset;
+}
+export interface CarbonCLIPromptAnswersInterface
+	extends Omit<CarbonCLIPresetInterface, 'dsyoff' | 'dsblur'> {
+	dsyoff?: string;
+	dsblur?: string;
+	save: boolean;
+	preset: string;
+	l: 'auto';
 }
