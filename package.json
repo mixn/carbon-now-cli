@@ -15,8 +15,8 @@
 		"node": ">=14.16"
 	},
 	"scripts": {
-		"dev": "nodemon cli.ts test/test-dummies/_unfold.js",
-		"once": "ts-node --esm cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --interactive --preset twitter --from-clipboard --headless",
+		"dev": "nodemon --exec ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target foo.jpg --interactive --preset twitter --from-clipboard --headless",
+		"once": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target foo.jpg --interactive --preset twitter --from-clipboard --headless",
 		"build": "trash dist/ && tsc",
 		"run:build": "node dist/cli.js test/test-dummies/_unfold.js",
 		"buildrun": "npm run build && npm run run:build",
