@@ -1,5 +1,4 @@
 import { CONFIG_LATEST_PRESET } from '../../helpers/cli/constants.helper.js';
-import { CarbonCLIPromptAnswersInterface } from '../../types/cli/types.js';
 import { mappingsConfig } from '../carbon/mappings.config.js';
 
 export default [

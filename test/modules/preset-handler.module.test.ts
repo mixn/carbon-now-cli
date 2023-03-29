@@ -20,7 +20,7 @@ const deleteDummy = async () => {
 	});
 };
 
-// afterAll(async () => await deleteDummy());
+afterAll(async () => await deleteDummy());
 
 test('Should create config file if one doesn’t exist', async () => {
 	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(

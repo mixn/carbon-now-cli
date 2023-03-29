@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
 import lodash from 'lodash';
-import { CarbonCLIConfig, CarbonCLIPreset } from '../types/cli/types.js';
 import {
 	CONFIG_PATH,
 	CONFIG_LATEST_PRESET,
@@ -13,10 +12,14 @@ class PresetHandler {
 	constructor(private configPath: string = CONFIG_PATH) {}
 
 	private async writeConfig(
-		settings = {},
+		configSettings = {},
 		jsonFileOptions = {}
 	): Promise<void> {
-		await jsonFile.writeFileSync(this.configPath, settings, jsonFileOptions);
+		await jsonFile.writeFileSync(
+			this.configPath,
+			configSettings,
+			jsonFileOptions
+		);
 	}
 
 	private async readConfig(): Promise<CarbonCLIConfig> {
@@ -47,9 +50,13 @@ class PresetHandler {
 
 	async savePreset(
 		preset = CONFIG_LATEST_PRESET,
-		settings = {}
+		presetSettings = {}
 	): Promise<void> {
-		const whiteListedSettings = lodash.omit(settings, ['save', 'preset', 'l']);
+		const whiteListedSettings = lodash.omit(presetSettings, [
+			'save',
+			'preset',
+			'l',
+		]);
 		const currentConfig = await this.readConfig();
 		const upcomingConfig = {
 			...currentConfig,

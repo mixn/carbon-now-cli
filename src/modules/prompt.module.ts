@@ -6,7 +6,6 @@ import {
 	MappingsConfigProperties,
 } from '../config/carbon/mappings.config.js';
 import promptConfig from '../config/cli/prompt.config.js';
-import { CarbonCLIPromptAnswersInterface } from '../types/cli/types.js';
 
 class Prompt {
 	private answers!: CarbonCLIPromptAnswersInterface;
@@ -30,6 +29,10 @@ class Prompt {
 					value as MappingsConfigProperties
 				] ?? value
 		);
+	}
+
+	public get getAnswers() {
+		return this.answers;
 	}
 }
 
