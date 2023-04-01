@@ -116,6 +116,7 @@
 	["ttl", "turtle"],
 	["ts", "application/typescript"],
 	["tsx", "application/typescript"],
+	["txt", "text"],
 	["vb", "vb"],
 	["v", "verilog"],
 	["vhdl", "vhdl"],

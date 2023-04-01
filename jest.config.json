@@ -1,5 +1,4 @@
 {
-	"preset": "ts-jest",
 	"extensionsToTreatAsEsm": [".ts"],
 	"testEnvironment": "node",
 	"moduleNameMapper": {

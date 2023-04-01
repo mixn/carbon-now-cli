@@ -1,5 +1,6 @@
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandler from '../../src/modules/file-handler.module.js';
+import extensionsMap from '../../src/helpers/cli/extensions-map.helper.json';
 
 test('Should correctly processes full length of files', async () => {
 	const [js, rust, html] = [
@@ -8,13 +9,13 @@ test('Should correctly processes full length of files', async () => {
 		'./test/test-dummies/_index.html',
 	];
 	let expected;
-
+	const FileHandlerInstance = new FileHandler();
 	expected = await readFileAsync(js);
-	expect(await FileHandler.process(expected)).toBe(expected);
+	expect(await FileHandlerInstance.process(expected)).toBe(expected);
 	expected = await readFileAsync(rust);
-	expect(await FileHandler.process(expected)).toBe(expected);
+	expect(await FileHandlerInstance.process(expected)).toBe(expected);
 	expected = await readFileAsync(html);
-	expect(await FileHandler.process(expected)).toBe(expected);
+	expect(await FileHandlerInstance.process(expected)).toBe(expected);
 });
 
 test('Should correctly process in between given lines', async () => {
@@ -23,17 +24,26 @@ test('Should correctly process in between given lines', async () => {
 		'./test/test-dummies/_unfold-partial.js',
 		'./test/test-dummies/_unfold-partial-2.js',
 	];
-	expect(await FileHandler.process(await readFileAsync(full), 3, 6)).toBe(
-		await readFileAsync(partial)
-	);
-	expect(await FileHandler.process(await readFileAsync(full), 1, 3)).toBe(
-		await readFileAsync(differentPartial)
-	);
+	const FileHandlerInstance = new FileHandler();
+	expect(
+		await FileHandlerInstance.process(await readFileAsync(full), 3, 6)
+	).toBe(await readFileAsync(partial));
+	expect(
+		await FileHandlerInstance.process(await readFileAsync(full), 1, 3)
+	).toBe(await readFileAsync(differentPartial));
 });
 
 test('Should reject when nonsensical line input given', async () => {
 	const file = './test/test-dummies/_unfold.js';
+	const FileHandlerInstance = new FileHandler();
 	await expect(
-		FileHandler.process(await readFileAsync(file), 5, 1)
+		FileHandlerInstance.process(await readFileAsync(file), 5, 1)
 	).rejects.toEqual('Nonsensical line numbers.');
+});
+
+test('Should correctly return mime type for a given file (extension)', async () => {
+	for (const [extension, mimeType] of extensionsMap) {
+		const FileHandlerInstance = new FileHandler(`name.${extension}`);
+		expect(FileHandlerInstance.getMimeType).toBe(mimeType);
+	}
 });

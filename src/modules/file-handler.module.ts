@@ -1,5 +1,12 @@
+import fileExtension from 'file-extension';
+import extensionsMap from '../helpers/cli/extensions-map.helper.json';
+
 class FileHandler {
-	public static async process(
+	public extensions = new Map([...(extensionsMap as [])]);
+
+	constructor(public file?: string) {}
+
+	public async process(
 		fileContent: string,
 		startLine = 0,
 		endLine = 1000
@@ -19,6 +26,15 @@ class FileHandler {
 					.join(NEW_LINE)
 			);
 		});
+	}
+
+	public get getMimeType() {
+		const extension = fileExtension(this.file, {
+			preserveCase: true,
+		});
+		return this.extensions.has(extension)
+			? this.extensions.get(extension)
+			: 'auto';
 	}
 }
 
