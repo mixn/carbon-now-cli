@@ -16,7 +16,8 @@
 	},
 	"scripts": {
 		"dev": "nodemon --exec ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target foo.jpg --interactive --preset twitter --from-clipboard --headless",
-		"once": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target foo.jpg --interactive --preset twitter --from-clipboard --headless",
+		"once": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target --interactive --preset twitter --from-clipboard --headless",
+		"noflags": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js",
 		"build": "trash dist/ && tsc",
 		"run:build": "node dist/cli.js test/test-dummies/_unfold.js",
 		"buildrun": "npm run build && npm run run:build",
@@ -50,7 +51,7 @@
 		"jsonfile": "^6.1.0",
 		"listr": "^0.14.3",
 		"lodash": "^4.17.21",
-		"meow": "^11.0.0",
+		"meow": "^9.0.0",
 		"nanoid": "^2.0.0",
 		"opn": "^5.4.0",
 		"puppeteer": "^1.11.0",
