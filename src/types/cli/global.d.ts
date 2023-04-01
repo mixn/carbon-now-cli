@@ -1,5 +1,17 @@
 type CarbonCLIThemes = 'Seti' | '3024 Night';
 type CarbonCLIFontFamilies = 'Hack';
+type CarbonCLIFlags =
+	| 'start'
+	| 'end'
+	| 'open'
+	| 'location'
+	| 'target'
+	| 'interactive'
+	| 'preset'
+	| 'config'
+	| 'copy'
+	| 'fromClipboard'
+	| 'headless';
 interface CarbonCLIPresetInterface {
 	t: CarbonThemes;
 	bg: string;
@@ -20,6 +32,11 @@ interface CarbonCLIPresetInterface {
 	es: '1x' | '2x' | '4x';
 	type: 'png' | 'svg';
 }
+declare type MeowOption = {
+	type: string;
+	alias?: string;
+	default?: any;
+};
 
 declare type CarbonCLIPreset = CarbonCLIPresetInterface | {};
 declare interface CarbonCLIConfig {
@@ -43,4 +60,17 @@ declare interface CarbonCLIPromptAnswersMappedInterface
 	t: CarbonThemes;
 	wt: 'none' | 'sharp' | 'bw';
 	fm: CarbonFontFamilies;
+}
+declare interface CarbonCLIFlagsInterface {
+	start: number;
+	end: number;
+	open: boolean;
+	location: string;
+	target?: string;
+	interactive: boolean;
+	preset: string;
+	copy: boolean;
+	config: string;
+	fromClipboard: boolean;
+	headless: boolean;
 }

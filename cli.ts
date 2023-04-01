@@ -7,20 +7,6 @@
 import chalk from 'chalk';
 import PresetHandler from './src/modules/preset-handler.module.js';
 import Prompt from './src/modules/prompt.module.js';
-import {
-	CLI_FILE,
-	FLAG_START,
-	FLAG_END,
-	FLAG_OPEN,
-	FLAG_LOCATION,
-	FLAG_TARGET,
-	FLAG_COPY,
-	FLAG_INTERACTIVE,
-	FLAG_PRESET,
-	FLAG_CONFIG,
-	FLAG_FROM_CLIPBOARD,
-	FLAG_HEADLESS,
-} from './src/modules/meow/index.js';
 import promptConfig from './src/config/cli/prompt.config.js';
 
 // const opn = require('opn');

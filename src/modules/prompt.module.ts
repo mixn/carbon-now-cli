@@ -1,13 +1,18 @@
 import inquirer from 'inquirer';
 import lodash from 'lodash';
+import meow from 'meow';
 import {
 	mappingsConfig,
 	MappingsConfigInterface,
 	MappingsConfigProperties,
 } from '../config/carbon/mappings.config.js';
+import flags from '../config/cli/flags.config.js';
 import promptConfig from '../config/cli/prompt.config.js';
+import defaultView from '../views/default.view.js';
 
 class Prompt {
+	private file!: string;
+	private flags!: CarbonCLIFlagsInterface;
 	private answers!: CarbonCLIPromptAnswersInterface;
 
 	static async create(): Promise<Prompt> {
@@ -17,8 +22,23 @@ class Prompt {
 	}
 
 	private async init() {
-		this.answers = await inquirer.prompt(promptConfig);
+		await this.bootstrapMeow();
+		await this.bootstrapInquirer();
 		this.mapAnswersToCarbonValues();
+	}
+
+	private async bootstrapMeow() {
+		const cli = meow(defaultView, {
+			// TODO: Include this once Jest+ESM problem is fixed
+			// importMeta: import.meta,
+			flags,
+		});
+		this.file = cli.input[0];
+		this.flags = cli.flags as CarbonCLIFlagsInterface;
+	}
+
+	private async bootstrapInquirer() {
+		this.answers = await inquirer.prompt(promptConfig);
 	}
 
 	private mapAnswersToCarbonValues() {
@@ -31,8 +51,16 @@ class Prompt {
 		);
 	}
 
+	public get getFlags() {
+		return this.flags;
+	}
+
 	public get getAnswers() {
 		return this.answers;
+	}
+
+	public get getFile() {
+		return this.file;
 	}
 }
 
