@@ -1,23 +1,39 @@
-type CarbonCLIThemes = 'Seti' | '3024 Night';
-type CarbonCLIFontFamilies = 'Hack';
-type CarbonCLIFlags =
-	| 'start'
-	| 'end'
-	| 'open'
-	| 'location'
-	| 'target'
-	| 'interactive'
-	| 'preset'
-	| 'config'
-	| 'copy'
-	| 'fromClipboard'
-	| 'headless';
+declare type CarbonCLIThemeType =
+	| '3024 Night'
+	| 'A11y Dark'
+	| 'Blackboard'
+	| 'Base 16 (Dark)'
+	| 'Base 16 (Light)'
+	| 'Cobalt'
+	| 'Dracula'
+	| 'Duotone'
+	| 'Hopscotch'
+	| 'Lucario'
+	| 'Material'
+	| 'Monokai'
+	| 'Night Owl'
+	| 'Nord'
+	| 'Oceanic Next'
+	| 'One Light'
+	| 'One Dark'
+	| 'Panda'
+	| 'Paraiso'
+	| 'Seti'
+	| 'Shades of Purple'
+	| 'Solarized (Dark)'
+	| 'Solarized (Light)'
+	| 'SynthWave 84'
+	| 'Twilight'
+	| 'Verminal'
+	| 'VSCode'
+	| 'Yeti'
+	| 'Zenburn';
 interface CarbonCLIPresetInterface {
-	t: CarbonThemes;
+	t: CarbonThemeType;
 	bg: string;
 	wt: 'none' | 'sharp' | 'bw';
 	wc: boolean;
-	fm: CarbonFontFamilies;
+	fm: CarbonFontFamilyType;
 	fs: string;
 	ln: boolean;
 	ds: boolean;
@@ -32,24 +48,24 @@ interface CarbonCLIPresetInterface {
 	es: '1x' | '2x' | '4x';
 	type: 'png' | 'svg';
 }
-declare type MeowOption = {
+declare type MeowOptionType = {
 	type: string;
 	alias?: string;
 	default?: any;
 };
 
-declare type CarbonCLIPreset = CarbonCLIPresetInterface | {};
-declare interface CarbonCLIConfig {
-	[key: string]: CarbonCLIPreset;
+declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
+declare interface CarbonCLIConfigInterface {
+	[key: string]: CarbonCLIPresetInterface;
 }
 // TODO: I don’t think `Omit` is the right utility type here, re-check this
 declare interface CarbonCLIPromptAnswersInterface
 	extends Omit<CarbonCLIPresetInterface, 'dsyoff' | 'dsblur' | 't' | 'wt'> {
 	dsyoff?: string;
 	dsblur?: string;
-	t: CarbonCLIThemes;
+	t: CarbonCLIThemeType;
 	wt: 'None' | 'Sharp' | 'Black & White';
-	fm: CarbonFontFamilies;
+	fm: CarbonFontFamilyType;
 	save: boolean;
 	preset: string;
 	l: 'auto';
@@ -57,9 +73,9 @@ declare interface CarbonCLIPromptAnswersInterface
 // TODO: I don’t think `Omit` is the right utility type here, re-check this
 declare interface CarbonCLIPromptAnswersMappedInterface
 	extends Omit<CarbonCLIPromptAnswersInterface, 't' | 'wt'> {
-	t: CarbonThemes;
+	t: CarbonThemeType;
 	wt: 'none' | 'sharp' | 'bw';
-	fm: CarbonFontFamilies;
+	fm: CarbonFontFamilyType;
 }
 declare interface CarbonCLIFlagsInterface {
 	start: number;

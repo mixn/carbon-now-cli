@@ -22,7 +22,7 @@ class PresetHandler {
 		);
 	}
 
-	private async readConfig(): Promise<CarbonCLIConfig> {
+	private async readConfig(): Promise<CarbonCLIConfigInterface> {
 		const configPath = this.configPath;
 		if (await fileExists(configPath)) {
 			return await jsonFile.readFileSync(configPath);
@@ -39,8 +39,8 @@ class PresetHandler {
 		console.warn(presetMissingView(preset));
 	}
 
-	async getPreset(preset: string): Promise<CarbonCLIPreset> {
-		const currentConfig: CarbonCLIConfig = await this.readConfig();
+	async getPreset(preset: string): Promise<CarbonCLIPresetType> {
+		const currentConfig: CarbonCLIConfigInterface = await this.readConfig();
 		if (preset in currentConfig) {
 			return currentConfig[preset];
 		}

@@ -4,7 +4,7 @@ import meow from 'meow';
 import {
 	mappingsConfig,
 	MappingsConfigInterface,
-	MappingsConfigProperties,
+	MappingsConfigPropertiesType,
 } from '../config/carbon/mappings.config.js';
 import flags from '../config/cli/flags.config.js';
 import promptConfig from '../config/cli/prompt.config.js';
@@ -46,7 +46,7 @@ class Prompt {
 			this.answers,
 			(value, key) =>
 				mappingsConfig[key as keyof MappingsConfigInterface]?.[
-					value as MappingsConfigProperties
+					value as MappingsConfigPropertiesType
 				] ?? value
 		);
 	}
