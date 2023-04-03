@@ -39,7 +39,7 @@ class PresetHandler {
 		console.warn(presetMissingView(preset));
 	}
 
-	async getPreset(preset: string): Promise<CarbonCLIPresetType> {
+	public async getPreset(preset: string): Promise<CarbonCLIPresetType> {
 		const currentConfig: CarbonCLIConfigInterface = await this.readConfig();
 		if (preset in currentConfig) {
 			return currentConfig[preset];
@@ -48,7 +48,7 @@ class PresetHandler {
 		return {};
 	}
 
-	async savePreset(
+	public async savePreset(
 		preset = CONFIG_LATEST_PRESET,
 		presetSettings = {}
 	): Promise<void> {

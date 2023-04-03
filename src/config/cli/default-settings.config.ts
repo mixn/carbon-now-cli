@@ -1,12 +1,8 @@
 // For my own (and others) sanity,
 // this is commented JS, instead of uncommented JSON
-module.exports = {
+const defaultSettings: CarbonCLIPresetInterface = {
 	// Theme
 	t: 'seti',
-	// Language
-	// Detected automatically based on language-map.json,
-	// setting this manually will be ignored
-	l: 'auto',
 	// Background
 	bg: '#ADB7C1',
 	// Window theme
