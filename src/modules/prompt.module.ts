@@ -1,17 +1,23 @@
-import inquirer from 'inquirer';
-import lodash from 'lodash';
 import meow from 'meow';
+import inquirer from 'inquirer';
+import clipboard from 'clipboardy';
+import chalk from 'chalk';
+import lodash from 'lodash';
+import getStdin from 'get-stdin';
 import {
 	mappingsConfig,
 	MappingsConfigInterface,
-	MappingsConfigPropertiesType,
+	MappingsConfigPropertyType,
 } from '../config/carbon/mappings.config.js';
+import readFileAsync from '../utils/read-file-async.util.js';
 import flags from '../config/cli/flags.config.js';
 import promptConfig from '../config/cli/prompt.config.js';
 import defaultView from '../views/default.view.js';
+import usageErrorView from '../views/usage-error.view.js';
 
 class Prompt {
 	private file!: string;
+	private input!: string;
 	private flags!: CarbonCLIFlagsInterface;
 	private answers!: CarbonCLIPromptAnswersInterface;
 
@@ -22,12 +28,12 @@ class Prompt {
 	}
 
 	private async init() {
-		await this.bootstrapMeow();
-		await this.bootstrapInquirer();
-		this.mapAnswersToCarbonValues();
+		await this.initCLIHelper();
+		await this.readInput();
+		await this.initInquirer();
 	}
 
-	private async bootstrapMeow() {
+	private async initCLIHelper() {
 		const cli = meow(defaultView, {
 			// TODO: Include this once Jest+ESM problem is fixed
 			// importMeta: import.meta,
@@ -37,8 +43,26 @@ class Prompt {
 		this.flags = cli.flags as CarbonCLIFlagsInterface;
 	}
 
-	private async bootstrapInquirer() {
-		this.answers = await inquirer.prompt(promptConfig);
+	private async readInput() {
+		const STDIN = await getStdin();
+
+		if (this.file) {
+			this.input = await readFileAsync(this.file);
+		} else if (this.flags.fromClipboard) {
+			this.input = clipboard.readSync();
+		} else if (STDIN) {
+			this.input = STDIN;
+		} else {
+			console.error(usageErrorView);
+			process.exit(1);
+		}
+	}
+
+	private async initInquirer() {
+		if (this.flags.interactive) {
+			this.answers = await inquirer.prompt(promptConfig);
+			this.mapAnswersToCarbonValues();
+		}
 	}
 
 	private mapAnswersToCarbonValues() {
@@ -46,7 +70,7 @@ class Prompt {
 			this.answers,
 			(value, key) =>
 				mappingsConfig[key as keyof MappingsConfigInterface]?.[
-					value as MappingsConfigPropertiesType
+					value as MappingsConfigPropertyType
 				] ?? value
 		);
 	}
@@ -61,6 +85,10 @@ class Prompt {
 
 	public get getFile() {
 		return this.file;
+	}
+
+	public get getInput() {
+		return this.input;
 	}
 }
 

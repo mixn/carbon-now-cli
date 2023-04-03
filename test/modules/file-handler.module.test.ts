@@ -41,7 +41,7 @@ test('Should reject when nonsensical line input given', async () => {
 	).rejects.toEqual('Nonsensical line numbers.');
 });
 
-test('Should correctly return mime type for a given file (extension)', async () => {
+test('Should correctly return mime type for a given file (extension)', () => {
 	for (const [extension, mimeType] of extensionsMap) {
 		const FileHandlerInstance = new FileHandler(`name.${extension}`);
 		expect(FileHandlerInstance.getMimeType).toBe(mimeType);

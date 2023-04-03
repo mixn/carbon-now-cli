@@ -6,3 +6,4 @@ carbon
 assets
 .DS_Store
 dist/
+coverage/

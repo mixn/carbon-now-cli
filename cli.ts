@@ -37,7 +37,11 @@ import promptConfig from './src/config/cli/prompt.config.js';
 // console.log(await readInput(CLI_FILE, FLAG_FROM_CLIPBOARD));
 // console.log(await readInput(undefined, false));
 
-console.log((await Prompt.create()).getAnswers);
+const PromptInstance = await Prompt.create();
+console.log('file ➝\n', PromptInstance.getFile);
+console.log('flags ➝\n', PromptInstance.getFlags);
+console.log('answers ➝\n', PromptInstance.getAnswers);
+console.log('input ➝\n', PromptInstance.getInput);
 
 // // Run main CLI programm
 // (async () => {

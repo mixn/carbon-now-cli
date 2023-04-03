@@ -2,7 +2,7 @@ import fileExtension from 'file-extension';
 import extensionsMap from '../helpers/cli/extensions-map.helper.json';
 
 class FileHandler {
-	public extensions = new Map([...(extensionsMap as [])]);
+	private extensions = new Map([...(extensionsMap as [])]);
 
 	constructor(public file?: string) {}
 
