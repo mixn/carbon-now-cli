@@ -22,7 +22,7 @@ class Prompt {
 	private answers!: CarbonCLIPromptAnswersInterface;
 
 	static async create(): Promise<Prompt> {
-		const PromptInstance = new this();
+		const PromptInstance = new Prompt();
 		await PromptInstance.init();
 		return PromptInstance;
 	}

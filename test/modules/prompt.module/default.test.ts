@@ -68,12 +68,12 @@ beforeEach(() => {
 	};
 });
 
-test('Should work as an async factory', async () => {
+it('Should work as an async factory', async () => {
 	const PromptInstance = await Prompt.create();
 	expect(PromptInstance).toBeInstanceOf(Prompt);
 });
 
-test('Should correctly return mapped answers', async () => {
+it('Should correctly return mapped answers', async () => {
 	// TODO: Type this correctly and get rid of @ts-ignore
 	// @ts-ignore
 	inquirer.prompt.mockResolvedValue(inquirerOutput);
@@ -81,11 +81,11 @@ test('Should correctly return mapped answers', async () => {
 	expect((await Prompt.create()).getAnswers).toEqual(mappedAnswers);
 });
 
-test('Should correctly return <file> name', async () => {
+it('Should correctly return <file> name', async () => {
 	expect((await Prompt.create()).getFile).toBe(DUMMY_FILE);
 });
 
-test('Should correctly return given flags', async () => {
+it('Should correctly return given flags', async () => {
 	expect((await Prompt.create()).getFlags).toEqual({
 		start: 3,
 		end: 100,
@@ -100,7 +100,7 @@ test('Should correctly return given flags', async () => {
 	});
 });
 
-test('Should correctly rename certain flags (based on flags.config)', async () => {
+it('Should correctly rename certain flags (based on flags.config)', async () => {
 	expect(process.argv).toEqual(
 		expect.arrayContaining([
 			'-s',

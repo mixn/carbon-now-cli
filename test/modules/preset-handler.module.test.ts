@@ -22,7 +22,7 @@ const deleteDummy = async () => {
 
 afterAll(async () => await deleteDummy());
 
-test('Should create config file if one doesn’t exist', async () => {
+it('Should create config file if one doesn’t exist', async () => {
 	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
 		DUMMY_PRESET_NAME_1,
 		DUMMY_PRESET_SETTINGS
@@ -30,13 +30,13 @@ test('Should create config file if one doesn’t exist', async () => {
 	expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(true);
 });
 
-test('Should correctly get an existing preset', async () => {
+it('Should correctly get an existing preset', async () => {
 	expect(
 		await new PresetHandler(CONFIG_DUMMY_PATH).getPreset(DUMMY_PRESET_NAME_1)
 	).toEqual(DUMMY_PRESET_SETTINGS);
 });
 
-test('Should append a new preset correctly to an existing config file', async () => {
+it('Should append a new preset correctly to an existing config file', async () => {
 	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
 		DUMMY_PRESET_NAME_2,
 		DUMMY_PRESET_SETTINGS
@@ -50,7 +50,7 @@ test('Should append a new preset correctly to an existing config file', async ()
 	expect(currentConfig).toEqual(shouldEqual);
 });
 
-test('Should return empty preset when config doesn’t exist', async () => {
+it('Should return empty preset when config doesn’t exist', async () => {
 	await deleteDummy();
 	const nonExistentPreset = await new PresetHandler(
 		CONFIG_DUMMY_PATH
@@ -58,14 +58,14 @@ test('Should return empty preset when config doesn’t exist', async () => {
 	expect(nonExistentPreset).toEqual({});
 });
 
-test('Should return empty preset when no matching preset is found', async () => {
+it('Should return empty preset when no matching preset is found', async () => {
 	const nonExistentPreset = await new PresetHandler(
 		CONFIG_DUMMY_PATH
 	).getPreset('nope');
 	expect(nonExistentPreset).toEqual({});
 });
 
-test('Should handle multiple preset saves correctly', async () => {
+it('Should handle multiple preset saves correctly', async () => {
 	await deleteDummy();
 	const PresetHandlerInstance = new PresetHandler(CONFIG_DUMMY_PATH);
 	await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_1, {

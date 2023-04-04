@@ -7,7 +7,7 @@ jest.mock('get-stdin');
 
 process.argv.push('--from-clipboard');
 
-test('Should correctly accept input from clipboard if --from-clipboard is set', async () => {
+it('Should correctly accept input from clipboard if --from-clipboard is set', async () => {
 	clipboard.writeSync(DUMMY_INPUT);
 	expect((await Prompt.create()).getFile).toBe(undefined);
 	expect((await Prompt.create()).getInput).toBe(DUMMY_INPUT);

@@ -2,7 +2,7 @@ import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandler from '../../src/modules/file-handler.module.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.json';
 
-test('Should correctly processes full length of files', async () => {
+it('Should correctly processes full length of files', async () => {
 	const [js, rust, html] = [
 		'./test/test-dummies/_unfold.js',
 		'./test/test-dummies/_main.rs',
@@ -18,7 +18,7 @@ test('Should correctly processes full length of files', async () => {
 	expect(await FileHandlerInstance.process(expected)).toBe(expected);
 });
 
-test('Should correctly process in between given lines', async () => {
+it('Should correctly process in between given lines', async () => {
 	const [full, partial, differentPartial] = [
 		'./test/test-dummies/_unfold.js',
 		'./test/test-dummies/_unfold-partial.js',
@@ -33,7 +33,7 @@ test('Should correctly process in between given lines', async () => {
 	).toBe(await readFileAsync(differentPartial));
 });
 
-test('Should reject when nonsensical line input given', async () => {
+it('Should reject when nonsensical line input given', async () => {
 	const file = './test/test-dummies/_unfold.js';
 	const FileHandlerInstance = new FileHandler();
 	await expect(
@@ -41,7 +41,7 @@ test('Should reject when nonsensical line input given', async () => {
 	).rejects.toEqual('Nonsensical line numbers.');
 });
 
-test('Should correctly return mime type for a given file (extension)', () => {
+it('Should correctly return mime type for a given file (extension)', () => {
 	for (const [extension, mimeType] of extensionsMap) {
 		const FileHandlerInstance = new FileHandler(`name.${extension}`);
 		expect(FileHandlerInstance.getMimeType).toBe(mimeType);

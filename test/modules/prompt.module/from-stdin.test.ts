@@ -4,7 +4,7 @@ import { DUMMY_INPUT } from '../../helpers/constants.helper.js';
 
 jest.mock('get-stdin');
 
-test('Should correctly handle input from stdin', async () => {
+it('Should correctly handle input from stdin', async () => {
 	// TODO: Type this correctly and get rid of @ts-ignore
 	// @ts-ignore
 	getStdin.mockResolvedValue(DUMMY_INPUT);
