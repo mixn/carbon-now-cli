@@ -1,5 +1,5 @@
 import fileExtension from 'file-extension';
-import extensionsMap from '../helpers/cli/extensions-map.helper.json';
+import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
 class FileHandler {
 	private extensions = new Map([...(extensionsMap as [])]);

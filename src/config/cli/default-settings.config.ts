@@ -1,6 +1,6 @@
 // For my own (and others) sanity,
 // this is commented JS, instead of uncommented JSON
-const defaultSettings: CarbonCLIPresetInterface = {
+const defaultSettings: CarbonCLIPromptAnswersMappedInterface = {
 	// Theme
 	t: 'seti',
 	// Background
@@ -43,3 +43,5 @@ const defaultSettings: CarbonCLIPresetInterface = {
 	// 'png', 'svg'
 	type: 'png',
 };
+
+export default defaultSettings;

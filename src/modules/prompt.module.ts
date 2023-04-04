@@ -44,14 +44,16 @@ class Prompt {
 	}
 
 	private async readInput() {
-		const STDIN = await getStdin();
+		// TODO: Rewrite this Promise resolve/reject
+		// + move process.exit() to main CLI module
+		const stdin = await getStdin();
 
 		if (this.file) {
 			this.input = await readFileAsync(this.file);
 		} else if (this.flags.fromClipboard) {
 			this.input = clipboard.readSync();
-		} else if (STDIN) {
-			this.input = STDIN;
+		} else if (stdin) {
+			this.input = stdin;
 		} else {
 			console.error(usageErrorView);
 			process.exit(1);

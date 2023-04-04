@@ -1,5 +1,4 @@
 import clipboard from 'clipboardy';
-import getStdin from 'get-stdin';
 import Prompt from '../../../src/modules/prompt.module.js';
 import { DUMMY_INPUT } from '../../helpers/constants.helper.js';
 

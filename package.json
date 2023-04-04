@@ -17,7 +17,7 @@
 	"scripts": {
 		"dev": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target --interactive --preset twitter --from-clipboard --headless",
 		"watch": "nodemon --exec ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open --location ~/Desktop --target foo.jpg --interactive --preset twitter --from-clipboard --headless",
-		"dev:flagless": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js",
+		"dev:noflags": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js",
 		"build": "trash dist/ && tsc",
 		"run:build": "node dist/cli.js test/test-dummies/_unfold.js",
 		"buildrun": "npm run build && npm run run:build",

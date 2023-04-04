@@ -1,4 +1,3 @@
-import getStdin from 'get-stdin';
 import Prompt from '../../../src/modules/prompt.module.js';
 import readFileAsync from '../../../src/utils/read-file-async.util.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';

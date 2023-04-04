@@ -47,6 +47,7 @@ interface CarbonCLIPresetInterface {
 	wm: boolean;
 	es: '1x' | '2x' | '4x';
 	type: 'png' | 'svg';
+	preset?: string;
 }
 declare type MeowOptionType = {
 	type: string;
@@ -76,6 +77,9 @@ declare interface CarbonCLIPromptAnswersMappedInterface
 	t: CarbonThemeType;
 	wt: 'none' | 'sharp' | 'bw';
 	fm: CarbonFontFamilyType;
+	l?: string;
+	preset?: string;
+	save?: boolean;
 }
 declare interface CarbonCLIFlagsInterface {
 	start: number;

@@ -1,8 +1,6 @@
 import inquirer from 'inquirer';
-import getStdin from 'get-stdin';
 import Prompt from '../../../src/modules/prompt.module.js';
 import promptConfig from '../../../src/config/cli/prompt.config.js';
-import readFileAsync from '../../../src/utils/read-file-async.util.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
 
 let inquirerOutput: CarbonCLIPromptAnswersInterface;
