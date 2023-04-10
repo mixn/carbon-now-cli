@@ -34,13 +34,13 @@ class Prompt {
 	}
 
 	private async initCLIHelper() {
-		const cli = meow(defaultView, {
+		const cliHelper = meow(defaultView, {
 			// TODO: Include this once Jest+ESM problem is fixed
 			// importMeta: import.meta,
 			flags,
 		});
-		this.file = cli.input[0];
-		this.flags = cli.flags as CarbonCLIFlagsInterface;
+		this.file = cliHelper.input[0];
+		this.flags = cliHelper.flags as CarbonCLIFlagsInterface;
 	}
 
 	private async readInput() {

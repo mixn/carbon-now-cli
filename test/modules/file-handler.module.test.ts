@@ -2,7 +2,7 @@ import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandler from '../../src/modules/file-handler.module.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.js';
 
-it('Should correctly processes full length of files', async () => {
+it('Should correctly process full length of files', async () => {
 	const [js, rust, html] = [
 		'./test/test-dummies/_unfold.js',
 		'./test/test-dummies/_main.rs',

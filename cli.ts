@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 import task from 'tasuku';
+import queryString from 'query-string';
+import open from 'open';
+
 import PromptModule from './src/modules/prompt.module.js';
 import PresetHandlerModule from './src/modules/preset-handler.module.js';
 import FileHandlerModule from './src/modules/file-handler.module.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import errorView from './src/views/error.view.js';
+import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
 
 const Prompt = await PromptModule.create();
 const file = Prompt.getFile;
@@ -15,6 +19,7 @@ const PresentHandler = new PresetHandlerModule();
 const FileHandler = new FileHandlerModule(file);
 let presetSettings = {
 	...defaultSettings,
+	l: FileHandler.getMimeType,
 };
 
 // If --preset, get it and merge with defaults
@@ -39,7 +44,8 @@ if (!flags.config) {
 	await PresentHandler.savePreset(presetSettings.preset, presetSettings);
 }
 
-const processingTask = await task(
+// Task 1: Process and encode file
+const { result: encodedContent } = await task(
 	`Processing ${
 		file || (flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
 	}`,
@@ -56,6 +62,23 @@ const processingTask = await task(
 	}
 );
 
+// Task 2: Prepare URL
+const { result: preparedURL } = await task(
+	'Preparing connection',
+	async () =>
+		`${CARBON_URL}?${queryString.stringify({
+			...presetSettings,
+			code: encodedContent,
+		})}`
+);
+
+// Task 3: Open image in browser or download image
+if (flags.open) {
+	task('Opening in browser', () => open(preparedURL));
+} else {
+	await task('Fetching beautiful image', async () => {});
+}
+
 // console.log(
 // 	'\n FILE: \n',
 // 	file,
@@ -66,5 +89,9 @@ const processingTask = await task(
 // 	'\n INPUT: \n',
 // 	input,
 // 	'\n PRESET SETTINGS: \n',
-// 	presetSettings
+// 	presetSettings,
+// 	'\n encodedContent: \n',
+// 	encodedContent,
+// 	'\n preparedURL: \n',
+// 	preparedURL
 // );
