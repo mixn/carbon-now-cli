@@ -1,5 +1,8 @@
-import { nanoid } from 'nanoid';
 import tempy from 'tempy';
+import fs from 'fs';
+import mock from 'mock-fs';
+import { nanoid } from 'nanoid';
+import fileExists from 'file-exists';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandlerModule from '../../src/modules/file-handler.module.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.js';
@@ -178,5 +181,29 @@ describe('FileHandlerModule', () => {
 		expect(FileHandler2.getPath).toBe(
 			`${DUMMY_LOCATION}/_unfold-123456789.svg`
 		);
+	});
+
+	it('should rename a file correctly', async () => {
+		expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(false);
+		// https://github.com/tschaub/mock-fs#example
+		mock({
+			[DUMMY_DEFAULT_FILE_NAME]: Buffer.from([8, 6, 7, 5, 3, 0, 9]),
+		});
+		expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(true);
+		const FileHandler = new FileHandlerModule();
+		FileHandler.setImgType = 'png';
+		FileHandler.setFlags = {
+			copy: false,
+			target: undefined,
+			location: process.cwd(),
+		} as CarbonCLIFlagsInterface;
+		expect(await fileExists(FileHandler.getDownloadedAsPath)).toBe(true);
+		await FileHandler.rename(
+			FileHandler.getDownloadedAsPath,
+			FileHandler.getSavedAsPath
+		);
+		expect(await fileExists(FileHandler.getDownloadedAsPath)).toBe(false);
+		expect(await fileExists(FileHandler.getSavedAsPath)).toBe(true);
+		mock.restore();
 	});
 });

@@ -17,6 +17,7 @@ const answers = Prompt.getAnswers;
 const input = Prompt.getInput;
 const PresentHandler = new PresetHandlerModule();
 const FileHandler = new FileHandlerModule(file);
+
 let presetSettings = {
 	...defaultSettings,
 	l: FileHandler.getMimeType,
@@ -76,7 +77,14 @@ const { result: preparedURL } = await task(
 if (flags.open) {
 	task('Opening in browser', () => open(preparedURL));
 } else {
-	await task('Fetching beautiful image', async () => {});
+	task('Fetching beautiful image', async () => {
+		FileHandler.setFlags = flags;
+		FileHandler.setImgType = presetSettings.type;
+		await FileHandler.rename(
+			FileHandler.getDownloadedAsPath,
+			FileHandler.getSavedAsPath
+		);
+	});
 }
 
 // console.log(

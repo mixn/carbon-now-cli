@@ -1,8 +1,9 @@
 import tempy from 'tempy';
 import fileExtension from 'file-extension';
-import { EOL } from 'os';
 import { basename, extname } from 'path';
 import { nanoid } from 'nanoid';
+import { EOL } from 'os';
+import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
 class FileHandler {
@@ -34,6 +35,12 @@ class FileHandler {
 					.join(EOL)
 			);
 		});
+	}
+
+	public async rename(from: string, to: string) {
+		if (!this.flags.copy) {
+			await rename(from, to);
+		}
 	}
 
 	public set setImgType(imgType: CarbonCLIPresetInterface['type']) {
