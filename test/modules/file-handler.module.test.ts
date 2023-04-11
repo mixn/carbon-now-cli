@@ -20,7 +20,7 @@ beforeEach(() => {
 	);
 });
 
-describe('FileHandler module', () => {
+describe('FileHandlerModule', () => {
 	it('should process full length of files correctly', async () => {
 		const [js, rust, html] = [
 			'./test/test-dummies/_unfold.js',

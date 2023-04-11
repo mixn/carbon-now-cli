@@ -6,8 +6,10 @@ jest.mock('get-stdin');
 
 process.argv.push(DUMMY_FILE);
 
-it('Should correctly handle input from <file>', async () => {
-	const PromptInstance = await Prompt.create();
-	expect(PromptInstance.getFile).toBe(DUMMY_FILE);
-	expect(PromptInstance.getInput).toBe(await readFileAsync(DUMMY_FILE));
+describe('PromptModule via <file>', () => {
+	it('should handle input from <file> correctly', async () => {
+		const PromptInstance = await Prompt.create();
+		expect(PromptInstance.getFile).toBe(DUMMY_FILE);
+		expect(PromptInstance.getInput).toBe(await readFileAsync(DUMMY_FILE));
+	});
 });

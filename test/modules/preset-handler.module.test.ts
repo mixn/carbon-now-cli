@@ -22,61 +22,63 @@ const deleteDummy = async () => {
 
 afterAll(async () => await deleteDummy());
 
-it('Should create config file if one doesn’t exist', async () => {
-	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
-		DUMMY_PRESET_NAME_1,
-		DUMMY_PRESET_SETTINGS
-	);
-	expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(true);
-});
-
-it('Should correctly get an existing preset', async () => {
-	expect(
-		await new PresetHandler(CONFIG_DUMMY_PATH).getPreset(DUMMY_PRESET_NAME_1)
-	).toEqual(DUMMY_PRESET_SETTINGS);
-});
-
-it('Should append a new preset correctly to an existing config file', async () => {
-	await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
-		DUMMY_PRESET_NAME_2,
-		DUMMY_PRESET_SETTINGS
-	);
-	const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
-	const shouldEqual = {
-		[DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
-		[DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
-		[CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
-	};
-	expect(currentConfig).toEqual(shouldEqual);
-});
-
-it('Should return empty preset when config doesn’t exist', async () => {
-	await deleteDummy();
-	const nonExistentPreset = await new PresetHandler(
-		CONFIG_DUMMY_PATH
-	).getPreset(DUMMY_PRESET_NAME_1);
-	expect(nonExistentPreset).toEqual({});
-});
-
-it('Should return empty preset when no matching preset is found', async () => {
-	const nonExistentPreset = await new PresetHandler(
-		CONFIG_DUMMY_PATH
-	).getPreset('nope');
-	expect(nonExistentPreset).toEqual({});
-});
-
-it('Should handle multiple preset saves correctly', async () => {
-	await deleteDummy();
-	const PresetHandlerInstance = new PresetHandler(CONFIG_DUMMY_PATH);
-	await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_1, {
-		foo: 'foo',
+describe('PresetHandlerModule', () => {
+	it('should create config file if one doesn’t exist', async () => {
+		await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
+			DUMMY_PRESET_NAME_1,
+			DUMMY_PRESET_SETTINGS
+		);
+		expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(true);
 	});
-	await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_2, {
-		bar: 'bar',
+
+	it('should get an existing preset correctly', async () => {
+		expect(
+			await new PresetHandler(CONFIG_DUMMY_PATH).getPreset(DUMMY_PRESET_NAME_1)
+		).toEqual(DUMMY_PRESET_SETTINGS);
 	});
-	expect(await readFileSync(CONFIG_DUMMY_PATH)).toEqual({
-		[DUMMY_PRESET_NAME_1]: { foo: 'foo' },
-		[DUMMY_PRESET_NAME_2]: { bar: 'bar' },
-		[CONFIG_LATEST_PRESET]: { bar: 'bar' },
+
+	it('should append a new preset to an existing config file correctly', async () => {
+		await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
+			DUMMY_PRESET_NAME_2,
+			DUMMY_PRESET_SETTINGS
+		);
+		const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
+		const shouldEqual = {
+			[DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
+			[DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
+			[CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
+		};
+		expect(currentConfig).toEqual(shouldEqual);
+	});
+
+	it('should return an empty preset when a config doesn’t exist', async () => {
+		await deleteDummy();
+		const nonExistentPreset = await new PresetHandler(
+			CONFIG_DUMMY_PATH
+		).getPreset(DUMMY_PRESET_NAME_1);
+		expect(nonExistentPreset).toEqual({});
+	});
+
+	it('should return empty preset when no matching preset is found', async () => {
+		const nonExistentPreset = await new PresetHandler(
+			CONFIG_DUMMY_PATH
+		).getPreset('nope');
+		expect(nonExistentPreset).toEqual({});
+	});
+
+	it('should handle multiple preset saves correctly', async () => {
+		await deleteDummy();
+		const PresetHandlerInstance = new PresetHandler(CONFIG_DUMMY_PATH);
+		await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_1, {
+			foo: 'foo',
+		});
+		await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_2, {
+			bar: 'bar',
+		});
+		expect(await readFileSync(CONFIG_DUMMY_PATH)).toEqual({
+			[DUMMY_PRESET_NAME_1]: { foo: 'foo' },
+			[DUMMY_PRESET_NAME_2]: { bar: 'bar' },
+			[CONFIG_LATEST_PRESET]: { bar: 'bar' },
+		});
 	});
 });
