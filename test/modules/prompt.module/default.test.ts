@@ -72,9 +72,9 @@ it('Should work as an async factory', async () => {
 });
 
 it('Should correctly return mapped answers', async () => {
-	// TODO: Type this correctly and get rid of @ts-ignore
-	// @ts-ignore
-	inquirer.prompt.mockResolvedValue(inquirerOutput);
+	(inquirer as jest.Mocked<typeof inquirer>).prompt.mockResolvedValue(
+		inquirerOutput
+	);
 	expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);
 	expect((await Prompt.create()).getAnswers).toEqual(mappedAnswers);
 });
