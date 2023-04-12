@@ -9,7 +9,6 @@ import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 class FileHandler {
 	private imgType!: CarbonCLIPresetInterface['type'];
 	private flags!: CarbonCLIFlagsInterface;
-	// TODO: Type better
 	private extensions = new Map<string, string>([
 		...(extensionsMap as [[string, string]]),
 	]);

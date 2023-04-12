@@ -32,11 +32,11 @@ describe('FileHandlerModule', () => {
 		];
 		let expected;
 		const FileHandler = new FileHandlerModule();
-		expected = await readFileAsync(js);
+		expected = (await readFileAsync(js)) as string;
 		expect(await FileHandler.process(expected)).toBe(expected);
-		expected = await readFileAsync(rust);
+		expected = (await readFileAsync(rust)) as string;
 		expect(await FileHandler.process(expected)).toBe(expected);
-		expected = await readFileAsync(html);
+		expected = (await readFileAsync(html)) as string;
 		expect(await FileHandler.process(expected)).toBe(expected);
 	});
 
@@ -47,19 +47,19 @@ describe('FileHandlerModule', () => {
 			'./test/test-dummies/_unfold-partial-2.js',
 		];
 		const FileHandler = new FileHandlerModule();
-		expect(await FileHandler.process(await readFileAsync(full), 3, 6)).toBe(
-			await readFileAsync(partial)
-		);
-		expect(await FileHandler.process(await readFileAsync(full), 1, 3)).toBe(
-			await readFileAsync(differentPartial)
-		);
+		expect(
+			await FileHandler.process((await readFileAsync(full)) as string, 3, 6)
+		).toBe((await readFileAsync(partial)) as string);
+		expect(
+			await FileHandler.process((await readFileAsync(full)) as string, 1, 3)
+		).toBe(await readFileAsync(differentPartial));
 	});
 
 	it('should reject when nonsensical line input given', async () => {
 		const file = './test/test-dummies/_unfold.js';
 		const FileHandler = new FileHandlerModule();
 		await expect(
-			FileHandler.process(await readFileAsync(file), 5, 1)
+			FileHandler.process((await readFileAsync(file)) as string, 5, 1)
 		).rejects.toEqual('Nonsensical line numbers.');
 	});
 

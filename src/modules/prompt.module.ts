@@ -49,7 +49,7 @@ class Prompt {
 		const stdin = await getStdin();
 
 		if (this.file) {
-			this.input = await readFileAsync(this.file);
+			this.input = (await readFileAsync(this.file)) as string;
 		} else if (this.flags.fromClipboard) {
 			this.input = clipboard.readSync();
 		} else if (stdin) {
