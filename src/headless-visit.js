@@ -1,7 +1,7 @@
 // Packages
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
-module.exports = async ({
+export default async ({
 	url,
 	location = process.cwd(),
 	type = 'png',

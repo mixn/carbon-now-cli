@@ -12,6 +12,7 @@ class FileHandler {
 	private extensions = new Map<string, string>([
 		...(extensionsMap as [[string, string]]),
 	]);
+	private tempDirectory = tempy.directory();
 
 	constructor(public file?: string) {}
 
@@ -22,7 +23,7 @@ class FileHandler {
 	): Promise<string> {
 		return new Promise((resolve, reject) => {
 			if (startLine > endLine) {
-				return reject('Nonsensical line numbers.');
+				return reject(new Error('Nonsensical line numbers.'));
 			}
 			resolve(
 				fileContent
@@ -37,9 +38,7 @@ class FileHandler {
 	}
 
 	public async rename(from: string, to: string) {
-		if (!this.flags.copy) {
-			await rename(from, to);
-		}
+		await rename(from, to);
 	}
 
 	public set setImgType(imgType: CarbonCLIPresetInterface['type']) {
@@ -60,7 +59,7 @@ class FileHandler {
 	}
 
 	public get getSaveDirectory() {
-		return this.flags.copy ? tempy.directory() : this.flags.location;
+		return this.flags.copy ? this.tempDirectory : this.flags.location;
 	}
 
 	public get getOriginalFileName() {

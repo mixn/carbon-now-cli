@@ -60,7 +60,7 @@ describe('FileHandlerModule', () => {
 		const FileHandler = new FileHandlerModule();
 		await expect(
 			FileHandler.process((await readFileAsync(file)) as string, 5, 1)
-		).rejects.toEqual('Nonsensical line numbers.');
+		).rejects.toEqual(new Error('Nonsensical line numbers.'));
 	});
 
 	it('should return mime type for a given file (extension) correctly', () => {

@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-import task from 'tasuku';
 import queryString from 'query-string';
 import open from 'open';
 import { clipboard } from 'clipboard-sys';
-
+import { Listr } from 'listr2';
 import PromptModule from './src/modules/prompt.module.js';
 import PresetHandlerModule from './src/modules/preset-handler.module.js';
 import FileHandlerModule from './src/modules/file-handler.module.js';
+import Render from './src/headless-visit.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
-import { DEFAULT_TASK_WARNING } from './src/helpers/cli/constants.helper.js';
 
 const Prompt = await PromptModule.create();
 const file = Prompt.getFile;
@@ -20,7 +19,8 @@ const answers = Prompt.getAnswers;
 const input = Prompt.getInput;
 const PresentHandler = new PresetHandlerModule();
 const FileHandler = new FileHandlerModule(file);
-
+FileHandler.setFlags = flags;
+const TaskList = new Listr([]);
 let presetSettings = {
 	...defaultSettings,
 	l: FileHandler.getMimeType,
@@ -49,69 +49,86 @@ if (!flags.config) {
 }
 
 // Task 1: Process and encode input
-const { result: encodedContent } = await task(
-	`Processing ${
-		file || (flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
-	}`,
-	async () => {
-		try {
-			return encodeURIComponent(
+TaskList.add([
+	{
+		title: `Processing ${
+			file ||
+			(flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
+		}`,
+		task: async (ctx) => {
+			ctx.encodedContent = encodeURIComponent(
 				await FileHandler.process(input, flags.start, flags.end)
 			);
-		} catch (e) {
-			console.error(defaultErrorView((e as Error).message));
-			process.exit(1);
-		}
-	}
-);
+		},
+	},
+]);
 
 // Task 2: Prepare URL
-const { result: preparedURL } = await task(
-	'Preparing connection',
-	async () =>
-		`${CARBON_URL}?${queryString.stringify({
-			...presetSettings,
-			code: encodedContent,
-		})}`
-);
+TaskList.add([
+	{
+		title: 'Preparing connection',
+		task: (ctx) => {
+			ctx.preparedURL = `${CARBON_URL}?${queryString.stringify({
+				...presetSettings,
+				code: ctx.encodedContent,
+			})}`;
+			FileHandler.setImgType = presetSettings.type;
+		},
+	},
+]);
 
-// Task 3: Open image in browser or download image (skippable)
-task('Opening in browser', async ({ setWarning }) => {
-	flags.open ? open(preparedURL) : setWarning(DEFAULT_TASK_WARNING);
-});
+// Task 3: Open image in browser or download image [skippable]
+TaskList.add([
+	{
+		title: 'Opening in browser',
+		skip: !flags.open,
+		task: ({ preparedURL }) => {
+			open(preparedURL);
+		},
+	},
+]);
 
-// Task 4: Fetch image + rename it (skippable)
-task('Fetching beautiful image', async ({ setError, setWarning }) => {
-	if (!flags.open) {
-		FileHandler.setFlags = flags;
-		FileHandler.setImgType = presetSettings.type;
-		try {
-			await FileHandler.rename(
-				FileHandler.getDownloadedAsPath,
-				FileHandler.getSavedAsPath
-			);
-		} catch (e) {
-			setError((e as Error).message);
-		}
-	} else {
-		setWarning(DEFAULT_TASK_WARNING);
-	}
-});
+// Task 4: Fetch image + rename it [skippable]
+TaskList.add([
+	{
+		title: 'Fetching beautiful image',
+		skip: flags.open,
+		task: async ({ preparedURL }) => {
+			await Render({
+				url: preparedURL,
+				location: FileHandler.getSaveDirectory,
+				type: 'png',
+				headless: false,
+			});
+			if (!flags.copy) {
+				await FileHandler.rename(
+					FileHandler.getDownloadedAsPath,
+					FileHandler.getSavedAsPath
+				);
+			}
+		},
+	},
+]);
 
-// Task 5: Copy image to clipboard (skippable)
-task('Copying image to clipboard', async ({ setError, setWarning }) => {
-	if (flags.copy && !flags.open) {
-		try {
+// Task 5: Copy image to clipboard [skippable]
+TaskList.add([
+	{
+		title: 'Copying image to clipboard',
+		skip: !flags.copy || flags.open,
+		task: async ({ preparedURL }) => {
 			await clipboard.writeImage(
-				await readFileAsync(FileHandler.getSavedAsPath, null)
+				await readFileAsync(FileHandler.getDownloadedAsPath, false)
 			);
-		} catch (e) {
-			setError((e as Error).message);
-		}
-	} else {
-		setWarning(DEFAULT_TASK_WARNING);
-	}
-});
+		},
+	},
+]);
+
+try {
+	await TaskList.run();
+} catch (e) {
+	console.error(defaultErrorView((e as Error).message));
+	process.exit(1);
+}
 
 // console.log(
 // 	'\n FILE: \n',
@@ -124,8 +141,4 @@ task('Copying image to clipboard', async ({ setError, setWarning }) => {
 // 	input,
 // 	'\n PRESET SETTINGS: \n',
 // 	presetSettings,
-// 	'\n encodedContent: \n',
-// 	encodedContent,
-// 	'\n preparedURL: \n',
-// 	preparedURL
 // );
