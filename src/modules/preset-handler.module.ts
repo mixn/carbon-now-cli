@@ -2,14 +2,15 @@ import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
 import lodash from 'lodash';
+import { EOL } from 'os';
 import {
 	CONFIG_PATH,
 	CONFIG_LATEST_PRESET,
 } from '../helpers/cli/constants.helper.js';
 import presetMissingView from '../views/preset-missing.view.js';
 
-class PresetHandler {
-	constructor(private configPath: string = CONFIG_PATH) {}
+export default class PresetHandler {
+	constructor(private readonly configPath: string = CONFIG_PATH) {}
 
 	private async writeConfig(
 		configSettings = {},
@@ -67,9 +68,7 @@ class PresetHandler {
 		};
 		await this.writeConfig(upcomingConfig, {
 			spaces: 2,
-			EOL: '\r\n',
+			EOL,
 		});
 	}
 }
-
-export default PresetHandler;

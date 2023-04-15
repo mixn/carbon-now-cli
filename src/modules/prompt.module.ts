@@ -15,7 +15,7 @@ import promptConfig from '../config/cli/prompt.config.js';
 import defaultView from '../views/default.view.js';
 import usageErrorView from '../views/usage-error.view.js';
 
-class Prompt {
+export default class Prompt {
 	private file!: string;
 	private input!: string;
 	private flags!: CarbonCLIFlagsInterface;
@@ -27,13 +27,13 @@ class Prompt {
 		return PromptInstance;
 	}
 
-	private async init() {
+	private async init(): Promise<void> {
 		await this.initCLIHelper();
 		await this.readInput();
 		await this.initInquirer();
 	}
 
-	private async initCLIHelper() {
+	private async initCLIHelper(): Promise<void> {
 		const cliHelper = meow(defaultView, {
 			// TODO: Include this once Jest+ESM problem is fixed
 			// importMeta: import.meta,
@@ -43,7 +43,7 @@ class Prompt {
 		this.flags = cliHelper.flags as CarbonCLIFlagsInterface;
 	}
 
-	private async readInput() {
+	private async readInput(): Promise<void> {
 		// TODO: Rewrite this Promise resolve/reject
 		// + move process.exit() to main CLI module
 		const stdin = await getStdin();
@@ -60,14 +60,14 @@ class Prompt {
 		}
 	}
 
-	private async initInquirer() {
+	private async initInquirer(): Promise<void> {
 		if (this.flags.interactive) {
 			this.answers = await inquirer.prompt(promptConfig);
 			this.mapAnswersToCarbonValues();
 		}
 	}
 
-	private mapAnswersToCarbonValues() {
+	private mapAnswersToCarbonValues(): void {
 		this.answers = lodash.mapValues(
 			this.answers,
 			(value, key) =>
@@ -77,21 +77,19 @@ class Prompt {
 		);
 	}
 
-	public get getFlags() {
+	public get getFlags(): CarbonCLIFlagsInterface {
 		return this.flags;
 	}
 
-	public get getAnswers() {
+	public get getAnswers(): CarbonCLIPromptAnswersInterface {
 		return this.answers;
 	}
 
-	public get getFile() {
+	public get getFile(): string {
 		return this.file;
 	}
 
-	public get getInput() {
+	public get getInput(): string {
 		return this.input;
 	}
 }
-
-export default Prompt;

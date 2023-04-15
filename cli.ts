@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 import queryString from 'query-string';
 import open from 'open';
+import chalk from 'chalk';
+import terminalImage from 'terminal-image';
+import updateNotifier from 'update-notifier';
 import { clipboard } from 'clipboard-sys';
 import { Listr } from 'listr2';
+
 import PromptModule from './src/modules/prompt.module.js';
 import PresetHandlerModule from './src/modules/preset-handler.module.js';
 import FileHandlerModule from './src/modules/file-handler.module.js';
-import Render from './src/headless-visit.js';
+import RenderModule from './src/headless-visit.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
+import defaultSuccessView from './src/views/default-success.view.js';
+import packageJson from './package.json' assert { type: 'json' };
 import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
 
 const Prompt = await PromptModule.create();
@@ -26,7 +32,7 @@ let presetSettings = {
 	l: FileHandler.getMimeType,
 };
 
-// If --preset set, get the preset and merge it with defaults
+// If --preset set, merge the preset into defaults
 if (flags.preset) {
 	presetSettings = {
 		...presetSettings,
@@ -34,7 +40,7 @@ if (flags.preset) {
 	};
 }
 
-// --interactive has highest priority, even when --preset is set
+// --interactive has highest priority, even with --preset
 if (flags.interactive) {
 	presetSettings = {
 		...presetSettings,
@@ -43,7 +49,7 @@ if (flags.interactive) {
 	};
 }
 
-// If not a local --config, always save the latest run
+// As long as it’s not a local --config, always save the latest run
 if (!flags.config) {
 	await PresentHandler.savePreset(presetSettings.preset, presetSettings);
 }
@@ -94,7 +100,7 @@ TaskList.add([
 		title: 'Fetching beautiful image',
 		skip: flags.open,
 		task: async ({ preparedURL }) => {
-			await Render({
+			await RenderModule({
 				url: preparedURL,
 				location: FileHandler.getSaveDirectory,
 				type: 'png',
@@ -125,6 +131,9 @@ TaskList.add([
 
 try {
 	await TaskList.run();
+	console.log(await defaultSuccessView(flags, FileHandler.getPath));
+	updateNotifier({ pkg: packageJson }).notify();
+	process.exit();
 } catch (e) {
 	console.error(defaultErrorView((e as Error).message));
 	process.exit(1);
