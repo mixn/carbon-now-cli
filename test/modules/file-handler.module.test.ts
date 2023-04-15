@@ -21,6 +21,9 @@ beforeEach(() => {
 	(tempy as jest.Mocked<typeof tempy>).directory.mockReturnValue(
 		DUMMY_TEMP_FOLDER
 	);
+	// TODO: Type this correctly and get rid of @ts-ignore
+	// @ts-ignore
+	nanoid.mockReturnValue('123456789');
 });
 
 describe('FileHandlerModule', () => {
@@ -87,9 +90,6 @@ describe('FileHandlerModule', () => {
 		FileHandler2.setFlags = {
 			target: undefined,
 		} as CarbonCLIFlagsInterface;
-		// TODO: Type this correctly and get rid of @ts-ignore
-		// @ts-ignore
-		nanoid.mockReturnValue('123456789');
 		expect(FileHandler2.getNewFileName).toBe('_unfold-123456789');
 	});
 

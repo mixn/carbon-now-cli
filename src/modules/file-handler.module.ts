@@ -6,13 +6,14 @@ import { EOL } from 'os';
 import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
-class FileHandler {
+export default class FileHandler {
 	private imgType!: CarbonCLIPresetInterface['type'];
 	private flags!: CarbonCLIFlagsInterface;
-	private extensions = new Map<string, string>([
+	private readonly extensions = new Map<string, string>([
 		...(extensionsMap as [[string, string]]),
 	]);
-	private tempDirectory = tempy.directory();
+	private readonly tempDirectory = tempy.directory();
+	private readonly uniqueId = nanoid(10);
 
 	constructor(public file?: string) {}
 
@@ -67,7 +68,7 @@ class FileHandler {
 	}
 
 	public get getNewFileName() {
-		return this.flags.target || `${this.getOriginalFileName}-${nanoid(10)}`;
+		return this.flags.target || `${this.getOriginalFileName}-${this.uniqueId}`;
 	}
 
 	public get getDownloadedAsPath() {
@@ -82,5 +83,3 @@ class FileHandler {
 		return this.flags.copy ? this.getDownloadedAsPath : this.getSavedAsPath;
 	}
 }
-
-export default FileHandler;
