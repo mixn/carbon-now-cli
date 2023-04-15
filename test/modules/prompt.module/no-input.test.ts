@@ -1,4 +1,4 @@
-import Prompt from '../../../src/modules/prompt.module.js';
+import PromptModule from '../../../src/modules/prompt.module.js';
 
 jest.mock('get-stdin');
 
@@ -8,7 +8,7 @@ describe('PromptModule with no input', () => {
 		const processExitMock = jest
 			.spyOn(process, 'exit')
 			.mockImplementation((number) => number as never);
-		await Prompt.create();
+		await PromptModule.create();
 		expect(processExitMock).toHaveBeenCalled();
 		expect(processExitMock).toHaveBeenCalledWith(1);
 		processExitMock.mockRestore();

@@ -1,7 +1,7 @@
 import del from 'del';
 import fileExists from 'file-exists';
 import { readFileSync } from 'jsonfile';
-import PresetHandler from '../../src/modules/preset-handler.module.js';
+import PresetHandlerModule from '../../src/modules/preset-handler.module.js';
 import {
 	CONFIG_DUMMY_PATH,
 	CONFIG_LATEST_PRESET,
@@ -24,7 +24,7 @@ afterAll(async () => await deleteDummy());
 
 describe('PresetHandlerModule', () => {
 	it('should create config file if one doesn’t exist', async () => {
-		await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
+		await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
 			DUMMY_PRESET_NAME_1,
 			DUMMY_PRESET_SETTINGS
 		);
@@ -33,12 +33,14 @@ describe('PresetHandlerModule', () => {
 
 	it('should get an existing preset correctly', async () => {
 		expect(
-			await new PresetHandler(CONFIG_DUMMY_PATH).getPreset(DUMMY_PRESET_NAME_1)
+			await new PresetHandlerModule(CONFIG_DUMMY_PATH).getPreset(
+				DUMMY_PRESET_NAME_1
+			)
 		).toEqual(DUMMY_PRESET_SETTINGS);
 	});
 
 	it('should append a new preset to an existing config file correctly', async () => {
-		await new PresetHandler(CONFIG_DUMMY_PATH).savePreset(
+		await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
 			DUMMY_PRESET_NAME_2,
 			DUMMY_PRESET_SETTINGS
 		);
@@ -53,14 +55,14 @@ describe('PresetHandlerModule', () => {
 
 	it('should return an empty preset when a config doesn’t exist', async () => {
 		await deleteDummy();
-		const nonExistentPreset = await new PresetHandler(
+		const nonExistentPreset = await new PresetHandlerModule(
 			CONFIG_DUMMY_PATH
 		).getPreset(DUMMY_PRESET_NAME_1);
 		expect(nonExistentPreset).toEqual({});
 	});
 
 	it('should return empty preset when no matching preset is found', async () => {
-		const nonExistentPreset = await new PresetHandler(
+		const nonExistentPreset = await new PresetHandlerModule(
 			CONFIG_DUMMY_PATH
 		).getPreset('nope');
 		expect(nonExistentPreset).toEqual({});
@@ -68,17 +70,44 @@ describe('PresetHandlerModule', () => {
 
 	it('should handle multiple preset saves correctly', async () => {
 		await deleteDummy();
-		const PresetHandlerInstance = new PresetHandler(CONFIG_DUMMY_PATH);
-		await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_1, {
+		const PresetHandler = new PresetHandlerModule(CONFIG_DUMMY_PATH);
+		await PresetHandler.savePreset(DUMMY_PRESET_NAME_1, {
 			foo: 'foo',
 		});
-		await PresetHandlerInstance.savePreset(DUMMY_PRESET_NAME_2, {
+		await PresetHandler.savePreset(DUMMY_PRESET_NAME_2, {
 			bar: 'bar',
 		});
 		expect(await readFileSync(CONFIG_DUMMY_PATH)).toEqual({
 			[DUMMY_PRESET_NAME_1]: { foo: 'foo' },
 			[DUMMY_PRESET_NAME_2]: { bar: 'bar' },
 			[CONFIG_LATEST_PRESET]: { bar: 'bar' },
+		});
+	});
+
+	it('should handle local configs correctly', async () => {
+		expect(
+			await new PresetHandlerModule(
+				'./test/test-dummies/_config.json'
+			).getPreset(DUMMY_PRESET_NAME_1)
+		).toEqual({
+			bg: 'white',
+			ds: true,
+			dsblur: '5px',
+			dsyoff: '5px',
+			es: '2x',
+			fm: 'Inconsolata',
+			fs: '16px',
+			lh: '133%',
+			ln: false,
+			ph: '20px',
+			pv: '20px',
+			si: false,
+			t: 'base16-light',
+			type: 'png',
+			wa: true,
+			wc: true,
+			wm: false,
+			wt: 'none',
 		});
 	});
 });

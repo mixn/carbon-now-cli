@@ -28,7 +28,7 @@ export default class PresetHandler {
 		if (await fileExists(configPath)) {
 			return await jsonFile.readFileSync(configPath);
 		}
-		// Only create a global config, hence don’t overwrite custom --config
+		// Only create a global config if none exists, hence don’t overwrite custom --config
 		if (configPath === CONFIG_PATH) {
 			await this.writeConfig();
 			return await this.readConfig();

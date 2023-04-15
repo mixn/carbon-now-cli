@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import Prompt from '../../../src/modules/prompt.module.js';
+import PromptModule from '../../../src/modules/prompt.module.js';
 import promptConfig from '../../../src/config/cli/prompt.config.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
 
@@ -68,8 +68,8 @@ beforeEach(() => {
 
 describe('PromptModule', () => {
 	it('should work as an async factory', async () => {
-		const PromptInstance = await Prompt.create();
-		expect(PromptInstance).toBeInstanceOf(Prompt);
+		const Prompt = await PromptModule.create();
+		expect(Prompt).toBeInstanceOf(PromptModule);
 	});
 
 	it('should return mapped answers correctly', async () => {
@@ -77,15 +77,15 @@ describe('PromptModule', () => {
 			inquirerOutput
 		);
 		expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);
-		expect((await Prompt.create()).getAnswers).toEqual(mappedAnswers);
+		expect((await PromptModule.create()).getAnswers).toEqual(mappedAnswers);
 	});
 
 	it('should return <file> name correctly', async () => {
-		expect((await Prompt.create()).getFile).toBe(DUMMY_FILE);
+		expect((await PromptModule.create()).getFile).toBe(DUMMY_FILE);
 	});
 
 	it('should return given flags correctly', async () => {
-		expect((await Prompt.create()).getFlags).toEqual({
+		expect((await PromptModule.create()).getFlags).toEqual({
 			start: 3,
 			end: 100,
 			open: true,
@@ -126,7 +126,7 @@ describe('PromptModule', () => {
 				'--headless',
 			])
 		);
-		expect(Object.keys((await Prompt.create()).getFlags)).toEqual(
+		expect(Object.keys((await PromptModule.create()).getFlags)).toEqual(
 			expect.arrayContaining([
 				'start',
 				'end',
