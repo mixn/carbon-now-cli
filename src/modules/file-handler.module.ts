@@ -1,24 +1,17 @@
-import tempy from 'tempy';
 import fileExtension from 'file-extension';
-import { basename, extname } from 'path';
-import { nanoid } from 'nanoid';
 import { EOL } from 'os';
 import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
 export default class FileHandler {
-	private imgType!: CarbonCLIPresetInterface['type'];
-	private flags!: CarbonCLIFlagsInterface;
 	private readonly extensions = new Map<string, string>([
 		...(extensionsMap as [[string, string]]),
 	]);
-	private readonly tempDirectory = tempy.directory();
-	private readonly uniqueId = nanoid(10);
 
 	constructor(public file?: string) {}
 
 	public async process(
-		fileContent: string,
+		input: string,
 		startLine = 0,
 		endLine = 1000
 	): Promise<string> {
@@ -27,7 +20,7 @@ export default class FileHandler {
 				return reject(new Error('Nonsensical line numbers.'));
 			}
 			resolve(
-				fileContent
+				input
 					.split(EOL)
 					.filter((_, index) => {
 						const currentLine: number = index + 1;
@@ -38,16 +31,8 @@ export default class FileHandler {
 		});
 	}
 
-	public async rename(from: string, to: string) {
+	public async rename(from: string, to: string): Promise<void> {
 		await rename(from, to);
-	}
-
-	public set setImgType(imgType: CarbonCLIPresetInterface['type']) {
-		this.imgType = imgType;
-	}
-
-	public set setFlags(flags: CarbonCLIFlagsInterface) {
-		this.flags = flags;
 	}
 
 	public get getMimeType() {
@@ -57,29 +42,5 @@ export default class FileHandler {
 		return this.extensions.has(extension)
 			? this.extensions.get(extension)
 			: 'auto';
-	}
-
-	public get getSaveDirectory() {
-		return this.flags.copy ? this.tempDirectory : this.flags.location;
-	}
-
-	public get getOriginalFileName() {
-		return this.file ? basename(this.file, extname(this.file)) : 'stdin';
-	}
-
-	public get getNewFileName() {
-		return this.flags.target || `${this.getOriginalFileName}-${this.uniqueId}`;
-	}
-
-	public get getDownloadedAsPath() {
-		return `${this.getSaveDirectory}/carbon.${this.imgType}`;
-	}
-
-	public get getSavedAsPath() {
-		return `${this.getSaveDirectory}/${this.getNewFileName}.${this.imgType}`;
-	}
-
-	public get getPath() {
-		return this.flags.copy ? this.getDownloadedAsPath : this.getSavedAsPath;
 	}
 }

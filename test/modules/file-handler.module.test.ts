@@ -1,30 +1,9 @@
-import tempy from 'tempy';
-import fs from 'fs';
 import mock from 'mock-fs';
-import { nanoid } from 'nanoid';
 import fileExists from 'file-exists';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandlerModule from '../../src/modules/file-handler.module.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.js';
-import {
-	DUMMY_FILE,
-	DUMMY_TARGET,
-	DUMMY_LOCATION,
-	DUMMY_TEMP_FOLDER,
-	DUMMY_DEFAULT_FILE_NAME,
-} from '../helpers/constants.helper.js';
-
-jest.mock('nanoid');
-jest.mock('tempy');
-
-beforeEach(() => {
-	(tempy as jest.Mocked<typeof tempy>).directory.mockReturnValue(
-		DUMMY_TEMP_FOLDER
-	);
-	// TODO: Type this correctly and get rid of @ts-ignore
-	// @ts-ignore
-	nanoid.mockReturnValue('123456789');
-});
+import { DUMMY_DEFAULT_FILE_NAME } from '../helpers/constants.helper.js';
 
 describe('FileHandlerModule', () => {
 	it('should process full length of files correctly', async () => {
@@ -78,116 +57,6 @@ describe('FileHandlerModule', () => {
 		expect(FileHandler.getMimeType).toBe('auto');
 	});
 
-	it('should return the original file name correctly', () => {
-		const FileHandler = new FileHandlerModule(DUMMY_FILE);
-		expect(FileHandler.getOriginalFileName).toBe('_unfold');
-		const FileHandler2 = new FileHandlerModule();
-		expect(FileHandler2.getOriginalFileName).toBe('stdin');
-	});
-
-	it('should return the new file name correctly', () => {
-		const FileHandler = new FileHandlerModule();
-		FileHandler.setFlags = {
-			target: DUMMY_TARGET,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getNewFileName).toBe(DUMMY_TARGET);
-		const FileHandler2 = new FileHandlerModule(DUMMY_FILE);
-		FileHandler2.setFlags = {
-			target: undefined,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler2.getNewFileName).toBe('_unfold-123456789');
-	});
-
-	it('should return the save directory correctly', () => {
-		const FileHandler = new FileHandlerModule();
-		FileHandler.setFlags = {
-			copy: false,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getSaveDirectory).toBe(DUMMY_LOCATION);
-		FileHandler.setFlags = {
-			copy: true,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getSaveDirectory).toBe(DUMMY_TEMP_FOLDER);
-	});
-
-	it('should return the full download path correctly', () => {
-		const FileHandler = new FileHandlerModule();
-		FileHandler.setImgType = 'png';
-		FileHandler.setFlags = {
-			copy: false,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getDownloadedAsPath).toBe(
-			`${DUMMY_LOCATION}/${DUMMY_DEFAULT_FILE_NAME}`
-		);
-		FileHandler.setImgType = 'png';
-		FileHandler.setFlags = {
-			copy: true,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getDownloadedAsPath).toBe(
-			`${DUMMY_TEMP_FOLDER}/${DUMMY_DEFAULT_FILE_NAME}`
-		);
-	});
-
-	it('should return the full saved-to path correctly', () => {
-		const FileHandler = new FileHandlerModule();
-		FileHandler.setImgType = 'png';
-		FileHandler.setFlags = {
-			copy: false,
-			target: DUMMY_TARGET,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getSavedAsPath).toBe(
-			`${DUMMY_LOCATION}/${DUMMY_TARGET}.png`
-		);
-		FileHandler.setFlags = {
-			copy: true,
-			target: DUMMY_TARGET,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getSavedAsPath).toBe(
-			`${DUMMY_TEMP_FOLDER}/${DUMMY_TARGET}.png`
-		);
-	});
-
-	it('should return the full, final path correctly', () => {
-		const FileHandler = new FileHandlerModule();
-		FileHandler.setImgType = 'png';
-		FileHandler.setFlags = {
-			copy: false,
-			target: DUMMY_TARGET,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getPath).toBe(`${DUMMY_LOCATION}/${DUMMY_TARGET}.png`);
-		FileHandler.setFlags = {
-			copy: true,
-			target: DUMMY_TARGET,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getPath).toBe(
-			`${DUMMY_TEMP_FOLDER}/${DUMMY_DEFAULT_FILE_NAME}`
-		);
-		FileHandler.setFlags = {
-			copy: false,
-			target: undefined,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler.getPath).toBe(`${DUMMY_LOCATION}/stdin-123456789.png`);
-		const FileHandler2 = new FileHandlerModule(DUMMY_FILE);
-		FileHandler2.setImgType = 'svg';
-		FileHandler2.setFlags = {
-			copy: false,
-			target: undefined,
-			location: DUMMY_LOCATION,
-		} as CarbonCLIFlagsInterface;
-		expect(FileHandler2.getPath).toBe(
-			`${DUMMY_LOCATION}/_unfold-123456789.svg`
-		);
-	});
-
 	it('should rename a file correctly', async () => {
 		expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(false);
 		// https://github.com/tschaub/mock-fs#example
@@ -196,19 +65,9 @@ describe('FileHandlerModule', () => {
 		});
 		expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(true);
 		const FileHandler = new FileHandlerModule();
-		FileHandler.setImgType = 'png';
-		FileHandler.setFlags = {
-			copy: false,
-			target: undefined,
-			location: process.cwd(),
-		} as CarbonCLIFlagsInterface;
-		expect(await fileExists(FileHandler.getDownloadedAsPath)).toBe(true);
-		await FileHandler.rename(
-			FileHandler.getDownloadedAsPath,
-			FileHandler.getSavedAsPath
-		);
-		expect(await fileExists(FileHandler.getDownloadedAsPath)).toBe(false);
-		expect(await fileExists(FileHandler.getSavedAsPath)).toBe(true);
+		await FileHandler.rename(DUMMY_DEFAULT_FILE_NAME, 'updated.png');
+		expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(false);
+		expect(await fileExists('updated.png')).toBe(true);
 		mock.restore();
 	});
 });

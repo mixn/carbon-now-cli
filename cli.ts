@@ -1,18 +1,19 @@
 #!/usr/bin/env node
-import queryString from 'query-string';
 import open from 'open';
 import updateNotifier from 'update-notifier';
-import { clipboard } from 'clipboard-sys';
 import { Listr } from 'listr2';
+import { stringify } from 'query-string';
+import { clipboard } from 'clipboard-sys';
 
 import PromptModule from './src/modules/prompt.module.js';
 import PresetHandlerModule from './src/modules/preset-handler.module.js';
 import FileHandlerModule from './src/modules/file-handler.module.js';
+import DownloadModule from './src/modules/download.module.js';
 import RenderModule from './src/headless-visit.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
-import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
+import defaultSettings from './src/config/cli/default-settings.config.js';
 import packageJson from './package.json' assert { type: 'json' };
 import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
 
@@ -23,7 +24,7 @@ const answers = Prompt.getAnswers;
 const input = Prompt.getInput;
 const PresentHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
-FileHandler.setFlags = flags;
+const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
 let presetSettings = {
 	...defaultSettings,
@@ -67,21 +68,22 @@ TaskList.add([
 	},
 ]);
 
-// Task 2: Prepare URL
+// Task 2: Prepare things
 TaskList.add([
 	{
 		title: 'Preparing connection',
 		task: (ctx) => {
-			ctx.preparedURL = `${CARBON_URL}?${queryString.stringify({
+			ctx.preparedURL = `${CARBON_URL}?${stringify({
 				...presetSettings,
 				code: ctx.encodedContent,
 			})}`;
-			FileHandler.setImgType = presetSettings.type;
+			Download.setFlags = flags;
+			Download.setImgType = presetSettings.type;
 		},
 	},
 ]);
 
-// Task 3: Open image in browser or download image [skippable]
+// Task 3: Open image in browser [skippable]
 TaskList.add([
 	{
 		title: 'Opening in browser',
@@ -92,7 +94,7 @@ TaskList.add([
 	},
 ]);
 
-// Task 4: Fetch image + rename it [skippable]
+// Task 4: Fetch image and rename it, if necessary [skippable]
 TaskList.add([
 	{
 		title: 'Fetching beautiful image',
@@ -100,14 +102,14 @@ TaskList.add([
 		task: async ({ preparedURL }) => {
 			await RenderModule({
 				url: preparedURL,
-				location: FileHandler.getSaveDirectory,
+				location: Download.getSaveDirectory,
 				type: 'png',
 				headless: false,
 			});
 			if (!flags.copy) {
 				await FileHandler.rename(
-					FileHandler.getDownloadedAsPath,
-					FileHandler.getSavedAsPath
+					Download.getDownloadedAsPath,
+					Download.getSavedAsPath
 				);
 			}
 		},
@@ -121,7 +123,7 @@ TaskList.add([
 		skip: !flags.copy || flags.open,
 		task: async ({ preparedURL }) => {
 			await clipboard.writeImage(
-				await readFileAsync(FileHandler.getDownloadedAsPath, false)
+				await readFileAsync(Download.getDownloadedAsPath, false)
 			);
 		},
 	},
@@ -129,7 +131,7 @@ TaskList.add([
 
 try {
 	await TaskList.run();
-	console.log(await defaultSuccessView(flags, FileHandler.getPath));
+	console.log(await defaultSuccessView(flags, Download.getPath));
 	updateNotifier({ pkg: packageJson }).notify();
 	process.exit();
 } catch (e) {
