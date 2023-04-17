@@ -6,6 +6,8 @@ import {
 	CONFIG_DUMMY_PATH,
 	CONFIG_LATEST_PRESET,
 } from '../../src/helpers/cli/constants.helper.js';
+import { CONFIG_MISSING_PRESET } from '../helpers/constants.helper.js';
+import presetMissingView from '../../src/views/preset-missing.view.js';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';
@@ -24,6 +26,7 @@ afterAll(async () => await deleteDummy());
 
 describe('PresetHandlerModule', () => {
 	it('should create config file if one doesn’t exist', async () => {
+		expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(false);
 		await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
 			DUMMY_PRESET_NAME_1,
 			DUMMY_PRESET_SETTINGS
@@ -64,8 +67,20 @@ describe('PresetHandlerModule', () => {
 	it('should return empty preset when no matching preset is found', async () => {
 		const nonExistentPreset = await new PresetHandlerModule(
 			CONFIG_DUMMY_PATH
-		).getPreset('nope');
+		).getPreset(CONFIG_MISSING_PRESET);
 		expect(nonExistentPreset).toEqual({});
+	});
+
+	it('should warn user correctly when no matching preset is found', async () => {
+		const consoleWarn = jest.spyOn(console, 'warn');
+		const nonExistentPreset = await new PresetHandlerModule(
+			CONFIG_DUMMY_PATH
+		).getPreset(CONFIG_MISSING_PRESET);
+		expect(consoleWarn).toHaveBeenCalled();
+		expect(consoleWarn).toHaveBeenCalledWith(
+			presetMissingView(CONFIG_MISSING_PRESET)
+		);
+		consoleWarn.mockReset();
 	});
 
 	it('should handle multiple preset saves correctly', async () => {

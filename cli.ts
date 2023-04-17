@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import queryString from 'query-string';
 import open from 'open';
-import chalk from 'chalk';
-import terminalImage from 'terminal-image';
 import updateNotifier from 'update-notifier';
 import { clipboard } from 'clipboard-sys';
 import { Listr } from 'listr2';

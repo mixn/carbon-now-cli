@@ -4,3 +4,4 @@ export const DUMMY_TARGET = 'target';
 export const DUMMY_LOCATION = '~/something';
 export const DUMMY_TEMP_FOLDER = 'private/var/something';
 export const DUMMY_DEFAULT_FILE_NAME = 'carbon.png';
+export const CONFIG_MISSING_PRESET = 'missing-preset';

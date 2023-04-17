@@ -73,6 +73,11 @@ describe('FileHandlerModule', () => {
 		}
 	});
 
+	it('should default to `auto` when a mime type doesn’t exist', () => {
+		const FileHandler = new FileHandlerModule(`name.foobar`);
+		expect(FileHandler.getMimeType).toBe('auto');
+	});
+
 	it('should return the original file name correctly', () => {
 		const FileHandler = new FileHandlerModule(DUMMY_FILE);
 		expect(FileHandler.getOriginalFileName).toBe('_unfold');
