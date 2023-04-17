@@ -49,11 +49,6 @@ interface CarbonCLIPresetInterface {
 	type: 'png' | 'svg';
 	preset?: string;
 }
-declare type MeowOptionType = {
-	type: string;
-	alias?: string;
-	default?: any;
-};
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
 declare interface CarbonCLIConfigInterface {
 	[key: string]: CarbonCLIPresetInterface;
@@ -91,3 +86,5 @@ declare interface CarbonCLIFlagsInterface {
 	fromClipboard: boolean;
 	headless: boolean;
 }
+declare type CarbonCLIPresetAndAnswersIntersectionType =
+	CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;

@@ -2,11 +2,11 @@ import del from 'del';
 import fileExists from 'file-exists';
 import { readFileSync } from 'jsonfile';
 import PresetHandlerModule from '../../src/modules/preset-handler.module.js';
+import { CONFIG_LATEST_PRESET } from '../../src/helpers/cli/constants.helper.js';
 import {
 	CONFIG_DUMMY_PATH,
-	CONFIG_LATEST_PRESET,
-} from '../../src/helpers/cli/constants.helper.js';
-import { CONFIG_MISSING_PRESET } from '../helpers/constants.helper.js';
+	CONFIG_MISSING_PRESET,
+} from '../helpers/constants.helper.js';
 import presetMissingView from '../../src/views/preset-missing.view.js';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';

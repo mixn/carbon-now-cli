@@ -43,9 +43,8 @@ if (flags.preset) {
 if (flags.interactive) {
 	presetSettings = {
 		...presetSettings,
-		// TODO: Fix typing
-		...(answers as {}),
-	};
+		...answers,
+	} as CarbonCLIPresetAndAnswersIntersectionType;
 }
 
 // As long as it’s not a local --config, always save the latest run
@@ -150,4 +149,6 @@ try {
 // 	input,
 // 	'\n PRESET SETTINGS: \n',
 // 	presetSettings,
+// 	'\n DEFAULT SETTINGS: \n',
+// 	defaultSettings
 // );

@@ -16,9 +16,7 @@ beforeEach(() => {
 	(tempy as jest.Mocked<typeof tempy>).directory.mockReturnValue(
 		DUMMY_TEMP_FOLDER
 	);
-	// TODO: Type this correctly and get rid of @ts-ignore
-	// @ts-ignore
-	nanoid.mockReturnValue('123456789');
+	(nanoid as jest.MockedFunction<typeof nanoid>).mockReturnValue('123456789');
 });
 
 describe('DownloadModule', () => {

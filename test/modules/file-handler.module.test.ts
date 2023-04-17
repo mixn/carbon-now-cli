@@ -1,7 +1,7 @@
 import mock from 'mock-fs';
 import fileExists from 'file-exists';
-import readFileAsync from '../../src/utils/read-file-async.util.js';
 import FileHandlerModule from '../../src/modules/file-handler.module.js';
+import readFileAsync from '../../src/utils/read-file-async.util.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.js';
 import { DUMMY_DEFAULT_FILE_NAME } from '../helpers/constants.helper.js';
 

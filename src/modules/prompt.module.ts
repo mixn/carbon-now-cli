@@ -44,8 +44,6 @@ export default class Prompt {
 	}
 
 	private async readInput(): Promise<void> {
-		// TODO: Rewrite this Promise resolve/reject
-		// + move process.exit() to main CLI module
 		const stdin = await getStdin();
 
 		if (this.file) {

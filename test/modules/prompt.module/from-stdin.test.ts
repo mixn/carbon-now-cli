@@ -6,9 +6,9 @@ jest.mock('get-stdin');
 
 describe('PromptModule via stdin', () => {
 	it('should handle input from stdin correctly', async () => {
-		// TODO: Type this correctly and get rid of @ts-ignore
-		// @ts-ignore
-		getStdin.mockResolvedValue(DUMMY_INPUT);
+		(getStdin as jest.MockedFunction<typeof getStdin>).mockResolvedValue(
+			DUMMY_INPUT
+		);
 		const Prompt = await PromptModule.create();
 		expect(Prompt.getFile).toBe(undefined);
 		expect(Prompt.getFlags.fromClipboard).toBe(false);
