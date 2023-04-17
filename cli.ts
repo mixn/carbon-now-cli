@@ -11,9 +11,9 @@ import FileHandlerModule from './src/modules/file-handler.module.js';
 import DownloadModule from './src/modules/download.module.js';
 import RenderModule from './src/headless-visit.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
+import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
-import defaultSettings from './src/config/cli/default-settings.config.js';
 import packageJson from './package.json' assert { type: 'json' };
 import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
 

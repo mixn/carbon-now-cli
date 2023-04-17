@@ -54,14 +54,12 @@ declare type MeowOptionType = {
 	alias?: string;
 	default?: any;
 };
-
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
 declare interface CarbonCLIConfigInterface {
 	[key: string]: CarbonCLIPresetInterface;
 }
-// TODO: I don’t think `Omit` is the right utility type here, re-check this
 declare interface CarbonCLIPromptAnswersInterface
-	extends Omit<CarbonCLIPresetInterface, 'dsyoff' | 'dsblur' | 't' | 'wt'> {
+	extends CarbonCLIPresetInterface {
 	dsyoff?: string;
 	dsblur?: string;
 	t: CarbonCLIThemeType;
@@ -71,9 +69,8 @@ declare interface CarbonCLIPromptAnswersInterface
 	preset: string;
 	l: 'auto';
 }
-// TODO: I don’t think `Omit` is the right utility type here, re-check this
 declare interface CarbonCLIPromptAnswersMappedInterface
-	extends Omit<CarbonCLIPromptAnswersInterface, 't' | 'wt'> {
+	extends CarbonCLIPromptAnswersInterface {
 	t: CarbonThemeType;
 	wt: 'none' | 'sharp' | 'bw';
 	fm: CarbonFontFamilyType;
