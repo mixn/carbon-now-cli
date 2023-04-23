@@ -4,3 +4,6 @@ assets
 .DS_Store
 dist/
 coverage/
+/test-results/
+/playwright-report/
+/playwright/.cache/
