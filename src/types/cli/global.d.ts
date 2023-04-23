@@ -28,6 +28,7 @@ declare type CarbonCLIThemeType =
 	| 'VSCode'
 	| 'Yeti'
 	| 'Zenburn';
+declare type CarbonCLIDownloadType = 'png' | 'svg';
 interface CarbonCLIPresetInterface {
 	t: CarbonThemeType;
 	bg: string;
@@ -46,7 +47,7 @@ interface CarbonCLIPresetInterface {
 	si: boolean;
 	wm: boolean;
 	es: '1x' | '2x' | '4x';
-	type: 'png' | 'svg';
+	type: CarbonCLIDownloadType;
 	preset?: string;
 }
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};

@@ -1,7 +1,6 @@
 import meow from 'meow';
 import inquirer from 'inquirer';
 import clipboard from 'clipboardy';
-import chalk from 'chalk';
 import lodash from 'lodash';
 import getStdin from 'get-stdin';
 import {
@@ -17,12 +16,12 @@ import usageErrorView from '../views/usage-error.view.js';
 
 export default class Prompt {
 	private file!: string;
-	private input!: string;
 	private flags!: CarbonCLIFlagsInterface;
+	private input!: string;
 	private answers!: CarbonCLIPromptAnswersInterface;
 
 	static async create(): Promise<Prompt> {
-		const PromptInstance = new Prompt();
+		const PromptInstance = new this();
 		await PromptInstance.init();
 		return PromptInstance;
 	}

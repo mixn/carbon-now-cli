@@ -3,14 +3,14 @@ import { basename, extname } from 'path';
 import { nanoid } from 'nanoid';
 
 export default class Download {
-	private imgType!: CarbonCLIPresetInterface['type'];
+	private imgType!: CarbonCLIDownloadType;
 	private flags!: CarbonCLIFlagsInterface;
 	private readonly tempDirectory = tempy.directory();
 	private readonly uniqueId = nanoid(10);
 
 	constructor(public file?: string) {}
 
-	public set setImgType(imgType: CarbonCLIPresetInterface['type']) {
+	public set setImgType(imgType: CarbonCLIDownloadType) {
 		this.imgType = imgType;
 	}
 
