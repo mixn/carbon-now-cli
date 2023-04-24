@@ -9,7 +9,7 @@ import PromptModule from './src/modules/prompt.module.js';
 import PresetHandlerModule from './src/modules/preset-handler.module.js';
 import FileHandlerModule from './src/modules/file-handler.module.js';
 import DownloadModule from './src/modules/download.module.js';
-import RenderModule from './src/headless-visit.js';
+import RendererModule from './src/modules/renderer.module.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
@@ -20,9 +20,9 @@ import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
 const Prompt = await PromptModule.create();
 const file = Prompt.getFile;
 const flags = Prompt.getFlags;
-const answers = Prompt.getAnswers;
 const input = Prompt.getInput;
-const PresentHandler = new PresetHandlerModule(flags.config);
+const answers = Prompt.getAnswers;
+const PresetHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
 const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
@@ -35,7 +35,7 @@ let presetSettings = {
 if (flags.preset) {
 	presetSettings = {
 		...presetSettings,
-		...(await PresentHandler.getPreset(flags.preset)),
+		...(await PresetHandler.getPreset(flags.preset)),
 	};
 }
 
@@ -49,7 +49,7 @@ if (flags.interactive) {
 
 // As long as it’s not a local --config, always save the latest run
 if (!flags.config) {
-	await PresentHandler.savePreset(presetSettings.preset, presetSettings);
+	await PresetHandler.savePreset(presetSettings.preset, presetSettings);
 }
 
 // Task 1: Process and encode input
@@ -99,12 +99,12 @@ TaskList.add([
 		title: 'Fetching beautiful image',
 		skip: flags.open,
 		task: async ({ preparedURL }) => {
-			await RenderModule({
-				url: preparedURL,
-				location: Download.getSaveDirectory,
-				type: 'png',
-				headless: false,
-			});
+			const Renderer = await RendererModule.create(
+				preparedURL,
+				presetSettings.type,
+				Download.getSaveDirectory
+			);
+			await Renderer.download();
 			if (!flags.copy) {
 				await FileHandler.rename(
 					Download.getDownloadedAsPath,
@@ -137,18 +137,3 @@ try {
 	console.error(defaultErrorView((e as Error).message));
 	process.exit(1);
 }
-
-// console.log(
-// 	'\n FILE: \n',
-// 	file,
-// 	'\n FLAGS: \n',
-// 	flags,
-// 	'\n ANSWERS: \n',
-// 	answers,
-// 	'\n INPUT: \n',
-// 	input,
-// 	'\n PRESET SETTINGS: \n',
-// 	presetSettings,
-// 	'\n DEFAULT SETTINGS: \n',
-// 	defaultSettings
-// );
