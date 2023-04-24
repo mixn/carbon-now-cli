@@ -145,4 +145,15 @@ describe('DownloadModule', () => {
 			`${DUMMY_LOCATION_EXPANDED}/_unfold-123456789.svg`
 		);
 	});
+
+	it('should not expand a location if it doesn’t start with `~`', () => {
+		const Download = new DownloadModule();
+		Download.setImgType = 'png';
+		Download.setFlags = {
+			copy: false,
+			target: DUMMY_TARGET,
+			location: './relative',
+		} as CarbonCLIFlagsInterface;
+		expect(Download.getPath).toBe(`./relative/${DUMMY_TARGET}.png`);
+	});
 });
