@@ -1,10 +1,12 @@
 import tempy from 'tempy';
+import mockOS from 'mock-os';
 import { nanoid } from 'nanoid';
 import DownloadModule from '../../src/modules/download.module.js';
 import {
 	DUMMY_FILE,
 	DUMMY_TARGET,
 	DUMMY_LOCATION,
+	DUMMY_LOCATION_EXPANDED,
 	DUMMY_TEMP_FOLDER,
 	DUMMY_DEFAULT_FILE_NAME,
 } from '../helpers/constants.helper.js';
@@ -17,6 +19,16 @@ beforeEach(() => {
 		DUMMY_TEMP_FOLDER
 	);
 	(nanoid as jest.MockedFunction<typeof nanoid>).mockReturnValue('123456789');
+});
+
+beforeAll(() => {
+	mockOS({
+		homedir: '/Users/mixn',
+	});
+});
+
+afterAll(() => {
+	mockOS.restore();
 });
 
 describe('DownloadModule', () => {
@@ -46,7 +58,7 @@ describe('DownloadModule', () => {
 			copy: false,
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
-		expect(Download.getSaveDirectory).toBe(DUMMY_LOCATION);
+		expect(Download.getSaveDirectory).toBe(DUMMY_LOCATION_EXPANDED);
 		Download.setFlags = {
 			copy: true,
 			location: DUMMY_LOCATION,
@@ -62,7 +74,7 @@ describe('DownloadModule', () => {
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
 		expect(Download.getDownloadedAsPath).toBe(
-			`${DUMMY_LOCATION}/${DUMMY_DEFAULT_FILE_NAME}`
+			`${DUMMY_LOCATION_EXPANDED}/${DUMMY_DEFAULT_FILE_NAME}`
 		);
 		Download.setImgType = 'png';
 		Download.setFlags = {
@@ -83,7 +95,7 @@ describe('DownloadModule', () => {
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
 		expect(Download.getSavedAsPath).toBe(
-			`${DUMMY_LOCATION}/${DUMMY_TARGET}.png`
+			`${DUMMY_LOCATION_EXPANDED}/${DUMMY_TARGET}.png`
 		);
 		Download.setFlags = {
 			copy: true,
@@ -103,7 +115,9 @@ describe('DownloadModule', () => {
 			target: DUMMY_TARGET,
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
-		expect(Download.getPath).toBe(`${DUMMY_LOCATION}/${DUMMY_TARGET}.png`);
+		expect(Download.getPath).toBe(
+			`${DUMMY_LOCATION_EXPANDED}/${DUMMY_TARGET}.png`
+		);
 		Download.setFlags = {
 			copy: true,
 			target: DUMMY_TARGET,
@@ -117,7 +131,9 @@ describe('DownloadModule', () => {
 			target: undefined,
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
-		expect(Download.getPath).toBe(`${DUMMY_LOCATION}/stdin-123456789.png`);
+		expect(Download.getPath).toBe(
+			`${DUMMY_LOCATION_EXPANDED}/stdin-123456789.png`
+		);
 		const Download2 = new DownloadModule(DUMMY_FILE);
 		Download2.setImgType = 'svg';
 		Download2.setFlags = {
@@ -125,6 +141,8 @@ describe('DownloadModule', () => {
 			target: undefined,
 			location: DUMMY_LOCATION,
 		} as CarbonCLIFlagsInterface;
-		expect(Download2.getPath).toBe(`${DUMMY_LOCATION}/_unfold-123456789.svg`);
+		expect(Download2.getPath).toBe(
+			`${DUMMY_LOCATION_EXPANDED}/_unfold-123456789.svg`
+		);
 	});
 });

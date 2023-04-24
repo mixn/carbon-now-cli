@@ -1,4 +1,5 @@
 import tempy from 'tempy';
+import { homedir } from 'os';
 import { basename, extname } from 'path';
 import { nanoid } from 'nanoid';
 
@@ -10,6 +11,13 @@ export default class Download {
 
 	constructor(public file?: string) {}
 
+	private expandHomeDirectory(location: string): string {
+		if (location.startsWith('~')) {
+			return location.replace('~', homedir());
+		}
+		return location;
+	}
+
 	public set setImgType(imgType: CarbonCLIDownloadType) {
 		this.imgType = imgType;
 	}
@@ -19,7 +27,9 @@ export default class Download {
 	}
 
 	public get getSaveDirectory() {
-		return this.flags.copy ? this.tempDirectory : this.flags.location;
+		return this.flags.copy
+			? this.tempDirectory
+			: this.expandHomeDirectory(this.flags.location);
 	}
 
 	public get getOriginalFileName() {

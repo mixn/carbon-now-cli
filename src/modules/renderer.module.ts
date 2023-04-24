@@ -1,5 +1,4 @@
 import { chromium, Browser, Page } from '@playwright/test';
-import { homedir } from 'os';
 
 export default class Renderer {
 	private url!: string;
@@ -31,13 +30,6 @@ export default class Renderer {
 		return RendererInstance;
 	}
 
-	private expandHomeDirectory(filepath: string): string {
-		if (filepath.startsWith('~')) {
-			return filepath.replace('~', homedir());
-		}
-		return filepath;
-	}
-
 	private async init(): Promise<void> {
 		this.browser = await chromium.launch();
 		this.page = await this.browser.newPage(this.pageOptions);
@@ -56,9 +48,7 @@ export default class Renderer {
 			const queuedDownloadEvent = this.page.waitForEvent('download');
 			await this.navigate();
 			const download = await queuedDownloadEvent;
-			await download?.saveAs(
-				`${this.expandHomeDirectory(this.saveDirectory)}/carbon.${this.type}`
-			);
+			await download?.saveAs(`${this.saveDirectory}/carbon.${this.type}`);
 		} catch (e) {
 			throw new Error((e as Error).message);
 		} finally {
