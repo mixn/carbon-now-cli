@@ -4,6 +4,7 @@ export default class Renderer {
 	private url!: string;
 	private type!: CarbonCLIDownloadType;
 	private saveDirectory!: string;
+	private headless!: boolean;
 	private browser!: Browser;
 	private page!: Page;
 	private readonly pageOptions = {
@@ -17,7 +18,8 @@ export default class Renderer {
 	static async create(
 		url: string,
 		type: CarbonCLIDownloadType = 'png',
-		saveDirectory: string = process.cwd()
+		saveDirectory: string = process.cwd(),
+		headless: boolean = true
 	): Promise<Renderer> {
 		if (!['png', 'svg'].includes(type)) {
 			throw new Error('Invalid type. Only png and svg are supported.');
@@ -26,12 +28,15 @@ export default class Renderer {
 		RendererInstance.url = url;
 		RendererInstance.type = type;
 		RendererInstance.saveDirectory = saveDirectory;
+		RendererInstance.headless = headless;
 		await RendererInstance.init();
 		return RendererInstance;
 	}
 
 	private async init(): Promise<void> {
-		this.browser = await chromium.launch();
+		this.browser = await chromium.launch({
+			headless: this.headless,
+		});
 		this.page = await this.browser.newPage(this.pageOptions);
 	}
 

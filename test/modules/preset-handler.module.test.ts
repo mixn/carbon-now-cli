@@ -73,9 +73,9 @@ describe('PresetHandlerModule', () => {
 
 	it('should warn user correctly when no matching preset is found', async () => {
 		const consoleWarn = jest.spyOn(console, 'warn');
-		const nonExistentPreset = await new PresetHandlerModule(
-			CONFIG_DUMMY_PATH
-		).getPreset(CONFIG_MISSING_PRESET);
+		await new PresetHandlerModule(CONFIG_DUMMY_PATH).getPreset(
+			CONFIG_MISSING_PRESET
+		);
 		expect(consoleWarn).toHaveBeenCalled();
 		expect(consoleWarn).toHaveBeenCalledWith(
 			presetMissingView(CONFIG_MISSING_PRESET)
