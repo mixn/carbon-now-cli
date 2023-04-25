@@ -26,29 +26,29 @@ export default class Download {
 		this.flags = flags;
 	}
 
-	public get getSaveDirectory() {
+	public get getSaveDirectory(): string {
 		return this.flags.copy
 			? this.tempDirectory
 			: this.expandHomeDirectory(this.flags.location);
 	}
 
-	public get getOriginalFileName() {
+	public get getOriginalFileName(): string {
 		return this.file ? basename(this.file, extname(this.file)) : 'stdin';
 	}
 
-	public get getNewFileName() {
+	public get getNewFileName(): string {
 		return this.flags.target || `${this.getOriginalFileName}-${this.uniqueId}`;
 	}
 
-	public get getDownloadedAsPath() {
+	public get getDownloadedAsPath(): string {
 		return `${this.getSaveDirectory}/carbon.${this.imgType}`;
 	}
 
-	public get getSavedAsPath() {
+	public get getSavedAsPath(): string {
 		return `${this.getSaveDirectory}/${this.getNewFileName}.${this.imgType}`;
 	}
 
-	public get getPath() {
+	public get getPath(): string {
 		return this.flags.copy ? this.getDownloadedAsPath : this.getSavedAsPath;
 	}
 }

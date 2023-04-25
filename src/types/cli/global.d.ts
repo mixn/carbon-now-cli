@@ -29,10 +29,11 @@ declare type CarbonCLIThemeType =
 	| 'Yeti'
 	| 'Zenburn';
 declare type CarbonCLIDownloadType = 'png' | 'svg';
+type CarbonWindowThemeType = 'none' | 'sharp' | 'bw';
 interface CarbonCLIPresetInterface {
 	t: CarbonThemeType;
 	bg: string;
-	wt: 'none' | 'sharp' | 'bw';
+	wt: CarbonWindowThemeType;
 	wc: boolean;
 	fm: CarbonFontFamilyType;
 	fs: string;
@@ -68,7 +69,7 @@ declare interface CarbonCLIPromptAnswersInterface
 declare interface CarbonCLIPromptAnswersMappedInterface
 	extends CarbonCLIPromptAnswersInterface {
 	t: CarbonThemeType;
-	wt: 'none' | 'sharp' | 'bw';
+	wt: CarbonWindowThemeType;
 	fm: CarbonFontFamilyType;
 	l?: string;
 	preset?: string;

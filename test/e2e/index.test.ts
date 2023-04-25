@@ -4,13 +4,15 @@ import fileExists from 'file-exists';
 import clipboard from 'clipboardy';
 import { exec } from 'child-process-promise';
 import { mkdir } from 'node:fs/promises';
-import { DUMMY_INPUT } from '../helpers/constants.helper.js';
+import {
+	DUMMY_INPUT,
+	DUMMY_FILE,
+	DUMMY_TARGET,
+} from '../helpers/constants.helper.js';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 
 const SCRIPT = 'npx ts-node --esm --files ./cli.ts';
-const DUMMY_FILE = './test/test-dummies/_unfold.js';
 const DEFAULT_SCRIPT = `${SCRIPT} ${DUMMY_FILE}`;
-const DUMMY_TARGET = 'custom-file-name';
 const DUMMY_LOCATION = 'location';
 const DUMMY_SAVED_FILE_NAME = `${DUMMY_TARGET}.png`;
 const ABSENT_DUMMY_CONFIG = './non-existent.json';

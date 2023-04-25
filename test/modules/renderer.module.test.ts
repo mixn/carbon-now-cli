@@ -92,15 +92,15 @@ describe('RendererModule', () => {
 		).toHaveBeenCalledWith(`${DUMMY_LOCATION}/carbon.svg`);
 	});
 
-	// it('should throw if an error occurs during the download', async () => {
-	// 	const Renderer = await RendererModule.create(
-	// 		CARBON_URL,
-	// 		'png',
-	// 		DUMMY_LOCATION
-	// 	);
-	// 	const Page = await (await chromium.launch()).newPage();
-	// 	const error = new Error('An error occurred during the download.');
-	// 	await (Page.waitForEvent('download') as any).mockRejectedValueOnce(error);
-	// 	await expect(Renderer.download()).rejects.toThrow(error.message);
-	// });
+	it('should throw if an error occurs during the download', async () => {
+		const Renderer = await RendererModule.create(
+			CARBON_URL,
+			'png',
+			DUMMY_LOCATION
+		);
+		const Page = await (await chromium.launch()).newPage();
+		const error = new Error('An error occurred during the download.');
+		Page.waitForEvent = jest.fn().mockRejectedValueOnce(error);
+		await expect(Renderer.download()).rejects.toThrow(error.message);
+	});
 });

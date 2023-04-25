@@ -35,7 +35,7 @@ export default class FileHandler {
 		await rename(from, to);
 	}
 
-	public get getMimeType() {
+	public get getMimeType(): string | undefined {
 		const extension = fileExtension(this.file, {
 			preserveCase: true,
 		});

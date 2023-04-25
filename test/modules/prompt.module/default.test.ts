@@ -3,9 +3,6 @@ import PromptModule from '../../../src/modules/prompt.module.js';
 import promptConfig from '../../../src/config/cli/prompt.config.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
 
-let inquirerOutput: CarbonCLIPromptAnswersInterface;
-let mappedAnswers: CarbonCLIPromptAnswersMappedInterface;
-
 jest.mock('inquirer');
 jest.mock('get-stdin');
 
@@ -21,52 +18,55 @@ process.argv.push('-p', 'twitter');
 process.argv.push('-h');
 process.argv.push('--from-clipboard');
 
-beforeEach(() => {
-	inquirerOutput = {
-		t: '3024 Night',
-		wt: 'None',
-		fm: 'Hack',
-		fs: '18px',
-		bg: '#ADB7C1',
-		wc: true,
-		ln: false,
-		wa: true,
-		lh: '133%',
-		pv: '0px',
-		ph: '0px',
-		ds: false,
-		si: false,
-		wm: false,
-		es: '2x',
-		type: 'png',
-		save: false,
-		l: 'auto',
-		preset: 'latest-preset',
-	};
-	mappedAnswers = {
-		t: '3024-night',
-		wt: 'none',
-		fm: 'Hack',
-		fs: '18px',
-		bg: '#ADB7C1',
-		wc: true,
-		ln: false,
-		wa: true,
-		lh: '133%',
-		pv: '0px',
-		ph: '0px',
-		ds: false,
-		si: false,
-		wm: false,
-		es: '2x',
-		type: 'png',
-		save: false,
-		l: 'auto',
-		preset: 'latest-preset',
-	};
-});
-
 describe('PromptModule', () => {
+	let inquirerOutput: CarbonCLIPromptAnswersInterface;
+	let mappedAnswers: CarbonCLIPromptAnswersMappedInterface;
+
+	beforeEach(() => {
+		inquirerOutput = {
+			t: '3024 Night',
+			wt: 'None',
+			fm: 'Hack',
+			fs: '18px',
+			bg: '#ADB7C1',
+			wc: true,
+			ln: false,
+			wa: true,
+			lh: '133%',
+			pv: '0px',
+			ph: '0px',
+			ds: false,
+			si: false,
+			wm: false,
+			es: '2x',
+			type: 'png',
+			save: false,
+			l: 'auto',
+			preset: 'latest-preset',
+		};
+		mappedAnswers = {
+			t: '3024-night',
+			wt: 'none',
+			fm: 'Hack',
+			fs: '18px',
+			bg: '#ADB7C1',
+			wc: true,
+			ln: false,
+			wa: true,
+			lh: '133%',
+			pv: '0px',
+			ph: '0px',
+			ds: false,
+			si: false,
+			wm: false,
+			es: '2x',
+			type: 'png',
+			save: false,
+			l: 'auto',
+			preset: 'latest-preset',
+		};
+	});
+
 	it('should work as an async factory', async () => {
 		const Prompt = await PromptModule.create();
 		expect(Prompt).toBeInstanceOf(PromptModule);
