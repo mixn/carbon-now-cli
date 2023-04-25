@@ -27,113 +27,113 @@ const FileHandler = new FileHandlerModule(file);
 const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
 let presetSettings = {
-	...defaultSettings,
-	l: FileHandler.getMimeType,
+  ...defaultSettings,
+  l: FileHandler.getMimeType,
 };
 
 // If --preset set, merge the preset into defaults
 if (flags.preset) {
-	presetSettings = {
-		...presetSettings,
-		...(await PresetHandler.getPreset(flags.preset)),
-	};
+  presetSettings = {
+    ...presetSettings,
+    ...(await PresetHandler.getPreset(flags.preset)),
+  };
 }
 
 // --interactive has highest priority, even with --preset
 if (flags.interactive) {
-	presetSettings = {
-		...presetSettings,
-		...answers,
-	} as CarbonCLIPresetAndAnswersIntersectionType;
+  presetSettings = {
+    ...presetSettings,
+    ...answers,
+  } as CarbonCLIPresetAndAnswersIntersectionType;
 }
 
 // As long as it’s not a local --config, always save the latest run
 if (!flags.config) {
-	await PresetHandler.savePreset(presetSettings.preset, presetSettings);
+  await PresetHandler.savePreset(presetSettings.preset, presetSettings);
 }
 
 // Task 1: Process and encode input
 TaskList.add([
-	{
-		title: `Processing ${
-			file ||
-			(flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
-		}`,
-		task: async (ctx) => {
-			ctx.encodedContent = encodeURIComponent(
-				await FileHandler.process(input, flags.start, flags.end)
-			);
-		},
-	},
+  {
+    title: `Processing ${
+      file ||
+      (flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
+    }`,
+    task: async (ctx) => {
+      ctx.encodedContent = encodeURIComponent(
+        await FileHandler.process(input, flags.start, flags.end)
+      );
+    },
+  },
 ]);
 
 // Task 2: Prepare things
 TaskList.add([
-	{
-		title: 'Preparing connection',
-		task: (ctx) => {
-			ctx.preparedURL = `${CARBON_URL}?${stringify({
-				...presetSettings,
-				code: ctx.encodedContent,
-			})}`;
-			Download.setFlags = flags;
-			Download.setImgType = presetSettings.type;
-		},
-	},
+  {
+    title: 'Preparing connection',
+    task: (ctx) => {
+      ctx.preparedURL = `${CARBON_URL}?${stringify({
+        ...presetSettings,
+        code: ctx.encodedContent,
+      })}`;
+      Download.setFlags = flags;
+      Download.setImgType = presetSettings.type;
+    },
+  },
 ]);
 
 // Task 3: Open image in browser [skippable]
 TaskList.add([
-	{
-		title: 'Opening in browser',
-		skip: !flags.open,
-		task: ({ preparedURL }) => {
-			open(preparedURL);
-		},
-	},
+  {
+    title: 'Opening in browser',
+    skip: !flags.open,
+    task: ({ preparedURL }) => {
+      open(preparedURL);
+    },
+  },
 ]);
 
 // Task 4: Fetch image and rename it, if necessary [skippable]
 TaskList.add([
-	{
-		title: 'Fetching beautiful image',
-		skip: flags.open,
-		task: async ({ preparedURL }) => {
-			const Renderer = await RendererModule.create(
-				preparedURL,
-				presetSettings.type,
-				Download.getSaveDirectory
-			);
-			await Renderer.download();
-			if (!flags.copy) {
-				await FileHandler.rename(
-					Download.getDownloadedAsPath,
-					Download.getSavedAsPath
-				);
-			}
-		},
-	},
+  {
+    title: 'Fetching beautiful image',
+    skip: flags.open,
+    task: async ({ preparedURL }) => {
+      const Renderer = await RendererModule.create(
+        preparedURL,
+        presetSettings.type,
+        Download.getSaveDirectory
+      );
+      await Renderer.download();
+      if (!flags.copy) {
+        await FileHandler.rename(
+          Download.getDownloadedAsPath,
+          Download.getSavedAsPath
+        );
+      }
+    },
+  },
 ]);
 
 // Task 5: Copy image to clipboard [skippable]
 TaskList.add([
-	{
-		title: 'Copying image to clipboard',
-		skip: !flags.copy || flags.open,
-		task: async ({ preparedURL }) => {
-			await clipboard.writeImage(
-				await readFileAsync(Download.getDownloadedAsPath, false)
-			);
-		},
-	},
+  {
+    title: 'Copying image to clipboard',
+    skip: !flags.copy || flags.open,
+    task: async ({ preparedURL }) => {
+      await clipboard.writeImage(
+        await readFileAsync(Download.getDownloadedAsPath, false)
+      );
+    },
+  },
 ]);
 
 try {
-	await TaskList.run();
-	console.log(await defaultSuccessView(flags, Download.getPath));
-	updateNotifier({ pkg: packageJson }).notify();
-	process.exit();
+  await TaskList.run();
+  console.log(await defaultSuccessView(flags, Download.getPath));
+  updateNotifier({ pkg: packageJson }).notify();
+  process.exit();
 } catch (e) {
-	console.error(defaultErrorView((e as Error).message));
-	process.exit(1);
+  console.error(defaultErrorView((e as Error).message));
+  process.exit(1);
 }

@@ -4,8 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
-			"*": ["./types/cli/*.d.ts", "./types/carbon/*.d.ts"]
-		},
+      "*": ["./types/cli/*.d.ts", "./types/carbon/*.d.ts"]
+    },
     "resolveJsonModule": true,
     "allowJs": true,
     "outDir": "./dist",
@@ -16,5 +16,5 @@
     "noImplicitAny": true,
     "skipLibCheck": true
   },
-	"exclude": ["node_modules", "./test/test-dummies/**.*"],
+  "exclude": ["node_modules", "./test/test-dummies/**.*"]
 }

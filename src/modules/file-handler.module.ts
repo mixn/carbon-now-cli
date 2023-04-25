@@ -4,43 +4,43 @@ import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
 export default class FileHandler {
-	private readonly extensions = new Map<string, string>([
-		...(extensionsMap as [[string, string]]),
-	]);
+  private readonly extensions = new Map<string, string>([
+    ...(extensionsMap as [[string, string]]),
+  ]);
 
-	constructor(public file?: string) {}
+  constructor(public file?: string) {}
 
-	public async process(
-		input: string,
-		startLine = 0,
-		endLine = 1000
-	): Promise<string> {
-		return new Promise((resolve, reject) => {
-			if (startLine > endLine) {
-				return reject(new Error('Nonsensical line numbers.'));
-			}
-			resolve(
-				input
-					.split(EOL)
-					.filter((_, index) => {
-						const currentLine: number = index + 1;
-						return currentLine >= startLine && currentLine <= endLine;
-					})
-					.join(EOL)
-			);
-		});
-	}
+  public async process(
+    input: string,
+    startLine = 0,
+    endLine = 1000
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (startLine > endLine) {
+        return reject(new Error('Nonsensical line numbers.'));
+      }
+      resolve(
+        input
+          .split(EOL)
+          .filter((_, index) => {
+            const currentLine: number = index + 1;
+            return currentLine >= startLine && currentLine <= endLine;
+          })
+          .join(EOL)
+      );
+    });
+  }
 
-	public async rename(from: string, to: string): Promise<void> {
-		await rename(from, to);
-	}
+  public async rename(from: string, to: string): Promise<void> {
+    await rename(from, to);
+  }
 
-	public get getMimeType(): string | undefined {
-		const extension = fileExtension(this.file, {
-			preserveCase: true,
-		});
-		return this.extensions.has(extension)
-			? this.extensions.get(extension)
-			: 'auto';
-	}
+  public get getMimeType(): string | undefined {
+    const extension = fileExtension(this.file, {
+      preserveCase: true,
+    });
+    return this.extensions.has(extension)
+      ? this.extensions.get(extension)
+      : 'auto';
+  }
 }
