@@ -28,14 +28,13 @@ export default class Renderer {
     RendererInstance.url = url;
     RendererInstance.type = type;
     RendererInstance.saveDirectory = saveDirectory;
-    RendererInstance.headless = headless;
-    await RendererInstance.init();
+    await RendererInstance.init(headless);
     return RendererInstance;
   }
 
-  private async init(): Promise<void> {
+  private async init(isHeadless: boolean): Promise<void> {
     this.browser = await chromium.launch({
-      headless: this.headless,
+      headless: isHeadless,
     });
     this.page = await this.browser.newPage(this.pageOptions);
   }

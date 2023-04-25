@@ -50,6 +50,6 @@ export default {
   headless: {
     type: 'boolean',
     alias: 'h',
-    default: false,
+    default: true,
   },
 } as const;

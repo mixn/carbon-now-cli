@@ -102,7 +102,8 @@ TaskList.add([
       const Renderer = await RendererModule.create(
         preparedURL,
         presetSettings.type,
-        Download.getSaveDirectory
+        Download.getSaveDirectory,
+        flags.headless
       );
       await Renderer.download();
       if (!flags.copy) {
