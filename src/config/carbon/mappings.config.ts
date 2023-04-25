@@ -14,8 +14,7 @@ interface MappingsConfigExportSizeInterface {
 	'1x': '1x';
 	'4x': '4x';
 }
-
-export interface MappingsConfigInterface {
+interface MappingsConfigInterface {
 	t: MappingsConfigThemeType;
 	wt: MappingsConfigWindowThemeInterface;
 	fm: MappingsConfigFontFamiliesInterface;

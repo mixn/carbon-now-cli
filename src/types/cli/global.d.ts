@@ -66,6 +66,7 @@ declare interface CarbonCLIPromptAnswersInterface
 	preset: string;
 	l: 'auto';
 }
+declare type CarbonCLIPromptAnswersType = CarbonCLIPromptAnswersInterface | {};
 declare interface CarbonCLIPromptAnswersMappedInterface
 	extends CarbonCLIPromptAnswersInterface {
 	t: CarbonThemeType;
@@ -75,6 +76,9 @@ declare interface CarbonCLIPromptAnswersMappedInterface
 	preset?: string;
 	save?: boolean;
 }
+declare type CarbonCLIPromptAnswersMappedType =
+	| CarbonCLIPromptAnswersMappedInterface
+	| {};
 declare interface CarbonCLIFlagsInterface {
 	start: number;
 	end: number;
@@ -90,3 +94,6 @@ declare interface CarbonCLIFlagsInterface {
 }
 declare type CarbonCLIPresetAndAnswersIntersectionType =
 	CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;
+declare type CarbonCLIPromptAnswersOptionalInterface =
+	| CarbonCLIPromptAnswersInterface
+	| {};

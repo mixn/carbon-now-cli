@@ -19,8 +19,8 @@ process.argv.push('-h');
 process.argv.push('--from-clipboard');
 
 describe('PromptModule', () => {
-	let inquirerOutput: CarbonCLIPromptAnswersInterface;
-	let mappedAnswers: CarbonCLIPromptAnswersMappedInterface;
+	let inquirerOutput: CarbonCLIPromptAnswersType;
+	let mappedAnswers: CarbonCLIPromptAnswersMappedType;
 
 	beforeEach(() => {
 		inquirerOutput = {
