@@ -2,6 +2,7 @@ import { HOMEDIR } from '../../src/helpers/cli/constants.helper.js';
 
 const CONFIG_DUMMY = '.carbon-now-dummy.json';
 export const DUMMY_FILE = './test/test-dummies/_unfold.js';
+export const DUMMY_CONFIG = './test/test-dummies/_config.json';
 export const DUMMY_INPUT = '<owen-wilson says="Wow" />';
 export const DUMMY_TARGET = 'target';
 export const DUMMY_LOCATION = '~/something';

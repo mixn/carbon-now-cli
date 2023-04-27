@@ -41,6 +41,7 @@ interface CarbonCLIPresetInterface {
   ds: boolean;
   dsyoff: string;
   dsblur: string;
+  sl: string;
   wa: boolean;
   lh: string;
   pv: string;
@@ -59,6 +60,7 @@ declare interface CarbonCLIPromptAnswersInterface
   extends CarbonCLIPresetInterface {
   dsyoff?: string;
   dsblur?: string;
+  highlight: string;
   t: CarbonCLIThemeType;
   wt: 'None' | 'Sharp' | 'Black & White';
   fm: CarbonFontFamilyType;

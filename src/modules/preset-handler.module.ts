@@ -10,6 +10,8 @@ import {
 import presetMissingView from '../views/preset-missing.view.js';
 
 export default class PresetHandler {
+  private readonly ignoredSettings = ['save', 'preset', 'l', 'highlight'];
+
   constructor(private readonly configPath: string = CONFIG_PATH) {}
 
   private async writeConfig(
@@ -53,11 +55,10 @@ export default class PresetHandler {
     preset = CONFIG_LATEST_PRESET,
     presetSettings = {}
   ): Promise<void> {
-    const whiteListedSettings = lodash.omit(presetSettings, [
-      'save',
-      'preset',
-      'l',
-    ]);
+    const whiteListedSettings = lodash.omit(
+      presetSettings,
+      this.ignoredSettings
+    );
     const currentConfig = await this.readConfig();
     const upcomingConfig = {
       ...currentConfig,

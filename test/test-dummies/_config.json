@@ -10,6 +10,7 @@
     "ds": true,
     "dsyoff": "5px",
     "dsblur": "5px",
+		"sl": "*",
     "wa": true,
     "lh": "133%",
     "pv": "20px",

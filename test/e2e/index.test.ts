@@ -8,6 +8,7 @@ import {
   DUMMY_INPUT,
   DUMMY_FILE,
   DUMMY_TARGET,
+  DUMMY_CONFIG,
 } from '../helpers/constants.helper.js';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 
@@ -16,7 +17,6 @@ const DEFAULT_SCRIPT = `${SCRIPT} ${DUMMY_FILE}`;
 const DUMMY_LOCATION = 'location';
 const DUMMY_SAVED_FILE_NAME = `${DUMMY_TARGET}.png`;
 const ABSENT_DUMMY_CONFIG = './non-existent.json';
-const PRESENT_DUMMY_CONFIG = './test/test-dummies/_config.json';
 
 afterEach(async () => {
   await del([DUMMY_SAVED_FILE_NAME], {
@@ -48,11 +48,11 @@ describe('Running `carbon-now` command', () => {
   });
 
   it('shouldn’t modify local --config, but instead treat it as read-only', async () => {
-    const CONFIG_BEFORE = await readFileAsync(PRESENT_DUMMY_CONFIG);
+    const CONFIG_BEFORE = await readFileAsync(DUMMY_CONFIG);
     await execa.command(
-      `${DEFAULT_SCRIPT} --config=${PRESENT_DUMMY_CONFIG} -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --config=${DUMMY_CONFIG} -t=${DUMMY_TARGET}`
     );
-    const CONFIG_AFTER = await readFileAsync(PRESENT_DUMMY_CONFIG);
+    const CONFIG_AFTER = await readFileAsync(DUMMY_CONFIG);
     expect(CONFIG_BEFORE).toBe(CONFIG_AFTER);
   });
 

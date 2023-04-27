@@ -6,6 +6,7 @@ import { CONFIG_LATEST_PRESET } from '../../src/helpers/cli/constants.helper.js'
 import {
   CONFIG_DUMMY_PATH,
   CONFIG_MISSING_PRESET,
+  DUMMY_CONFIG,
 } from '../helpers/constants.helper.js';
 import presetMissingView from '../../src/views/preset-missing.view.js';
 
@@ -101,14 +102,13 @@ describe('PresetHandlerModule', () => {
 
   it('should handle local configs correctly', async () => {
     expect(
-      await new PresetHandlerModule(
-        './test/test-dummies/_config.json'
-      ).getPreset(DUMMY_PRESET_NAME_1)
+      await new PresetHandlerModule(DUMMY_CONFIG).getPreset(DUMMY_PRESET_NAME_1)
     ).toEqual({
       bg: 'white',
       ds: true,
       dsblur: '5px',
       dsyoff: '5px',
+      sl: '*',
       es: '2x',
       fm: 'Inconsolata',
       fs: '16px',

@@ -93,6 +93,19 @@ export default [
   },
   {
     type: 'confirm',
+    name: 'highlight',
+    message: 'Highlight certain lines?',
+    default: false,
+  },
+  {
+    type: 'input',
+    name: 'sl',
+    message: 'Comma-separated list of lines to highlight, e.g., 4,5,6,7',
+    default: '*',
+    when: (answers: CarbonCLIPromptAnswersInterface) => answers.highlight,
+  },
+  {
+    type: 'confirm',
     name: 'si',
     message: 'Make squared image?',
     default: false,

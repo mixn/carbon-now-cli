@@ -1,5 +1,5 @@
-// For my own (and others) sanity,
-// this is commented JS, instead of uncommented JSON
+// Keys here are based on the corresponding Carbon query params,
+// so we can avoid further string mapping, e.g., `dropShadow` ➝ `ds`
 const defaultSettings: CarbonCLIPresetInterface = {
   // Theme
   t: 'seti',
@@ -22,6 +22,8 @@ const defaultSettings: CarbonCLIPresetInterface = {
   dsyoff: '20px',
   // Drop shadow blur
   dsblur: '68px',
+  // Selected lines aka. highlighted lines
+  sl: '*',
   // Auto adjust width
   wa: true,
   // Line height
