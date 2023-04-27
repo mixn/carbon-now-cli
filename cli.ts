@@ -26,30 +26,30 @@ const PresetHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
 const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
-let presetSettings = {
+let settings = {
   ...defaultSettings,
   l: FileHandler.getMimeType,
 };
 
 // If --preset set, merge the preset into defaults
 if (flags.preset) {
-  presetSettings = {
-    ...presetSettings,
+  settings = {
+    ...settings,
     ...(await PresetHandler.getPreset(flags.preset)),
   };
 }
 
 // --interactive has highest priority, even with --preset
 if (flags.interactive) {
-  presetSettings = {
-    ...presetSettings,
+  settings = {
+    ...settings,
     ...answers,
   } as CarbonCLIPresetAndAnswersIntersectionType;
 }
 
 // As long as it’s not a local --config, always save the latest run
 if (!flags.config) {
-  await PresetHandler.savePreset(presetSettings.preset, presetSettings);
+  await PresetHandler.savePreset(settings.preset, settings);
 }
 
 // Task 1: Process and encode input
@@ -73,11 +73,11 @@ TaskList.add([
     title: 'Preparing connection',
     task: (ctx) => {
       ctx.preparedURL = `${CARBON_URL}?${stringify({
-        ...presetSettings,
+        ...settings,
         code: ctx.encodedContent,
       })}`;
       Download.setFlags = flags;
-      Download.setImgType = presetSettings.type;
+      Download.setImgType = settings.type;
     },
   },
 ]);
@@ -101,7 +101,7 @@ TaskList.add([
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
         preparedURL,
-        presetSettings.type,
+        settings.type,
         Download.getSaveDirectory,
         flags.headless
       );
