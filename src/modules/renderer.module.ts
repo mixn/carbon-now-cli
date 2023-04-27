@@ -4,7 +4,6 @@ export default class Renderer {
   private url!: string;
   private type!: CarbonCLIDownloadType;
   private saveDirectory!: string;
-  private headless!: boolean;
   private browser!: Browser;
   private page!: Page;
   private readonly pageOptions = {
@@ -41,18 +40,17 @@ export default class Renderer {
 
   private async navigate(): Promise<void> {
     await this.page.goto(this.url);
-    const ExportMenuElement = await this.page.waitForSelector('#export-menu');
-    await ExportMenuElement?.click();
-    const ExportTriggerElement = await this.page.$(`#export-${this.type}`);
-    await ExportTriggerElement?.click();
+    await (await this.page.waitForSelector('#export-menu'))?.click();
+    await (await this.page.$(`#export-${this.type}`))?.click();
   }
 
   public async download(): Promise<void> {
     try {
       const queuedDownloadEvent = this.page.waitForEvent('download');
       await this.navigate();
-      const download = await queuedDownloadEvent;
-      await download?.saveAs(`${this.saveDirectory}/carbon.${this.type}`);
+      await (
+        await queuedDownloadEvent
+      )?.saveAs(`${this.saveDirectory}/carbon.${this.type}`);
     } catch (e) {
       throw new Error((e as Error).message);
     } finally {
