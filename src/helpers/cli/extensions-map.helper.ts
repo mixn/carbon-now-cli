@@ -1,4 +1,4 @@
-export default [
+export default new Map<string, string>([
   ['C', 'text/x-c++src'],
   ['c', 'text/x-csrc'],
   ['c++', 'text/x-c++src'],
@@ -172,4 +172,4 @@ export default [
   ['xquery', 'xquery'],
   ['yaml', 'yaml'],
   ['yml', 'yaml'],
-];
+]);

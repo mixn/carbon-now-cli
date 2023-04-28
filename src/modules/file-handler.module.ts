@@ -4,9 +4,7 @@ import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
 export default class FileHandler {
-  private readonly extensions = new Map<string, string>([
-    ...(extensionsMap as [[string, string]]),
-  ]);
+  private readonly extensions = extensionsMap;
 
   constructor(public file?: string) {}
 
