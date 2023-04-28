@@ -52,6 +52,14 @@ if (!flags.config) {
   await PresetHandler.savePreset(settings.preset, settings);
 }
 
+// If --start, use the original line number as first line number
+if (flags.start) {
+  settings = {
+    ...settings,
+    fl: flags.start,
+  };
+}
+
 // Task 1: Process and encode input
 TaskList.add([
   {

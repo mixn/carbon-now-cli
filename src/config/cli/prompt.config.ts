@@ -48,6 +48,13 @@ export default [
     default: false,
   },
   {
+    type: 'input',
+    name: 'fl',
+    message: 'Starting line number?',
+    default: '1',
+    when: (answers: CarbonCLIPromptAnswersInterface) => answers.ln,
+  },
+  {
     type: 'confirm',
     name: 'wa',
     message: 'Auto adjust width?',

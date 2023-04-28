@@ -38,6 +38,7 @@ interface CarbonCLIPresetInterface {
   fm: CarbonFontFamilyType;
   fs: string;
   ln: boolean;
+  fl: number;
   ds: boolean;
   dsyoff: string;
   dsblur: string;

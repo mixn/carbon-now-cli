@@ -7,6 +7,7 @@
     "fm": "Inconsolata",
     "fs": "16px",
     "ln": false,
+		"fl": 1,
     "ds": true,
     "dsyoff": "5px",
     "dsblur": "5px",

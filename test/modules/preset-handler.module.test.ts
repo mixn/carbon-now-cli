@@ -114,6 +114,7 @@ describe('PresetHandlerModule', () => {
       fs: '16px',
       lh: '133%',
       ln: false,
+      fl: 1,
       ph: '20px',
       pv: '20px',
       si: false,

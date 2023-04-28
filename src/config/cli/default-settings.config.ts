@@ -16,6 +16,8 @@ const defaultSettings: CarbonCLIPresetInterface = {
   fs: '18px',
   // Line numbers
   ln: false,
+  // First line number
+  fl: 1,
   // Drop shadow
   ds: false,
   // Drop shadow offset
