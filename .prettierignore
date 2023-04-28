@@ -1,5 +1,5 @@
 test/test-dummies/*
-test-deprecated/test-dummies/*
+!test/test-dummies/_config.json
 dist/
 static/*
 readme.md

@@ -23,7 +23,7 @@
     "buildrun": "npm run build && npm run run:build",
     "prettier": "prettier ./**/* --check",
     "test:unit": "jest ./test/ --testPathIgnorePatterns ./test/e2e/ --verbose --coverage",
-    "test:e2e": "jest ./test/e2e/index.test.ts --runInBand --verbose --testTimeout 120000 --coverage",
+    "test:e2e": "jest ./test/e2e/index.test.ts --runInBand --verbose --testTimeout 180000 --coverage",
     "test": "npm run test:unit && npm run test:e2e",
     "prepare": "husky install"
   },

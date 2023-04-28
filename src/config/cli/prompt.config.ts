@@ -69,13 +69,13 @@ export default [
   {
     type: 'input',
     name: 'pv',
-    message: 'Vertical padding',
+    message: 'Vertical padding:',
     default: '0px',
   },
   {
     type: 'input',
     name: 'ph',
-    message: 'Horizontal padding',
+    message: 'Horizontal padding:',
     default: '0px',
   },
   {
@@ -87,14 +87,14 @@ export default [
   {
     type: 'input',
     name: 'dsyoff',
-    message: 'Drop shadow y-offset',
+    message: 'Drop shadow y-offset:',
     default: '20px',
     when: (answers: CarbonCLIPromptAnswersInterface) => answers.ds,
   },
   {
     type: 'input',
     name: 'dsblur',
-    message: 'Drop shadow blur',
+    message: 'Drop shadow blur:',
     default: '68px',
     when: (answers: CarbonCLIPromptAnswersInterface) => answers.ds,
   },
@@ -126,7 +126,7 @@ export default [
   {
     type: 'list',
     name: 'es',
-    message: 'Export size',
+    message: 'Export size:',
     default: '2x',
     choices: Object.keys(mappingsConfig.es),
   },
