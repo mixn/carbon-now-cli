@@ -52,6 +52,7 @@ interface CarbonCLIPresetInterface {
   es: '1x' | '2x' | '4x';
   type: CarbonCLIDownloadType;
   preset?: string;
+  custom?: CarbonThemeHighlightsInterface;
 }
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
 declare interface CarbonCLIConfigInterface {

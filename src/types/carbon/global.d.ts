@@ -42,3 +42,27 @@ declare type CarbonFontFamilyType =
   | 'Source Code Pro'
   | 'Space Mono'
   | 'Ubuntu Mono';
+declare type CarbonCustomThemeNameType = 'carbon-now-cli-theme';
+declare interface CarbonThemeHighlightsInterface {
+  background?: string;
+  text?: string;
+  variable?: string;
+  variable2?: string;
+  variable3?: string;
+  attribute?: string;
+  definition?: string;
+  keyword?: string;
+  operator?: string;
+  property?: string;
+  number?: string;
+  string?: string;
+  comment?: string;
+  meta?: string;
+  tag?: string;
+}
+declare interface CarbonLocalStorageThemeInterface {
+  id: CarbonCustomThemeNameType;
+  name: CarbonCustomThemeNameType;
+  highlights: CarbonThemeHighlightsInterface;
+  custom: typeof true;
+}

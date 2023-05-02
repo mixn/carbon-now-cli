@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import open from 'open';
 import updateNotifier from 'update-notifier';
+import jsonFile from 'jsonfile';
 import { Listr } from 'listr2';
 import { stringify } from 'query-string';
 import { clipboard } from 'clipboard-sys';
@@ -14,8 +15,10 @@ import readFileAsync from './src/utils/read-file-async.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
-import packageJson from './package.json' assert { type: 'json' };
-import { CARBON_URL } from './src/helpers/carbon/constants.helper.js';
+import {
+  CARBON_URL,
+  CARBON_CUSTOM_THEME,
+} from './src/helpers/carbon/constants.helper.js';
 
 const Prompt = await PromptModule.create();
 const file = Prompt.getFile;
@@ -31,7 +34,7 @@ let settings = {
   l: FileHandler.getMimeType,
 };
 
-// If --preset set, merge the preset into defaults
+// --preset has a higher priority than default settings
 if (flags.preset) {
   settings = {
     ...settings,
@@ -39,7 +42,7 @@ if (flags.preset) {
   };
 }
 
-// --interactive has highest priority, even with --preset
+// --interactive has an even higher priority than --preset
 if (flags.interactive) {
   settings = {
     ...settings,
@@ -52,7 +55,7 @@ if (!flags.config) {
   await PresetHandler.savePreset(settings.preset, settings);
 }
 
-// If --start, use the original line number as first line number
+// If --start, use the original line number as the first line number
 if (flags.start) {
   settings = {
     ...settings,
@@ -83,6 +86,7 @@ TaskList.add([
       ctx.preparedURL = `${CARBON_URL}?${stringify({
         ...settings,
         code: ctx.encodedContent,
+        ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
       })}`;
       Download.setFlags = flags;
       Download.setImgType = settings.type;
@@ -113,6 +117,9 @@ TaskList.add([
         Download.getSaveDirectory,
         flags.headless
       );
+      if (settings.custom) {
+        await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
+      }
       await Renderer.download();
       if (!flags.copy) {
         await FileHandler.rename(
@@ -140,7 +147,7 @@ TaskList.add([
 try {
   await TaskList.run();
   console.log(await defaultSuccessView(flags, Download.getPath));
-  updateNotifier({ pkg: packageJson }).notify();
+  updateNotifier({ pkg: jsonFile.readFileSync('./package.json') }).notify();
   process.exit();
 } catch (e) {
   console.error(defaultErrorView((e as Error).message));

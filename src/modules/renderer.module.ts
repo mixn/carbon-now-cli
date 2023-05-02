@@ -1,4 +1,8 @@
 import { chromium, Browser, Page } from '@playwright/test';
+import {
+  CARBON_CUSTOM_THEME,
+  CARBON_LOCAL_STORAGE_KEY,
+} from '../../src/helpers/carbon/constants.helper.js';
 
 export default class Renderer {
   private url!: string;
@@ -36,6 +40,31 @@ export default class Renderer {
       headless: isHeadless,
     });
     this.page = await this.browser.newPage(this.pageOptions);
+  }
+
+  public async setCustomTheme(
+    highlights: CarbonThemeHighlightsInterface,
+    theme: CarbonCustomThemeNameType = CARBON_CUSTOM_THEME
+  ): Promise<void> {
+    await this.page.addInitScript(
+      ({ highlights, theme, CARBON_LOCAL_STORAGE_KEY }) => {
+        const themes: CarbonLocalStorageThemeInterface[] = [
+          {
+            id: theme,
+            name: theme,
+            highlights,
+            custom: true,
+          },
+        ];
+        window.localStorage.setItem(
+          CARBON_LOCAL_STORAGE_KEY,
+          JSON.stringify(themes)
+        );
+      },
+      // Passing this in as the 2nd parameter is crucial, see:
+      // https://github.com/microsoft/playwright/issues/6258#issuecomment-1030704374
+      { highlights, theme, CARBON_LOCAL_STORAGE_KEY }
+    );
   }
 
   private async navigate(): Promise<void> {
