@@ -1,10 +1,19 @@
+/**
+ * @jest-environment jsdom
+ */
 import { chromium, Browser, Page, Download } from '@playwright/test';
 import RendererModule from '../../src/modules/renderer.module.js';
-import { CARBON_URL } from '../../src/helpers/carbon/constants.helper.js';
+import {
+  CARBON_URL,
+  CARBON_CUSTOM_THEME,
+  CARBON_LOCAL_STORAGE_KEY,
+} from '../../src/helpers/carbon/constants.helper.js';
 import { DUMMY_LOCATION } from '../helpers/constants.helper.js';
 
 const EXPORT_MENU_SELECTOR = '#export-menu';
 const EXPORT_PNG_SELECTOR = '#export-png';
+const TYPE_PNG: CarbonCLIDownloadType = 'png';
+const TYPE_SVG: CarbonCLIDownloadType = 'svg';
 
 jest.mock('@playwright/test', () => ({
   chromium: {
@@ -18,6 +27,9 @@ jest.mock('@playwright/test', () => ({
         waitForEvent: jest.fn().mockReturnValue({
           saveAs: jest.fn(),
         }),
+        addInitScript: jest.fn().mockImplementation((callback, args) => {
+          callback(args);
+        }),
       }),
       close: jest.fn(),
     }),
@@ -26,19 +38,14 @@ jest.mock('@playwright/test', () => ({
 
 describe('RendererModule', () => {
   it('should throw if an invalid type is provided', async () => {
-    await expect(
-      RendererModule.create(CARBON_URL, 'invalid' as any)
-    ).rejects.toThrow('Invalid type. Only png and svg are supported.');
+    await expect(RendererModule.create('invalid' as any)).rejects.toThrow(
+      'Invalid type. Only png and svg are supported.'
+    );
   });
 
   it('should spawn browser & open a new page correctly', async () => {
-    const Renderer = await RendererModule.create(
-      CARBON_URL,
-      'png',
-      DUMMY_LOCATION,
-      false
-    );
-    await Renderer.download();
+    const Renderer = await RendererModule.create(TYPE_PNG, false);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     expect(chromium.launch).toHaveBeenCalledWith({
       headless: false,
     });
@@ -52,12 +59,8 @@ describe('RendererModule', () => {
   });
 
   it('should navigate to download initialization correctly', async () => {
-    const Renderer = await RendererModule.create(
-      CARBON_URL,
-      'png',
-      DUMMY_LOCATION
-    );
-    await Renderer.download();
+    const Renderer = await RendererModule.create(TYPE_PNG);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     const Page = await (await chromium.launch()).newPage();
     expect(await Page.goto).toHaveBeenCalledWith(CARBON_URL);
     expect(await Page.waitForSelector).toHaveBeenCalledWith(
@@ -77,12 +80,8 @@ describe('RendererModule', () => {
   });
 
   it('should download Carbon image correctly', async () => {
-    const Renderer = await RendererModule.create(
-      CARBON_URL,
-      'svg',
-      DUMMY_LOCATION
-    );
-    await Renderer.download();
+    const Renderer = await RendererModule.create(TYPE_SVG);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     const Page = await (await chromium.launch()).newPage();
     expect(Page.waitForEvent).toHaveBeenCalledWith('download');
     expect(
@@ -93,14 +92,35 @@ describe('RendererModule', () => {
   });
 
   it('should throw if an error occurs during the download', async () => {
-    const Renderer = await RendererModule.create(
-      CARBON_URL,
-      'png',
-      DUMMY_LOCATION
-    );
+    const Renderer = await RendererModule.create(TYPE_PNG);
     const Page = await (await chromium.launch()).newPage();
     const error = new Error('An error occurred during the download.');
     Page.waitForEvent = jest.fn().mockRejectedValueOnce(error);
-    await expect(Renderer.download()).rejects.toThrow(error.message);
+    await expect(Renderer.download(CARBON_URL, DUMMY_LOCATION)).rejects.toThrow(
+      error.message
+    );
+  });
+
+  it('should accept custom themes correctly', async () => {
+    const Renderer = await RendererModule.create(TYPE_PNG);
+    await Renderer.setCustomTheme({});
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
+    const Page = await (await chromium.launch()).newPage();
+    expect(Page.addInitScript).toHaveBeenCalledTimes(1);
+    expect(Page.addInitScript).toHaveBeenCalledWith(expect.any(Function), {
+      highlights: {},
+      theme: CARBON_CUSTOM_THEME,
+      CARBON_LOCAL_STORAGE_KEY,
+    });
+    expect(window.localStorage.getItem(CARBON_LOCAL_STORAGE_KEY)).toEqual(
+      JSON.stringify([
+        {
+          id: CARBON_CUSTOM_THEME,
+          name: CARBON_CUSTOM_THEME,
+          highlights: {},
+          custom: true,
+        },
+      ])
+    );
   });
 });

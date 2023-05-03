@@ -112,15 +112,13 @@ TaskList.add([
     skip: flags.open,
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
-        preparedURL,
         settings.type,
-        Download.getSaveDirectory,
         flags.headless
       );
       if (settings.custom) {
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
       }
-      await Renderer.download();
+      await Renderer.download(preparedURL, Download.getSaveDirectory);
       if (!flags.copy) {
         await FileHandler.rename(
           Download.getDownloadedAsPath,

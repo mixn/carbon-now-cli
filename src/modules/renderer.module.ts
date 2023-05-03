@@ -5,9 +5,7 @@ import {
 } from '../../src/helpers/carbon/constants.helper.js';
 
 export default class Renderer {
-  private url!: string;
   private type!: CarbonCLIDownloadType;
-  private saveDirectory!: string;
   private browser!: Browser;
   private page!: Page;
   private readonly pageOptions = {
@@ -19,18 +17,14 @@ export default class Renderer {
   };
 
   static async create(
-    url: string,
     type: CarbonCLIDownloadType = 'png',
-    saveDirectory: string = process.cwd(),
     headless: boolean = true
   ): Promise<Renderer> {
     if (!['png', 'svg'].includes(type)) {
       throw new Error('Invalid type. Only png and svg are supported.');
     }
     const RendererInstance = new this();
-    RendererInstance.url = url;
     RendererInstance.type = type;
-    RendererInstance.saveDirectory = saveDirectory;
     await RendererInstance.init(headless);
     return RendererInstance;
   }
@@ -40,6 +34,12 @@ export default class Renderer {
       headless: isHeadless,
     });
     this.page = await this.browser.newPage(this.pageOptions);
+  }
+
+  private async navigate(url: string): Promise<void> {
+    await this.page.goto(url);
+    await (await this.page.waitForSelector('#export-menu'))?.click();
+    await (await this.page.$(`#export-${this.type}`))?.click();
   }
 
   public async setCustomTheme(
@@ -67,19 +67,16 @@ export default class Renderer {
     );
   }
 
-  private async navigate(): Promise<void> {
-    await this.page.goto(this.url);
-    await (await this.page.waitForSelector('#export-menu'))?.click();
-    await (await this.page.$(`#export-${this.type}`))?.click();
-  }
-
-  public async download(): Promise<void> {
+  public async download(
+    url: string,
+    saveDirectory: string = process.cwd()
+  ): Promise<void> {
     try {
       const queuedDownloadEvent = this.page.waitForEvent('download');
-      await this.navigate();
+      await this.navigate(url);
       await (
         await queuedDownloadEvent
-      )?.saveAs(`${this.saveDirectory}/carbon.${this.type}`);
+      )?.saveAs(`${saveDirectory}/carbon.${this.type}`);
     } catch (e) {
       throw new Error((e as Error).message);
     } finally {
