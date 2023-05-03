@@ -1,0 +1,21 @@
+name: Run tests
+on: [pull_request, push, workflow_dispatch]
+
+jobs:
+  checkout-and-run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [v18.0.0]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test
+        timeout-minutes: 10
