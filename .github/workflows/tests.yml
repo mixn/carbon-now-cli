@@ -3,7 +3,7 @@ on: [pull_request, push, workflow_dispatch]
 
 jobs:
   checkout-and-run:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         node-version: [v18.0.0]
