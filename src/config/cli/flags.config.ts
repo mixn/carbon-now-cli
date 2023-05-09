@@ -47,4 +47,8 @@ export default {
     type: 'boolean',
     default: false,
   },
+  engine: {
+    type: 'string',
+    default: 'chromium',
+  },
 } as const;

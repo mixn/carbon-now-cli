@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { chromium, Browser, Page, Download } from '@playwright/test';
+import { chromium, firefox, webkit } from '@playwright/test';
 import RendererModule from '../../src/modules/renderer.module.js';
 import {
   CARBON_URL,
@@ -15,8 +15,8 @@ const EXPORT_PNG_SELECTOR = '#export-png';
 const TYPE_PNG: CarbonCLIDownloadType = 'png';
 const TYPE_SVG: CarbonCLIDownloadType = 'svg';
 
-jest.mock('@playwright/test', () => ({
-  chromium: {
+jest.mock('@playwright/test', () => {
+  const engineApi = {
     launch: jest.fn().mockReturnValue({
       newPage: jest.fn().mockReturnValue({
         goto: jest.fn(),
@@ -33,18 +33,31 @@ jest.mock('@playwright/test', () => ({
       }),
       close: jest.fn(),
     }),
-  },
-}));
+  };
+  return {
+    chromium: engineApi,
+    firefox: engineApi,
+    webkit: engineApi,
+  };
+});
 
 describe('RendererModule', () => {
   it('should throw if an invalid type is provided', async () => {
-    await expect(RendererModule.create('invalid' as any)).rejects.toThrow(
-      'Invalid type. Only png and svg are supported.'
-    );
+    await expect(
+      RendererModule.create(
+        CarbonCLIEngineFlagEnum.chromium,
+        false,
+        'invalid' as any
+      )
+    ).rejects.toThrow('Invalid type. Only png and svg are supported.');
   });
 
   it('should spawn browser & open a new page correctly', async () => {
-    const Renderer = await RendererModule.create(TYPE_PNG, false);
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_PNG
+    );
     await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     expect(chromium.launch).toHaveBeenCalledWith({
       headless: true,
@@ -59,7 +72,11 @@ describe('RendererModule', () => {
   });
 
   it('should navigate to download initialization correctly', async () => {
-    const Renderer = await RendererModule.create(TYPE_PNG);
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_PNG
+    );
     await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     const Page = await (await chromium.launch()).newPage();
     expect(await Page.goto).toHaveBeenCalledWith(CARBON_URL);
@@ -80,7 +97,11 @@ describe('RendererModule', () => {
   });
 
   it('should download Carbon image correctly', async () => {
-    const Renderer = await RendererModule.create(TYPE_SVG);
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_SVG
+    );
     await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     const Page = await (await chromium.launch()).newPage();
     expect(Page.waitForEvent).toHaveBeenCalledWith('download');
@@ -92,7 +113,11 @@ describe('RendererModule', () => {
   });
 
   it('should throw if an error occurs during the download', async () => {
-    const Renderer = await RendererModule.create(TYPE_PNG);
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_PNG
+    );
     const Page = await (await chromium.launch()).newPage();
     const error = new Error('An error occurred during the download.');
     Page.waitForEvent = jest.fn().mockRejectedValueOnce(error);
@@ -102,7 +127,11 @@ describe('RendererModule', () => {
   });
 
   it('should accept custom themes correctly', async () => {
-    const Renderer = await RendererModule.create(TYPE_PNG);
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_PNG
+    );
     await Renderer.setCustomTheme({});
     await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     const Page = await (await chromium.launch()).newPage();
@@ -122,5 +151,41 @@ describe('RendererModule', () => {
         },
       ])
     );
+  });
+
+  it('should spawn Chromium by default if --engine is not set', async () => {
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.chromium,
+      false,
+      TYPE_PNG
+    );
+    expect(chromium.launch).toHaveBeenCalledWith({ headless: true });
+  });
+
+  it('should spawn Firefox correctly if --engine=firefox', async () => {
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.firefox,
+      false,
+      TYPE_PNG
+    );
+    expect(firefox.launch).toHaveBeenCalledWith({ headless: true });
+  });
+
+  it('should spawn Webkit correctly if --engine=webkit', async () => {
+    const Renderer = await RendererModule.create(
+      CarbonCLIEngineFlagEnum.webkit,
+      false,
+      TYPE_PNG
+    );
+    expect(webkit.launch).toHaveBeenCalledWith({ headless: true });
+  });
+
+  it('should default to Chromium if --engine makes no sense', async () => {
+    const Renderer = await RendererModule.create(
+      'nope' as any,
+      false,
+      TYPE_PNG
+    );
+    expect(chromium.launch).toHaveBeenCalledWith({ headless: true });
   });
 });

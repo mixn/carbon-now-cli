@@ -112,8 +112,9 @@ TaskList.add([
     skip: flags.openInBrowser,
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
-        settings.type,
-        flags.disableHeadless
+        flags.engine,
+        flags.disableHeadless,
+        settings.type
       );
       if (settings.custom) {
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);

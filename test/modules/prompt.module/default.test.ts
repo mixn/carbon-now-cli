@@ -96,6 +96,7 @@ describe('PromptModule', () => {
       preset: 'twitter',
       fromClipboard: true,
       disableHeadless: false,
+      engine: 'chromium',
     });
   });
 

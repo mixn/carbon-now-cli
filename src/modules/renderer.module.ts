@@ -1,4 +1,11 @@
-import { chromium, Browser, Page } from '@playwright/test';
+import {
+  chromium,
+  firefox,
+  webkit,
+  Browser,
+  Page,
+  BrowserType,
+} from '@playwright/test';
 import {
   CARBON_CUSTOM_THEME,
   CARBON_LOCAL_STORAGE_KEY,
@@ -17,20 +24,41 @@ export default class Renderer {
   };
 
   static async create(
-    type: CarbonCLIDownloadType = 'png',
-    disableHeadless: boolean = false
+    engineType: CarbonCLIEngineFlagEnum = CarbonCLIEngineFlagEnum.chromium,
+    disableHeadless: boolean = false,
+    type: CarbonCLIDownloadType = 'png'
   ): Promise<Renderer> {
     if (!['png', 'svg'].includes(type)) {
       throw new Error('Invalid type. Only png and svg are supported.');
     }
     const RendererInstance = new this();
     RendererInstance.type = type;
-    await RendererInstance.init(disableHeadless);
+    await RendererInstance.init(engineType, disableHeadless);
     return RendererInstance;
   }
 
-  private async init(hasHeadlessDisabled: boolean): Promise<void> {
-    this.browser = await chromium.launch({
+  private getEngine(engine: CarbonCLIEngineFlagEnum): BrowserType {
+    switch (engine) {
+      case CarbonCLIEngineFlagEnum.chromium: {
+        return chromium;
+      }
+      case CarbonCLIEngineFlagEnum.firefox: {
+        return firefox;
+      }
+      case CarbonCLIEngineFlagEnum.webkit: {
+        return webkit;
+      }
+      default: {
+        return chromium;
+      }
+    }
+  }
+
+  private async init(
+    engineType: CarbonCLIEngineFlagEnum,
+    hasHeadlessDisabled: boolean
+  ): Promise<void> {
+    this.browser = await this.getEngine(engineType).launch({
       headless: !hasHeadlessDisabled,
     });
     this.page = await this.browser.newPage(this.pageOptions);

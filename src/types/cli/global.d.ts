@@ -83,6 +83,11 @@ declare interface CarbonCLIPromptAnswersMappedInterface
 declare type CarbonCLIPromptAnswersMappedType =
   | CarbonCLIPromptAnswersMappedInterface
   | {};
+declare const enum CarbonCLIEngineFlagEnum {
+  chromium = 'chromium',
+  firefox = 'firefox',
+  webkit = 'webkit',
+}
 declare interface CarbonCLIFlagsInterface {
   start: number;
   end: number;
@@ -95,9 +100,7 @@ declare interface CarbonCLIFlagsInterface {
   config: string;
   fromClipboard: boolean;
   disableHeadless: boolean;
+  engine: CarbonCLIEngineFlagEnum;
 }
 declare type CarbonCLIPresetAndAnswersIntersectionType =
   CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;
-declare type CarbonCLIPromptAnswersOptionalInterface =
-  | CarbonCLIPromptAnswersInterface
-  | {};
