@@ -27,7 +27,7 @@ export default class Download {
   }
 
   public get getSaveDirectory(): string {
-    return this.flags.copy
+    return this.flags.toClipboard
       ? this.tempDirectory
       : this.expandHomeDirectory(this.flags.saveTo);
   }
@@ -49,6 +49,8 @@ export default class Download {
   }
 
   public get getPath(): string {
-    return this.flags.copy ? this.getDownloadedAsPath : this.getSavedAsPath;
+    return this.flags.toClipboard
+      ? this.getDownloadedAsPath
+      : this.getSavedAsPath;
   }
 }

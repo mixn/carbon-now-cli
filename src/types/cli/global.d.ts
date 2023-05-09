@@ -91,7 +91,7 @@ declare interface CarbonCLIFlagsInterface {
   saveAs?: string;
   interactive: boolean;
   preset: string;
-  copy: boolean;
+  toClipboard: boolean;
   config: string;
   fromClipboard: boolean;
   headless: boolean;

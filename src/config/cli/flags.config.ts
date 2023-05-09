@@ -32,9 +32,8 @@ export default {
     alias: 'p',
     default: CONFIG_LATEST_PRESET,
   },
-  copy: {
+  toClipboard: {
     type: 'boolean',
-    alias: 'c',
     default: false,
   },
   config: {

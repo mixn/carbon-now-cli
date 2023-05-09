@@ -119,7 +119,7 @@ TaskList.add([
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
       }
       await Renderer.download(preparedURL, Download.getSaveDirectory);
-      if (!flags.copy) {
+      if (!flags.toClipboard) {
         await FileHandler.rename(
           Download.getDownloadedAsPath,
           Download.getSavedAsPath
@@ -133,7 +133,7 @@ TaskList.add([
 TaskList.add([
   {
     title: 'Copying image to clipboard',
-    skip: !flags.copy || flags.openInBrowser,
+    skip: !flags.toClipboard || flags.openInBrowser,
     task: async ({ preparedURL }) => {
       await clipboard.writeImage(
         await readFileAsync(Download.getDownloadedAsPath, false)

@@ -63,8 +63,10 @@ describe('Running `carbon-now` command', () => {
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 
-  it('should save to temporary system folder when --copy is provided', async () => {
-    await execa.command(`${DEFAULT_SCRIPT} --copy --save-as ${DUMMY_TARGET}`);
+  it('should save to temporary system folder when --to-clipboard is provided', async () => {
+    await execa.command(
+      `${DEFAULT_SCRIPT} --to-clipboard --save-as ${DUMMY_TARGET}`
+    );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
 

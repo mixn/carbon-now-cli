@@ -55,12 +55,12 @@ describe('DownloadModule', () => {
   it('should return the save directory correctly', () => {
     const Download = new DownloadModule();
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getSaveDirectory).toBe(DUMMY_LOCATION_EXPANDED);
     Download.setFlags = {
-      copy: true,
+      toClipboard: true,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getSaveDirectory).toBe(DUMMY_TEMP_FOLDER);
@@ -70,7 +70,7 @@ describe('DownloadModule', () => {
     const Download = new DownloadModule();
     Download.setImgType = 'png';
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getDownloadedAsPath).toBe(
@@ -78,7 +78,7 @@ describe('DownloadModule', () => {
     );
     Download.setImgType = 'png';
     Download.setFlags = {
-      copy: true,
+      toClipboard: true,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getDownloadedAsPath).toBe(
@@ -90,7 +90,7 @@ describe('DownloadModule', () => {
     const Download = new DownloadModule();
     Download.setImgType = 'png';
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -98,7 +98,7 @@ describe('DownloadModule', () => {
       `${DUMMY_LOCATION_EXPANDED}/${DUMMY_TARGET}.png`
     );
     Download.setFlags = {
-      copy: true,
+      toClipboard: true,
       saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -111,7 +111,7 @@ describe('DownloadModule', () => {
     const Download = new DownloadModule();
     Download.setImgType = 'png';
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -119,7 +119,7 @@ describe('DownloadModule', () => {
       `${DUMMY_LOCATION_EXPANDED}/${DUMMY_TARGET}.png`
     );
     Download.setFlags = {
-      copy: true,
+      toClipboard: true,
       saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -127,7 +127,7 @@ describe('DownloadModule', () => {
       `${DUMMY_TEMP_FOLDER}/${DUMMY_DEFAULT_FILE_NAME}`
     );
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveAs: undefined,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -137,7 +137,7 @@ describe('DownloadModule', () => {
     const Download2 = new DownloadModule(DUMMY_FILE);
     Download2.setImgType = 'svg';
     Download2.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveAs: undefined,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
@@ -150,7 +150,7 @@ describe('DownloadModule', () => {
     const Download = new DownloadModule();
     Download.setImgType = 'png';
     Download.setFlags = {
-      copy: false,
+      toClipboard: false,
       saveAs: DUMMY_TARGET,
       saveTo: './relative',
     } as CarbonCLIFlagsInterface;

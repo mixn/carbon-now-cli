@@ -12,7 +12,7 @@ export default async (flags: CarbonCLIFlagsInterface, path: string) => {
   Browser opened — finish your image there! 😌`;
       break;
     }
-    case flags.copy: {
+    case flags.toClipboard: {
       successMessage += `
   Image copied to clipboard! 😌`;
       break;
