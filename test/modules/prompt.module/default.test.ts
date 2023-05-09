@@ -15,7 +15,7 @@ process.argv.push('--save-to', '~/Desktop');
 process.argv.push('--save-as', 'foo.jpg');
 process.argv.push('--to-clipboard');
 process.argv.push('-p', 'twitter');
-process.argv.push('-h');
+process.argv.push('--disable-headless', 'false');
 process.argv.push('--from-clipboard');
 
 describe('PromptModule', () => {
@@ -95,7 +95,7 @@ describe('PromptModule', () => {
       interactive: true,
       preset: 'twitter',
       fromClipboard: true,
-      headless: true,
+      disableHeadless: false,
     });
   });
 
@@ -110,7 +110,7 @@ describe('PromptModule', () => {
         '-i',
         '-p',
         '--to-clipboard',
-        '-h',
+        '--disable-headless',
       ])
     );
     expect(process.argv).not.toEqual(
@@ -123,7 +123,7 @@ describe('PromptModule', () => {
         '--interactive',
         '--preset',
         '--to-clipboard',
-        '--headless',
+        '--disable-headless',
       ])
     );
     expect(Object.keys((await PromptModule.create()).getFlags)).toEqual(
@@ -136,7 +136,7 @@ describe('PromptModule', () => {
         'interactive',
         'preset',
         'toClipboard',
-        'headless',
+        'disableHeadless',
       ])
     );
   });

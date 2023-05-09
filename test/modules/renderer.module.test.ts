@@ -47,7 +47,7 @@ describe('RendererModule', () => {
     const Renderer = await RendererModule.create(TYPE_PNG, false);
     await Renderer.download(CARBON_URL, DUMMY_LOCATION);
     expect(chromium.launch).toHaveBeenCalledWith({
-      headless: false,
+      headless: true,
     });
     expect(await (await chromium.launch()).newPage).toHaveBeenCalledWith({
       viewport: {

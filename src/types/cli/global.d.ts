@@ -94,7 +94,7 @@ declare interface CarbonCLIFlagsInterface {
   toClipboard: boolean;
   config: string;
   fromClipboard: boolean;
-  headless: boolean;
+  disableHeadless: boolean;
 }
 declare type CarbonCLIPresetAndAnswersIntersectionType =
   CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;

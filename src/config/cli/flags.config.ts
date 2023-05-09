@@ -43,9 +43,8 @@ export default {
     type: 'boolean',
     default: false,
   },
-  headless: {
+  disableHeadless: {
     type: 'boolean',
-    alias: 'h',
-    default: true,
+    default: false,
   },
 } as const;

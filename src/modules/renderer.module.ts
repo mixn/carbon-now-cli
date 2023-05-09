@@ -18,20 +18,20 @@ export default class Renderer {
 
   static async create(
     type: CarbonCLIDownloadType = 'png',
-    headless: boolean = true
+    disableHeadless: boolean = false
   ): Promise<Renderer> {
     if (!['png', 'svg'].includes(type)) {
       throw new Error('Invalid type. Only png and svg are supported.');
     }
     const RendererInstance = new this();
     RendererInstance.type = type;
-    await RendererInstance.init(headless);
+    await RendererInstance.init(disableHeadless);
     return RendererInstance;
   }
 
-  private async init(isHeadless: boolean): Promise<void> {
+  private async init(hasHeadlessDisabled: boolean): Promise<void> {
     this.browser = await chromium.launch({
-      headless: isHeadless,
+      headless: !hasHeadlessDisabled,
     });
     this.page = await this.browser.newPage(this.pageOptions);
   }

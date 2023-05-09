@@ -7,17 +7,17 @@ export default `
     $ carbon-now --from-clipboard
 
   ${chalk.bold('Options')}
-    -s, --start          Starting line of <file>
-    -e, --end            Ending line of <file>
+    -s, --start          Starting line of input
+    -e, --end            Ending line of input
     -i, --interactive    Interactive mode
-    -p, --preset         Use a saved preset
-    -h, --headless       Use only non-experimental Puppeteer features
+    -p, --preset         Apply a saved preset from config
     --save-to            Image save location, default: cwd
     --save-as            Image name, default: original-hash.{png|svg}
     --from-clipboard     Read input from clipboard instead of file
     --to-clipboard       Copy image to clipboard
     --open-in-browser    Open in browser instead of saving
     --config             Use a different, local config (read-only)
+    --disable-headless   Run Playwright in headful mode
 
   ${chalk.bold('Examples')}
     See: https://github.com/mixn/carbon-now-cli#examples

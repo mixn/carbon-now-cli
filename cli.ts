@@ -113,7 +113,7 @@ TaskList.add([
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
         settings.type,
-        flags.headless
+        flags.disableHeadless
       );
       if (settings.custom) {
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
