@@ -12,10 +12,10 @@ export default `
     -i, --interactive    Interactive mode
     -l, --location       Image save location, default: cwd
     -t, --target         Image name, default: original-hash.{png|svg}
-    -o, --open           Open in browser instead of saving
     -c, --copy           Copy image to clipboard
     -p, --preset         Use a saved preset
     -h, --headless       Use only non-experimental Puppeteer features
+    --open-in-browser    Open in browser instead of saving
     --config             Use a different, local config (read-only)
     --from-clipboard     Read input from clipboard instead of file
 

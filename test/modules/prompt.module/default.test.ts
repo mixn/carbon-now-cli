@@ -10,7 +10,7 @@ process.argv.push(DUMMY_FILE);
 process.argv.push('-i');
 process.argv.push('-s', '3');
 process.argv.push('-e', '100');
-process.argv.push('-o');
+process.argv.push('--open-in-browser');
 process.argv.push('-l', '~/Desktop');
 process.argv.push('-t', 'foo.jpg');
 process.argv.push('-c');
@@ -88,7 +88,7 @@ describe('PromptModule', () => {
     expect((await PromptModule.create()).getFlags).toEqual({
       start: 3,
       end: 100,
-      open: true,
+      openInBrowser: true,
       copy: true,
       location: '~/Desktop',
       target: 'foo.jpg',
@@ -104,7 +104,7 @@ describe('PromptModule', () => {
       expect.arrayContaining([
         '-s',
         '-e',
-        '-o',
+        '--open-in-browser',
         '-l',
         '-t',
         '-i',
@@ -117,7 +117,7 @@ describe('PromptModule', () => {
       expect.arrayContaining([
         '--start',
         '--end',
-        '--open',
+        '--open-in-browser',
         '--location',
         '--target',
         '--interactive',
@@ -130,7 +130,7 @@ describe('PromptModule', () => {
       expect.arrayContaining([
         'start',
         'end',
-        'open',
+        'openInBrowser',
         'location',
         'target',
         'interactive',

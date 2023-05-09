@@ -86,7 +86,7 @@ declare type CarbonCLIPromptAnswersMappedType =
 declare interface CarbonCLIFlagsInterface {
   start: number;
   end: number;
-  open: boolean;
+  openInBrowser: boolean;
   location: string;
   target?: string;
   interactive: boolean;

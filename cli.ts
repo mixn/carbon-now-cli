@@ -98,7 +98,7 @@ TaskList.add([
 TaskList.add([
   {
     title: 'Opening in browser',
-    skip: !flags.open,
+    skip: !flags.openInBrowser,
     task: ({ preparedURL }) => {
       open(preparedURL);
     },
@@ -109,7 +109,7 @@ TaskList.add([
 TaskList.add([
   {
     title: 'Fetching beautiful image',
-    skip: flags.open,
+    skip: flags.openInBrowser,
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
         settings.type,
@@ -133,7 +133,7 @@ TaskList.add([
 TaskList.add([
   {
     title: 'Copying image to clipboard',
-    skip: !flags.copy || flags.open,
+    skip: !flags.copy || flags.openInBrowser,
     task: async ({ preparedURL }) => {
       await clipboard.writeImage(
         await readFileAsync(Download.getDownloadedAsPath, false)

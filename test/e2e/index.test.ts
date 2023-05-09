@@ -68,8 +68,10 @@ describe('Running `carbon-now` command', () => {
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
 
-  it('shouldn’t download an image when --open is provided', async () => {
-    await execa.command(`${DEFAULT_SCRIPT} --open -t=${DUMMY_TARGET}`);
+  it('shouldn’t download an image when --open-in-browser is provided', async () => {
+    await execa.command(
+      `${DEFAULT_SCRIPT} --open-in-browser -t=${DUMMY_TARGET}`
+    );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
 

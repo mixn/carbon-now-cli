@@ -7,7 +7,7 @@ export default async (flags: CarbonCLIFlagsInterface, path: string) => {
 	`;
 
   switch (true) {
-    case flags.open: {
+    case flags.openInBrowser: {
       successMessage += `
   Browser opened — finish your image there! 😌`;
       break;

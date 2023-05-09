@@ -11,9 +11,8 @@ export default {
     alias: 'e',
     default: 1000,
   },
-  open: {
+  openInBrowser: {
     type: 'boolean',
-    alias: 'o',
     default: false,
   },
   location: {
