@@ -11,11 +11,11 @@ export default class Download {
 
   constructor(public file?: string) {}
 
-  private expandHomeDirectory(location: string): string {
-    if (location.startsWith('~')) {
-      return location.replace('~', homedir());
+  private expandHomeDirectory(saveDirectory: string): string {
+    if (saveDirectory.startsWith('~')) {
+      return saveDirectory.replace('~', homedir());
     }
-    return location;
+    return saveDirectory;
   }
 
   public set setImgType(imgType: CarbonCLIDownloadType) {
@@ -29,7 +29,7 @@ export default class Download {
   public get getSaveDirectory(): string {
     return this.flags.copy
       ? this.tempDirectory
-      : this.expandHomeDirectory(this.flags.location);
+      : this.expandHomeDirectory(this.flags.saveTo);
   }
 
   public get getOriginalFileName(): string {

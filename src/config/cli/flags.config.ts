@@ -15,9 +15,8 @@ export default {
     type: 'boolean',
     default: false,
   },
-  location: {
+  saveTo: {
     type: 'string',
-    alias: 'l',
     default: process.cwd(),
   },
   target: {

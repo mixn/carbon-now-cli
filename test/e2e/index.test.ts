@@ -75,10 +75,10 @@ describe('Running `carbon-now` command', () => {
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
 
-  it('should handle --location correctly', async () => {
+  it('should handle --save-to correctly', async () => {
     await mkdir(DUMMY_LOCATION);
     await execa.command(
-      `${DEFAULT_SCRIPT} -l ./${DUMMY_LOCATION} -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} -t=${DUMMY_TARGET}`
     );
     expect(
       await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`)
