@@ -42,12 +42,12 @@ describe('DownloadModule', () => {
   it('should return the new file name correctly', () => {
     const Download = new DownloadModule();
     Download.setFlags = {
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
     } as CarbonCLIFlagsInterface;
     expect(Download.getNewFileName).toBe(DUMMY_TARGET);
     const Download2 = new DownloadModule(DUMMY_FILE);
     Download2.setFlags = {
-      target: undefined,
+      saveAs: undefined,
     } as CarbonCLIFlagsInterface;
     expect(Download2.getNewFileName).toBe('_unfold-123456789');
   });
@@ -91,7 +91,7 @@ describe('DownloadModule', () => {
     Download.setImgType = 'png';
     Download.setFlags = {
       copy: false,
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getSavedAsPath).toBe(
@@ -99,7 +99,7 @@ describe('DownloadModule', () => {
     );
     Download.setFlags = {
       copy: true,
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getSavedAsPath).toBe(
@@ -112,7 +112,7 @@ describe('DownloadModule', () => {
     Download.setImgType = 'png';
     Download.setFlags = {
       copy: false,
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getPath).toBe(
@@ -120,7 +120,7 @@ describe('DownloadModule', () => {
     );
     Download.setFlags = {
       copy: true,
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getPath).toBe(
@@ -128,7 +128,7 @@ describe('DownloadModule', () => {
     );
     Download.setFlags = {
       copy: false,
-      target: undefined,
+      saveAs: undefined,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download.getPath).toBe(
@@ -138,7 +138,7 @@ describe('DownloadModule', () => {
     Download2.setImgType = 'svg';
     Download2.setFlags = {
       copy: false,
-      target: undefined,
+      saveAs: undefined,
       saveTo: DUMMY_LOCATION,
     } as CarbonCLIFlagsInterface;
     expect(Download2.getPath).toBe(
@@ -151,7 +151,7 @@ describe('DownloadModule', () => {
     Download.setImgType = 'png';
     Download.setFlags = {
       copy: false,
-      target: DUMMY_TARGET,
+      saveAs: DUMMY_TARGET,
       saveTo: './relative',
     } as CarbonCLIFlagsInterface;
     expect(Download.getPath).toBe(`./relative/${DUMMY_TARGET}.png`);

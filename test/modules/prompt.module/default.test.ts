@@ -12,7 +12,7 @@ process.argv.push('-s', '3');
 process.argv.push('-e', '100');
 process.argv.push('--open-in-browser');
 process.argv.push('--save-to', '~/Desktop');
-process.argv.push('-t', 'foo.jpg');
+process.argv.push('--save-as', 'foo.jpg');
 process.argv.push('-c');
 process.argv.push('-p', 'twitter');
 process.argv.push('-h');
@@ -91,7 +91,7 @@ describe('PromptModule', () => {
       openInBrowser: true,
       copy: true,
       saveTo: '~/Desktop',
-      target: 'foo.jpg',
+      saveAs: 'foo.jpg',
       interactive: true,
       preset: 'twitter',
       fromClipboard: true,
@@ -106,7 +106,7 @@ describe('PromptModule', () => {
         '-e',
         '--open-in-browser',
         '--save-to',
-        '-t',
+        '--save-as',
         '-i',
         '-p',
         '-c',
@@ -119,7 +119,7 @@ describe('PromptModule', () => {
         '--end',
         '--open-in-browser',
         '--save-to',
-        '--target',
+        '--save-as',
         '--interactive',
         '--preset',
         '--copy',
@@ -132,7 +132,7 @@ describe('PromptModule', () => {
         'end',
         'openInBrowser',
         'saveTo',
-        'target',
+        'saveAs',
         'interactive',
         'preset',
         'copy',

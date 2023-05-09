@@ -34,15 +34,15 @@ describe('Running `carbon-now` command', () => {
     } catch (error) {}
   });
 
-  it('should handle --target correctly', async () => {
+  it('should handle --save-as correctly', async () => {
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
-    await execa.command(`${DEFAULT_SCRIPT} -t=${DUMMY_TARGET}`);
+    await execa.command(`${DEFAULT_SCRIPT} --save-as ${DUMMY_TARGET}`);
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 
   it('shouldn’t create a config when local --config is provided', async () => {
     await execa.command(
-      `${DEFAULT_SCRIPT} --config=${ABSENT_DUMMY_CONFIG} -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --config ${ABSENT_DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`
     );
     expect(await fileExists(ABSENT_DUMMY_CONFIG)).toBe(false);
   });
@@ -50,7 +50,7 @@ describe('Running `carbon-now` command', () => {
   it('shouldn’t modify local --config, but instead treat it as read-only', async () => {
     const CONFIG_BEFORE = await readFileAsync(DUMMY_CONFIG);
     await execa.command(
-      `${DEFAULT_SCRIPT} --config=${DUMMY_CONFIG} -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --config ${DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`
     );
     const CONFIG_AFTER = await readFileAsync(DUMMY_CONFIG);
     expect(CONFIG_BEFORE).toBe(CONFIG_AFTER);
@@ -58,19 +58,19 @@ describe('Running `carbon-now` command', () => {
 
   it('shouldn’t fail when --end is larger than --start', async () => {
     await execa.command(
-      `${DEFAULT_SCRIPT} --start=2 --end=10 -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --start 2 --end 10 --save-as ${DUMMY_TARGET}`
     );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 
   it('should save to temporary system folder when --copy is provided', async () => {
-    await execa.command(`${DEFAULT_SCRIPT} --copy -t=${DUMMY_TARGET}`);
+    await execa.command(`${DEFAULT_SCRIPT} --copy --save-as ${DUMMY_TARGET}`);
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
 
   it('shouldn’t download an image when --open-in-browser is provided', async () => {
     await execa.command(
-      `${DEFAULT_SCRIPT} --open-in-browser -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --open-in-browser --save-as ${DUMMY_TARGET}`
     );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
   });
@@ -78,7 +78,7 @@ describe('Running `carbon-now` command', () => {
   it('should handle --save-to correctly', async () => {
     await mkdir(DUMMY_LOCATION);
     await execa.command(
-      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} -t=${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET}`
     );
     expect(
       await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`)
@@ -88,7 +88,7 @@ describe('Running `carbon-now` command', () => {
 
   it('should handle --from-clipboard correctly', async () => {
     clipboard.writeSync(DUMMY_INPUT);
-    await execa.command(`${SCRIPT} --from-clipboard -t=${DUMMY_TARGET}`);
+    await execa.command(`${SCRIPT} --from-clipboard --save-as ${DUMMY_TARGET}`);
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 });

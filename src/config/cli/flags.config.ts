@@ -19,9 +19,8 @@ export default {
     type: 'string',
     default: process.cwd(),
   },
-  target: {
+  saveAs: {
     type: 'string',
-    alias: 't',
   },
   interactive: {
     type: 'boolean',

@@ -88,7 +88,7 @@ declare interface CarbonCLIFlagsInterface {
   end: number;
   openInBrowser: boolean;
   saveTo: string;
-  target?: string;
+  saveAs?: string;
   interactive: boolean;
   preset: string;
   copy: boolean;

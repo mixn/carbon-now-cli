@@ -37,7 +37,7 @@ export default class Download {
   }
 
   public get getNewFileName(): string {
-    return this.flags.target || `${this.getOriginalFileName}-${this.uniqueId}`;
+    return this.flags.saveAs || `${this.getOriginalFileName}-${this.uniqueId}`;
   }
 
   public get getDownloadedAsPath(): string {
