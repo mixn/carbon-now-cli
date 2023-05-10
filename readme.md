@@ -16,60 +16,63 @@
 
 ## Description
 
-[carbon.now.sh](https://carbon.now.sh/) by [@dawn_labs](https://twitter.com/dawn_labs) is a wonderful tool that lets you generate beautiful images of your source code through an intuitive UI, while letting you customize aspects like fonts, themes, window controls and much more.
+[carbon.now.sh](https://carbon.now.sh/) is an excellent tool that lets you generate beautiful images of your source code through an intuitive UI while allowing you to customize aspects like fonts, themes, window controls, and &amp; more.
 
-`carbon-now-cli` gives you the **full power of Carbon** — right at your fingertips, **inside the terminal**.
+`carbon-now-cli` gives you the full power of Carbon — right at your fingertips, **inside the terminal**.
 
-Generate beautiful images from a source file, or *sections of a source file*, by running a single command.
+Generate beautiful images from a source file, or sections of a source file, by running a single command.
 
-Want to customize **everything** before generating the image? Run it in ⚡️ **interactive mode** ⚡️. 😎
+Want to customize **everything** before generating the image? Run it in ⚡️ ***interactive mode.*** ⚡️ 😎
 
 ![Basic example](static/demo.gif)
 
 ## Features
 
-- 🖼 Downloads the **real**, **high-quality** image (*no DOM screenshots*)
-- ✨ Detects file type **automatically**
-- 🗂 Supports **all** file extensions supported by [carbon.now.sh](https://carbon.now.sh) and [more](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/language-map.json)
+- 🖼 Downloads the **real**, **high-quality** image (no DOM screenshots)
+- ✨ Detects file type automatically
+- 🗂 Supports all languages supported by [carbon.now.sh](https://carbon.now.sh) &amp; [covers extra ground](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/cli/extensions-map.helper.ts)
 - ⚡️ [Interactive mode](#fully-customized) via `--interactive`
-- 🎒 [Presets](#presets): save and reuse your favorite settings
-- 🖱 [Selective highlighting](#selective) via `--start` and `--end`
-- 📎 [Copies image to clipboard](#copying-to-clipboard) via `--copy` (**cross-OS** 😱)
-- 📚 Accepts [file, `stdin` or clipboard content](#input-sources) as input
-- 🐶 Displays image directly in supported terminals
-- ⏱ Reports each step and therefore *shortens the wait*
+- 🎒 [Presets](#presets) to save and re-use your favorite settings
+- 🖱 [Selective processing](#selective) via `--start` and `--end`
+- 📎 [Copies image to clipboard](#copying-to-clipboard) via `--to-clipboard` (cross-OS 😱)
+- 📚 Accepts [file, `stdin`, or clipboard content](#input-sources) as input
 - 👀 Saves to [given location](#full-example) or [only opens in browser](#full-example) for manual finish
-- 🌈 Supports saving as `.png` or `.svg` — just like Carbon
-- 📏 Supports `2x`, `4x` or `1x` resolutions — just like Carbon
-- ✅ Tested
-- ⛏ Maintained
+- 🐶 Displays image directly in supported terminals
+- 🖋️ Supports [custom theme colors](https://github.com/mixn/carbon-now-cli/issues/46)
+- 🌈 Supports saving as `.png` or `.svg`
+- 📏 Supports `2x`, `4x` or `1x` resolutions
+- 🧺 Supports pretty much [any other](https://github.com/mixn/carbon-now-cli/issues/46) [Carbon feature](https://github.com/mixn/carbon-now-cli/issues/70)
+- ⏱ Reports each step and therefore shortens the wait
+- ✅ Heavily tested
+- ⛏ Actively maintained
 
 ## Installation
 
-#### npm
+### npm
+
 ```
-$ npm i -g carbon-now-cli
+npm i -g carbon-now-cli
 ```
 
-#### yarn
+### yarn
+
 ```
-$ yarn global add carbon-now-cli
+yarn global add carbon-now-cli
 ```
 
-#### npx
+### npx
+
 ```
-$ npx carbon-now-cli <file>
+npx carbon-now-cli <file>
 ```
 
 #### Requirements
 
-![Minimum Node.js version](https://badgen.net/badge/node/%3E=8.3/green)
+![Minimum requirements](https://badgen.net/badge/node/%3E=18.0.0/green)
 
 ## Usage
 
 ```
-$ carbon-now --help
-
 Beautiful images of your code — from right inside your terminal.
 
 Usage
@@ -78,17 +81,19 @@ Usage
   $ carbon-now --from-clipboard
 
 Options
-  -s, --start          Starting line of <file>
-  -e, --end            Ending line of <file>
+  -s, --start          Starting line of input
+  -e, --end            Ending line of input
   -i, --interactive    Interactive mode
-  -l, --location       Image save location, default: cwd
-  -t, --target         Image name, default: original-hash.{png|svg}
-  -o, --open           Open in browser instead of saving
-  -c, --copy           Copy image to clipboard
-  -p, --preset         Use a saved preset
-  -h, --headless       Use only non-experimental Puppeteer features
-  --config             Use a different, local config (read-only)
+  -p, --preset         Apply an existing preset
+  --save-to            Image save location, default: cwd
+  --save-as            Image name, default: original-hash.{png|svg}
   --from-clipboard     Read input from clipboard instead of file
+  --to-clipboard       Copy image to clipboard
+  --open-in-browser    Open in browser instead of saving
+  --config             Use a different, local config (read-only)
+  --disable-headless   Run Playwright in headful mode
+  --engine             Use different rendering engine, default: `chromium`
+                       Options: `chromium`, `firefox`, `webkit`
 
 Examples
   See: https://github.com/mixn/carbon-now-cli#examples
@@ -114,7 +119,7 @@ and you’d like to make a beautiful image out of it. You could approach this in
 #### Basic
 
 ```
-$ carbon-now unfold.js
+carbon-now unfold.js
 ```
 
 Takes the entire source of `unfold.js`, uses Carbon’s default settings and saves as `.png` into your `cwd`.
@@ -123,12 +128,10 @@ Takes the entire source of `unfold.js`, uses Carbon’s default settings and sav
 
 ![Basic example](static/example-1.png)
 
-**Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
-
 #### Fully customized
 
 ```
-$ carbon-now unfold.js -i
+carbon-now unfold.js --interactive
 ```
 
 Launches an interactive mode, prompting questions, allowing you to customize every aspect of Carbon, like syntax theme, font-family, padding, drop-shadow, etc.
@@ -145,30 +148,30 @@ If you’re not sure what each question, e.g. “Make squared image?”, refers 
 
 If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/default-settings.js).
 
+**Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
+
 #### Selective
 
 ```
-$ carbon-now unfold.js -s 3 -e 6
+carbon-now unfold.js --start 3 --end 6
 ```
 
 Reads and creates an image based on lines `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
 
-Selective mode can of course be combined with interactive mode, just with like any other option. 😊
+Selective processing can of course be combined with interactive mode, as with any other option. 😊
 
 **Result**:
 
 ![Example 3](static/example-3.png)
 
-**Note**: `carbon-now` will be smart enough to reuse your last used settings, instead of the default ones. 🤓
-
 #### Copying to clipboard
 
 ![Copying to Clipboard](static/clipboard-demo.gif)
 
-It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--copy`/`-c` flag is for.
+It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--to-clipboard` flag is for.
 
 ```
-$ carbon-now unfold.js -c
+carbon-now unfold.js --to-clipboard
 ```
 
 will copy the image to clipboard instead of downloading it to a given directory.
@@ -183,15 +186,9 @@ Please be aware that this requires some binaries to be present on certain OS.
 sudo apt-get install xclip
 ```
 
-##### Windows
+#### Windows &amp; macOS
 
-[`NirCmd`](http://www.nirsoft.net/utils/nircmd.html) is required. It can be installed via
-
-```
-choco install nircmd
-```
-
-Also make sure the `nircmd` command is globally accessible/inside your Windows directory.
+*It just works.* ™
 
 #### Input Sources
 
@@ -202,30 +199,30 @@ In addition to files, `carbon-now-cli` therefore also accepts input coming from 
 ##### `stdin`
 
 ```
-$ pbpaste | carbon-now
-$ echo '<h1>Hi</h1>' | carbon-now
+pbpaste | carbon-now
+echo '<h1>Hi</h1>' | carbon-now
 ```
 
 ##### Clipboard
 
 ```
-$ carbon-now --from-clipboard
+carbon-now --from-clipboard
 ```
 
 #### Full Example
 
-For demonstration purposes, here is an example using all options.
+For demonstration purposes, here is an example using most options.
 
 ```
-$ carbon-now unfold.js -s 3 -e 6 -l ~/Desktop -t example-23 -i
+carbon-now unfold.js --start 3 --end 6 --save-to ~/Desktop --save-as example-23 --interactive
 ```
 
 This saves a beautiful image of lines `3` to `6` to `~/Desktop/example-23.png`, after accepting custom wishes via interactive mode.
 
-If you’re not sure how exactly the image will turn out, you can always use `-o` or `--open`.
+If you’re not sure how exactly the image will turn out, you can always use `--open-in-browser`.
 
 ```
-$ carbon-now unfold.js -s 3 -e 6 -i -o
+carbon-now unfold.js --start 3 --end 6 --interactive --open-in-browser
 ```
 
 This will open the image in the browser for final touches, instead of saving it immediately. 😌
