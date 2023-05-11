@@ -24,6 +24,12 @@ afterEach(async () => {
   });
 });
 
+afterAll(async () => {
+  await del([DUMMY_LOCATION], {
+    force: true,
+  });
+});
+
 describe('Running `carbon-now` command', () => {
   it('should fail without <file> or stdin', async () => {
     try {

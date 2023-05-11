@@ -3,6 +3,7 @@ node_modules
 assets
 .DS_Store
 dist/
+bundle/
 coverage/
 /test-results/
 /playwright-report/

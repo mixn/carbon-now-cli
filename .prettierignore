@@ -1,6 +1,7 @@
 test/test-dummies/*
 !test/test-dummies/_config.json
 dist/
+bundle/
 static/*
 readme.md
 license
