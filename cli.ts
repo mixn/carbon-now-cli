@@ -15,6 +15,7 @@ import readFileAsync from './src/utils/read-file-async.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
+import packageJson from './package.json' assert { type: 'json' };
 import {
   CARBON_URL,
   CARBON_CUSTOM_THEME,
@@ -146,7 +147,7 @@ TaskList.add([
 try {
   await TaskList.run();
   console.log(await defaultSuccessView(flags, Download.getPath));
-  updateNotifier({ pkg: jsonFile.readFileSync('./package.json') }).notify();
+  updateNotifier({ pkg: packageJson }).notify();
   process.exit();
 } catch (e) {
   console.error(defaultErrorView((e as Error).message));
