@@ -68,7 +68,7 @@ npx carbon-now-cli <file>
 
 #### Requirements
 
-![Minimum requirements](https://img.shields.io/node/v/carbon-now-cli?label=Node)
+[![Requirements](https://img.shields.io/node/v/carbon-now-cli?label=Node&color=limegreen)](https://img.shields.io/node/v/carbon-now-cli)
 
 ## Usage
 

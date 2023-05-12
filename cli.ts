@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import open from 'open';
 import updateNotifier from 'update-notifier';
-import jsonFile from 'jsonfile';
 import { Listr } from 'listr2';
 import { stringify } from 'query-string';
 import { clipboard } from 'clipboard-sys';
