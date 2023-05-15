@@ -146,7 +146,7 @@ Given this input…
 
 If you’re not sure what each question, e.g., “Make squared image?” refers to, simply confirm by hitting **Enter** — it will default to a sensible, nice-looking thing.
 
-If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/default-settings.js).
+If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts).
 
 **Note**: `carbon-now` will be smart enough to re-use your last used settings instead of the default ones. 🤓
 
