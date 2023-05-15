@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
-import lodash from 'lodash';
+import _ from 'lodash';
 import { EOL } from 'os';
 import {
   CONFIG_PATH,
@@ -10,7 +10,12 @@ import {
 import presetMissingView from '../views/preset-missing.view.js';
 
 export default class PresetHandler {
-  private readonly ignoredSettings = ['save', 'preset', 'l', 'highlight'];
+  private readonly ignoredSettings = [
+    'save',
+    'preset',
+    'language',
+    'highlight',
+  ];
 
   constructor(private readonly configPath: string = CONFIG_PATH) {}
 
@@ -55,10 +60,7 @@ export default class PresetHandler {
     preset = CONFIG_LATEST_PRESET,
     presetSettings = {}
   ): Promise<void> {
-    const whiteListedSettings = lodash.omit(
-      presetSettings,
-      this.ignoredSettings
-    );
+    const whiteListedSettings = _.omit(presetSettings, this.ignoredSettings);
     const currentConfig = await this.readConfig();
     const upcomingConfig = {
       ...currentConfig,

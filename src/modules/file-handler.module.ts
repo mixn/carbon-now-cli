@@ -33,12 +33,10 @@ export default class FileHandler {
     await rename(from, to);
   }
 
-  public get getMimeType(): string | undefined {
+  public get getMimeType(): string {
     const extension = fileExtension(this.file, {
       preserveCase: true,
     });
-    return this.extensions.has(extension)
-      ? this.extensions.get(extension)
-      : 'auto';
+    return this.extensions.get(extension) ?? 'auto';
   }
 }

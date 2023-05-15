@@ -1,7 +1,7 @@
 import meow from 'meow';
 import inquirer from 'inquirer';
 import clipboard from 'clipboardy';
-import lodash from 'lodash';
+import _ from 'lodash';
 import getStdin from 'get-stdin';
 import {
   mappingsConfig,
@@ -65,7 +65,7 @@ export default class Prompt {
   private mapAnswersToCarbonValues(
     unmappedAnswers: CarbonCLIPromptAnswersInterface
   ): CarbonCLIPromptAnswersMappedInterface {
-    return lodash.mapValues(
+    return _.mapValues(
       unmappedAnswers,
       (value, key) =>
         mappingsConfig[key]?.[value as MappingsConfigPropertyType] ?? value

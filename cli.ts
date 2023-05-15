@@ -11,6 +11,7 @@ import FileHandlerModule from './src/modules/file-handler.module.js';
 import DownloadModule from './src/modules/download.module.js';
 import RendererModule from './src/modules/renderer.module.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
+import transformToQueryParams from './src/utils/transform-to-query-params.util.js';
 import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
@@ -29,9 +30,9 @@ const PresetHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
 const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
-let settings = {
+let settings: CarbonCLIPresetInterface = {
   ...defaultSettings,
-  l: FileHandler.getMimeType,
+  language: FileHandler.getMimeType,
 };
 
 // --preset has a higher priority than default settings
@@ -55,11 +56,11 @@ if (!flags.config) {
   await PresetHandler.savePreset(settings.preset, settings);
 }
 
-// If --start, use the original line number as the first line number
-if (flags.start) {
+// If --start isn’t default (1), use the original line number as the first line number
+if (flags.start > 1) {
   settings = {
     ...settings,
-    fl: flags.start,
+    firstLineNumber: flags.start,
   };
 }
 
@@ -83,11 +84,13 @@ TaskList.add([
   {
     title: 'Preparing connection',
     task: (ctx) => {
-      ctx.preparedURL = `${CARBON_URL}?${stringify({
-        ...settings,
-        code: ctx.encodedContent,
-        ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
-      })}`;
+      ctx.preparedURL = `${CARBON_URL}?${stringify(
+        transformToQueryParams({
+          ...settings,
+          code: ctx.encodedContent,
+          ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
+        })
+      )}`;
       Download.setFlags = flags;
       Download.setImgType = settings.type;
     },

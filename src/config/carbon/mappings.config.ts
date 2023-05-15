@@ -15,10 +15,10 @@ interface MappingsConfigExportSizeInterface {
   '4x': '4x';
 }
 interface MappingsConfigInterface {
-  t: MappingsConfigThemeType;
-  wt: MappingsConfigWindowThemeInterface;
-  fm: MappingsConfigFontFamiliesInterface;
-  es: MappingsConfigExportSizeInterface;
+  theme: MappingsConfigThemeType;
+  windowTheme: MappingsConfigWindowThemeInterface;
+  fontFamily: MappingsConfigFontFamiliesInterface;
+  exportSize: MappingsConfigExportSizeInterface;
   [key: string]: any;
 }
 export type MappingsConfigPropertyType =
@@ -27,7 +27,7 @@ export type MappingsConfigPropertyType =
   | keyof MappingsConfigFontFamiliesInterface
   | keyof MappingsConfigExportSizeInterface;
 export const mappingsConfig: MappingsConfigInterface = {
-  t: {
+  theme: {
     '3024 Night': '3024-night',
     'A11y Dark': 'a11y-dark',
     'Base 16 (Dark)': 'base16-dark',
@@ -58,12 +58,12 @@ export const mappingsConfig: MappingsConfigInterface = {
     Yeti: 'yeti',
     Zenburn: 'zenburn',
   },
-  wt: {
+  windowTheme: {
     None: 'none',
     Sharp: 'sharp',
     'Black & White': 'bw',
   },
-  fm: {
+  fontFamily: {
     // Although this is technically not needed any more, I’ll leave it in due to
     // potential anomalies that have occured in the past (e. g. 'Dank Mono': dm)
     'Anonymous Pro': 'Anonymous Pro',
@@ -80,7 +80,7 @@ export const mappingsConfig: MappingsConfigInterface = {
     'Space Mono': 'Space Mono',
     'Ubuntu Mono': 'Ubuntu Mono',
   },
-  es: {
+  exportSize: {
     '2x': '2x',
     '1x': '1x',
     '4x': '4x',

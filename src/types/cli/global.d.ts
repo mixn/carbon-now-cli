@@ -31,26 +31,28 @@ declare type CarbonCLIThemeType =
 declare type CarbonCLIDownloadType = 'png' | 'svg';
 type CarbonWindowThemeType = 'none' | 'sharp' | 'bw';
 interface CarbonCLIPresetInterface {
-  t: CarbonThemeType;
-  bg: string;
-  wt: CarbonWindowThemeType;
-  wc: boolean;
-  fm: CarbonFontFamilyType;
-  fs: string;
-  ln: boolean;
-  fl: number;
-  ds: boolean;
-  dsyoff: string;
-  dsblur: string;
-  sl: string;
-  wa: boolean;
-  lh: string;
-  pv: string;
-  ph: string;
-  si: boolean;
-  wm: boolean;
-  es: '1x' | '2x' | '4x';
+  theme: CarbonThemeType;
+  backgroundColor: string;
+  windowTheme: CarbonWindowThemeType;
+  windowControls: boolean;
+  fontFamily: CarbonFontFamilyType;
+  fontSize: string;
+  lineNumbers: boolean;
+  firstLineNumber: number;
+  dropShadow: boolean;
+  dropShadowOffsetY: string;
+  dropShadowBlurRadius: string;
+  selectedLines: string;
+  widthAdjustment: boolean;
+  lineHeight: string;
+  paddingVertical: string;
+  paddingHorizontal: string;
+  squaredImage: boolean;
+  watermark: boolean;
+  exportSize: '1x' | '2x' | '4x';
   type: CarbonCLIDownloadType;
+  code?: string;
+  language?: string;
   preset?: string;
   custom?: CarbonThemeHighlightsInterface;
 }
@@ -60,23 +62,23 @@ declare interface CarbonCLIConfigInterface {
 }
 declare interface CarbonCLIPromptAnswersInterface
   extends CarbonCLIPresetInterface {
-  dsyoff?: string;
-  dsblur?: string;
+  dropShadowOffsetY?: string;
+  dropShadowBlurRadius?: string;
   highlight: string;
-  t: CarbonCLIThemeType;
-  wt: 'None' | 'Sharp' | 'Black & White';
-  fm: CarbonFontFamilyType;
+  theme: CarbonCLIThemeType;
+  windowTheme: 'None' | 'Sharp' | 'Black & White';
+  fontFamily: CarbonFontFamilyType;
   save: boolean;
   preset: string;
-  l: 'auto';
+  language: 'auto';
 }
 declare type CarbonCLIPromptAnswersType = CarbonCLIPromptAnswersInterface | {};
 declare interface CarbonCLIPromptAnswersMappedInterface
   extends CarbonCLIPromptAnswersInterface {
-  t: CarbonThemeType;
-  wt: CarbonWindowThemeType;
-  fm: CarbonFontFamilyType;
-  l?: string;
+  theme: CarbonThemeType;
+  windowTheme: CarbonWindowThemeType;
+  fontFamily: CarbonFontFamilyType;
+  language?: string;
   preset?: string;
   save?: boolean;
 }
@@ -104,3 +106,25 @@ declare interface CarbonCLIFlagsInterface {
 }
 declare type CarbonCLIPresetAndAnswersIntersectionType =
   CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;
+declare interface CarbonCLISettingsToQueryParamsMapInterface {
+  backgroundColor: 'bg';
+  dropShadow: 'ds';
+  dropShadowBlurRadius: 'dsblur';
+  dropShadowOffsetY: 'dsyoff';
+  exportSize: 'es';
+  firstLineNumber: 'fl';
+  fontFamily: 'fm';
+  fontSize: 'fs';
+  lineHeight: 'lh';
+  language: string | 'auto';
+  lineNumbers: 'ln';
+  paddingHorizontal: 'ph';
+  paddingVertical: 'pv';
+  selectedLines: 'sl';
+  squaredImage: 'si';
+  theme: 't';
+  watermark: 'wm';
+  widthAdjustment: 'wa';
+  windowControls: 'wc';
+  windowTheme: 'wt';
+}
