@@ -144,7 +144,7 @@ Given this input…
 
 ![Example 2, Output](static/example-2-2.png)
 
-If you’re not sure what each question, e.g., “Make squared image?” refers to, simply confirm by hitting **Enter** — it will default to a sensible, nice-looking thing.
+If you’re unsure what each question, e.g., “Make squared image?” refers to, simply confirm by hitting **Enter** — it will default to a sensible, nice-looking thing.
 
 If needed, you can always check the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts).
 
@@ -156,9 +156,9 @@ If needed, you can always check the [default settings](https://github.com/mixn/c
 carbon-now unfold.js --start 3 --end 6
 ```
 
-Reads and creates an image based on lines `3` to `6`, instead of the entire file. Will throw an error if `-s` > `-e`.
+Reads and creates an image based on lines `3` to `6` instead of the entire file. Will throw an error if `-s` > `-e`.
 
-Selective processing can of course, be combined with interactive mode, as with any other option. 😊
+Selective processing can of course be combined with interactive mode, as with any other option. 😊
 
 #### Result:
 
@@ -292,7 +292,7 @@ Answering with yes and naming the preset (in this case `presentation`) will resu
 
 ### Using a saved preset
 
-Reusing presets is as easy and straight-forward as:
+Re-using presets is as easy and straight-forward as:
 
 ```
 carbon-now unfold.js -p <name-of-preset>
@@ -314,7 +314,7 @@ carbon-now unfold.js -p presentation
 
 *It just works.* ™
 
-Any time you use `-i`, `carbon-now-cli` will automatically reuse those settings for its next run.
+Any time you use `-i`, `carbon-now-cli` will automatically re-use those settings for its next run.
 
 So you can `carbon-now <file> -i` and `carbon-now <file>` from there on — the output will always look as pretty as the one where you’ve used `-i`. 😊
 
