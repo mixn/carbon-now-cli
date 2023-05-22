@@ -1,7 +1,11 @@
 import chalk from 'chalk';
 import terminalImage from 'terminal-image';
 
-export default async (flags: CarbonCLIFlagsInterface, path: string) => {
+export default async (
+  flags: CarbonCLIFlagsInterface,
+  path: string,
+  type: CarbonCLIDownloadType
+) => {
   let successMessage = `
   ${chalk.green('Done!')}
 	`;
@@ -22,7 +26,12 @@ export default async (flags: CarbonCLIFlagsInterface, path: string) => {
   The file can be found here: ${path} 😌
 	`;
 
-      if (process.env.TERM_PROGRAM && process.env.TERM_PROGRAM.match('iTerm')) {
+      if (
+        process.env.TERM_PROGRAM &&
+        process.env.TERM_PROGRAM.match('iTerm') &&
+        type === 'png' &&
+        !flags.skipDisplay
+      ) {
         successMessage += `
   iTerm2 should display the image below. 😊
   ${await terminalImage.file(path)}`;

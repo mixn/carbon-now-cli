@@ -103,6 +103,7 @@ declare interface CarbonCLIFlagsInterface {
   fromClipboard: boolean;
   disableHeadless: boolean;
   engine: CarbonCLIEngineFlagEnum;
+  skipDisplay: boolean;
 }
 declare type CarbonCLIPresetAndAnswersIntersectionType =
   CarbonCLIPromptAnswersInterface & CarbonCLIPresetInterface;

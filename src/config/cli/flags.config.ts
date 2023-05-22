@@ -51,4 +51,8 @@ export default {
     type: 'string',
     default: 'chromium',
   },
+  skipDisplay: {
+    type: 'boolean',
+    default: false,
+  },
 } as const;

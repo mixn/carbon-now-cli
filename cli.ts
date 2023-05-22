@@ -148,7 +148,7 @@ TaskList.add([
 
 try {
   await TaskList.run();
-  console.log(await defaultSuccessView(flags, Download.getPath));
+  console.log(await defaultSuccessView(flags, Download.getPath, settings.type));
   updateNotifier({ pkg: packageJson }).notify();
   process.exit();
 } catch (e) {

@@ -17,6 +17,7 @@ process.argv.push('--to-clipboard');
 process.argv.push('-p', 'twitter');
 process.argv.push('--disable-headless', 'false');
 process.argv.push('--from-clipboard');
+process.argv.push('--skip-display');
 
 describe('PromptModule', () => {
   let inquirerOutput: CarbonCLIPromptAnswersType;
@@ -97,6 +98,7 @@ describe('PromptModule', () => {
       fromClipboard: true,
       disableHeadless: false,
       engine: 'chromium',
+      skipDisplay: true,
     });
   });
 
@@ -112,6 +114,7 @@ describe('PromptModule', () => {
         '-p',
         '--to-clipboard',
         '--disable-headless',
+        '--skip-display',
       ])
     );
     expect(process.argv).not.toEqual(
@@ -125,6 +128,7 @@ describe('PromptModule', () => {
         '--preset',
         '--to-clipboard',
         '--disable-headless',
+        '--skip-display',
       ])
     );
     expect(Object.keys((await PromptModule.create()).getFlags)).toEqual(
@@ -138,6 +142,7 @@ describe('PromptModule', () => {
         'preset',
         'toClipboard',
         'disableHeadless',
+        'skipDisplay',
       ])
     );
   });

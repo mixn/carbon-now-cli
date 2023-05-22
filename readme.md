@@ -94,6 +94,7 @@ Options
   --disable-headless   Run Playwright in headful mode
   --engine             Use different rendering engine, default: `chromium`
                        Options: `chromium`, `firefox`, `webkit`
+  --skip-display       Don’t display the image in the terminal
 
 Examples
   See: https://github.com/mixn/carbon-now-cli#examples
