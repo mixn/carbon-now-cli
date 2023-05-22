@@ -16,6 +16,7 @@ export default new Map<string, string>([
   ['conf', 'nginx'],
   ['cpp', 'text/x-c++src'],
   ['cpy', 'cobol'],
+  ['cql', 'text/x-cassandra'],
   ['cr', 'crystal'],
   ['cs', 'smalltalk'],
   ['css', 'css'],
