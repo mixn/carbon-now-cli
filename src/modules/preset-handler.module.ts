@@ -19,15 +19,8 @@ export default class PresetHandler {
 
   constructor(private readonly configPath: string = CONFIG_PATH) {}
 
-  private async writeConfig(
-    configSettings = {},
-    jsonFileOptions = {}
-  ): Promise<void> {
-    await jsonFile.writeFileSync(
-      this.configPath,
-      configSettings,
-      jsonFileOptions
-    );
+  private writeConfig(configSettings = {}, jsonFileOptions = {}): void {
+    jsonFile.writeFileSync(this.configPath, configSettings, jsonFileOptions);
   }
 
   private async readConfig(): Promise<CarbonCLIConfigInterface> {

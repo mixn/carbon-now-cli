@@ -71,6 +71,21 @@ describe('RendererModule', () => {
     });
   });
 
+  it('should correctly fall back to default values if none are provided', async () => {
+    const Renderer = await RendererModule.create();
+    await Renderer.download(CARBON_URL);
+    expect(chromium.launch).toHaveBeenCalledWith({
+      headless: true,
+    });
+    const Page = await (await chromium.launch()).newPage();
+    expect(Page.waitForEvent).toHaveBeenCalledWith('download');
+    expect(
+      await (
+        await Page.waitForEvent('download')
+      ).saveAs
+    ).toHaveBeenCalledWith(`${process.cwd()}/carbon.png`);
+  });
+
   it('should navigate to download initialization correctly', async () => {
     const Renderer = await RendererModule.create(
       CarbonCLIEngineFlagEnum.chromium,
