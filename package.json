@@ -1,6 +1,6 @@
 {
   "name": "carbon-now-cli",
-  "version": "2.0.0-rc.6",
+  "version": "2.0.0",
   "description": "Beautiful images of your code — from right inside your terminal.",
   "license": "MIT",
   "repository": "mixn/carbon-now-cli",
