@@ -1,7 +1,10 @@
 node_modules
 .vscode
-carbon.png
-carbon.svg
-carbon
 assets
 .DS_Store
+dist/
+bundle/
+coverage/
+/test-results/
+/playwright-report/
+/playwright/.cache/
