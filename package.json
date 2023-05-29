@@ -57,7 +57,7 @@
     "clipboardy": "^2.3.0",
     "file-exists": "^5.0.1",
     "file-extension": "^4.0.5",
-    "get-stdin": "^8.0.0",
+    "get-stdin": "^9.0.0",
     "inquirer": "^6.5.2",
     "jsonfile": "^6.1.0",
     "listr2": "^6.2.0",
