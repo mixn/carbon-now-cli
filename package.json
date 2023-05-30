@@ -63,7 +63,7 @@
     "listr2": "^6.2.0",
     "lodash": "^4.17.21",
     "meow": "^9.0.0",
-    "nanoid": "^3.3.6",
+    "nanoid": "^4.0.2",
     "open": "^8.4.2",
     "playwright": "^1.33.0",
     "@playwright/test": "^1.32.3",
