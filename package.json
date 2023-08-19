@@ -90,7 +90,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "mock-fs": "^5.2.0",
     "mock-os": "^1.0.0",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.0.1",
     "prettier": "^2.8.5",
     "trash-cli": "^5.0.0",
     "ts-jest": "^29.0.5",
