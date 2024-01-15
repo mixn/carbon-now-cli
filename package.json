@@ -91,7 +91,7 @@
     "mock-fs": "^5.2.0",
     "mock-os": "^1.0.0",
     "nodemon": "^3.0.1",
-    "prettier": "^2.8.5",
+    "prettier": "^3.2.2",
     "trash-cli": "^5.0.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
