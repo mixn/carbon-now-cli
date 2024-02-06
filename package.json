@@ -54,7 +54,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "clipboard-sys": "^1.2.0",
-    "clipboardy": "^2.3.0",
+    "clipboardy": "^4.0.0",
     "file-exists": "^5.0.1",
     "file-extension": "^4.0.5",
     "get-stdin": "^9.0.0",
