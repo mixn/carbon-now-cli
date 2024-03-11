@@ -67,7 +67,7 @@
     "open": "^8.4.2",
     "playwright": "^1.33.0",
     "@playwright/test": "^1.32.3",
-    "query-string": "^7.1.3",
+    "query-string": "^9.0.0",
     "tempy": "^1.0.1",
     "terminal-image": "^2.0.0",
     "update-notifier": "^7.0.0"
