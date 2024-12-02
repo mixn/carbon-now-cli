@@ -2,9 +2,10 @@ import inquirer from 'inquirer';
 import PromptModule from '../../../src/modules/prompt.module.js';
 import promptConfig from '../../../src/config/cli/prompt.config.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
+import { vi, describe, beforeEach, it, expect } from 'vitest';
 
-jest.mock('inquirer');
-jest.mock('get-stdin');
+vi.mock('inquirer');
+vi.mock('get-stdin');
 
 process.argv.push(DUMMY_FILE);
 process.argv.push('-i');
@@ -74,7 +75,7 @@ describe('PromptModule', () => {
   });
 
   it('should return mapped answers correctly', async () => {
-    (inquirer as jest.Mocked<typeof inquirer>).prompt.mockResolvedValue(
+    (inquirer as vi.Mocked<typeof inquirer>).prompt.mockResolvedValue(
       inquirerOutput
     );
     expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);

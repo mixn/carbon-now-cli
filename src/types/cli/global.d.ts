@@ -85,6 +85,8 @@ declare interface CarbonCLIPromptAnswersMappedInterface
 declare type CarbonCLIPromptAnswersMappedType =
   | CarbonCLIPromptAnswersMappedInterface
   | {};
+
+// TODO: Fix non-identified global
 declare const enum CarbonCLIEngineFlagEnum {
   chromium = 'chromium',
   firefox = 'firefox',

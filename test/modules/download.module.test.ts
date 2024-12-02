@@ -10,9 +10,18 @@ import {
   DUMMY_TEMP_FOLDER,
   DUMMY_DEFAULT_FILE_NAME,
 } from '../helpers/constants.helper.js';
+import {
+  vi,
+  beforeEach,
+  it,
+  expect,
+  beforeAll,
+  afterAll,
+  describe,
+} from 'vitest';
 
-jest.mock('nanoid');
-jest.mock('tempy');
+vi.mock('nanoid');
+vi.mock('tempy');
 
 beforeEach(() => {
   (tempy as jest.Mocked<typeof tempy>).directory.mockReturnValue(
