@@ -32,7 +32,7 @@ beforeEach(() => {
 
 beforeAll(() => {
   mockOS({
-    homedir: '/Users/mixn',
+    homedir: '/Users/runner',
   });
 });
 
