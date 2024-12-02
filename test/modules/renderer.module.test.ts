@@ -15,6 +15,13 @@ const EXPORT_PNG_SELECTOR = '#export-png';
 const TYPE_PNG: CarbonCLIDownloadType = 'png';
 const TYPE_SVG: CarbonCLIDownloadType = 'svg';
 
+// TODO: Fix non-identified global
+enum CarbonCLIEngineFlagEnum {
+  chromium = 'chromium',
+  firefox = 'firefox',
+  webkit = 'webkit',
+}
+
 jest.mock('@playwright/test', () => {
   const engineApi = {
     launch: jest.fn().mockReturnValue({

@@ -25,18 +25,18 @@
     "npm": ">=7.10.0"
   },
   "scripts": {
-    "dev": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as --interactive --preset twitter --from-clipboard",
-    "watch": "nodemon --exec ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as foo.jpg --interactive --preset twitter --from-clipboard",
-    "dev:noflags": "ts-node --esm --files ./cli.ts test/test-dummies/_unfold.js",
+    "dev": "npx tsx ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as --interactive --preset twitter --from-clipboard",
+    "dev:noflags": "npx tsx ./cli.ts test/test-dummies/_unfold.js",
+    "dev:watch": "npx tsx watch ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as --interactive --preset twitter --from-clipboard",
     "build": "if [ -d 'dist' ]; then trash dist; fi && tsc && trash dist/coverage && trash dist/test",
-    "run:build": "node dist/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as buildrun",
-    "build-and-run": "npm run build && npm run run:build",
-    "bundle:build": "if [ -d 'dist' ]; then npx esbuild ./dist/cli.js --outdir=./bundle --bundle --platform=node --target=node16 --packages=external --format=esm --minify; fi",
+    "build:run": "node dist/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as buildrun",
+    "build-and-run": "npm run build && npm run build:run",
+    "build:bundle": "if [ -d 'dist' ]; then npx esbuild ./dist/cli.js --outdir=./bundle --bundle --platform=node --target=node16 --packages=external --format=esm --minify; fi",
+    "bundle:run": "node bundle/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as from-bundle",
     "build-and-bundle": "npm run build && npm run bundle:build",
-    "run:bundle": "node bundle/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as from-bundle",
     "prettier": "prettier ./**/* --check",
     "test:unit": "jest ./test/ --testPathIgnorePatterns ./test/e2e/ --verbose --coverage",
-    "test:e2e": "jest ./test/e2e/index.test.ts --runInBand --verbose --testTimeout 180000 --coverage",
+    "test:e2e": "npx jest ./test/e2e/index.test.ts --runInBand --verbose --testTimeout 180000 --coverage",
     "test": "npm run prettier && npm run test:unit && npm run test:e2e",
     "prepare": "husky install",
     "postinstall": "npx playwright install --with-deps"
@@ -52,6 +52,7 @@
     "beautiful"
   ],
   "dependencies": {
+    "@playwright/test": "^1.32.3",
     "chalk": "^4.1.2",
     "clipboard-sys": "^1.2.0",
     "clipboardy": "^2.3.0",
@@ -66,7 +67,6 @@
     "nanoid": "^3.3.6",
     "open": "^8.4.2",
     "playwright": "^1.33.0",
-    "@playwright/test": "^1.32.3",
     "query-string": "^7.1.3",
     "tempy": "^1.0.1",
     "terminal-image": "^3.0.0",
@@ -94,7 +94,7 @@
     "prettier": "^2.8.5",
     "trash-cli": "^6.0.0",
     "ts-jest": "^29.0.5",
-    "ts-node": "^10.9.1",
+    "tsx": "^4.19.2",
     "typescript": "~5.5.3"
   },
   "yarn": {

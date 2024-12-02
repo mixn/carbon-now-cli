@@ -12,7 +12,7 @@ import {
 } from '../helpers/constants.helper.js';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 
-const SCRIPT = 'npx ts-node --esm --files ./cli.ts';
+const SCRIPT = 'npx tsx ./cli.ts';
 const DEFAULT_SCRIPT = `${SCRIPT} ${DUMMY_FILE}`;
 const DUMMY_LOCATION = 'location';
 const DUMMY_SAVED_FILE_NAME = `${DUMMY_TARGET}.png`;
