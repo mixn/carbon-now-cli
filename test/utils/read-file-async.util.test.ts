@@ -1,4 +1,5 @@
 import readFileAsync from '../../src/utils/read-file-async.util.js';
+import { describe, it, expect } from 'vitest';
 
 describe('readFileAsync', () => {
   it('should read file asynchronously correctly', async () => {

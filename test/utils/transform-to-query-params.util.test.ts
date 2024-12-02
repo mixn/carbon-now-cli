@@ -1,4 +1,5 @@
 import transformToQueryParams from '../../src/utils/transform-to-query-params.util.js';
+import { describe, it, expect } from 'vitest';
 
 const verminalPreset: CarbonCLIPresetInterface = {
   theme: 'verminal',

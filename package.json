@@ -35,8 +35,8 @@
     "bundle:run": "node bundle/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as from-bundle",
     "build-and-bundle": "npm run build && npm run bundle:build",
     "prettier": "prettier ./**/* --check",
-    "test:unit": "jest ./test/ --testPathIgnorePatterns ./test/e2e/ --verbose --coverage",
-    "test:e2e": "npx jest ./test/e2e/index.test.ts --runInBand --verbose --testTimeout 180000 --coverage",
+    "test:unit": "npx vitest run ./test/**/* --exclude .test/e2e/** --coverage",
+    "test:e2e": "npx vitest run ./test/e2e/index.test.ts --coverage --testTimeout 180000",
     "test": "npm run prettier && npm run test:unit && npm run test:e2e",
     "prepare": "husky install",
     "postinstall": "npx playwright install --with-deps"
@@ -73,7 +73,6 @@
     "update-notifier": "^7.0.0"
   },
   "devDependencies": {
-    "@jest/globals": "^29.5.0",
     "@types/child-process-promise": "^2.2.2",
     "@types/file-exists": "^5.0.0",
     "@types/inquirer": "^9.0.7",
@@ -82,20 +81,19 @@
     "@types/lodash": "^4.14.191",
     "@types/mock-fs": "^4.13.1",
     "@types/update-notifier": "^6.0.2",
+    "@vitest/coverage-v8": "^2.1.8",
     "child-process-promise": "^2.2.1",
-    "del": "^6.1.1",
+    "del": "^8.0.0",
     "execa": "^5.1.1",
     "husky": "^9.0.11",
-    "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0",
     "mock-fs": "^5.2.0",
     "mock-os": "^1.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^2.8.8",
     "trash-cli": "^6.0.0",
-    "ts-jest": "^29.0.5",
     "tsx": "^4.19.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.8"
   },
   "yarn": {
     "postinstall": "npx playwright install --with-deps"

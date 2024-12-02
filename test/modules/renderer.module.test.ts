@@ -9,6 +9,7 @@ import {
   CARBON_LOCAL_STORAGE_KEY,
 } from '../../src/helpers/carbon/constants.helper.js';
 import { DUMMY_LOCATION } from '../helpers/constants.helper.js';
+import { vi, describe, it, expect } from 'vitest';
 
 const EXPORT_MENU_SELECTOR = '#export-menu';
 const EXPORT_PNG_SELECTOR = '#export-png';
@@ -22,23 +23,23 @@ enum CarbonCLIEngineFlagEnum {
   webkit = 'webkit',
 }
 
-jest.mock('@playwright/test', () => {
+vi.mock('@playwright/test', () => {
   const engineApi = {
-    launch: jest.fn().mockReturnValue({
-      newPage: jest.fn().mockReturnValue({
-        goto: jest.fn(),
-        waitForSelector: jest.fn().mockReturnValue({
-          click: jest.fn(),
+    launch: vi.fn().mockReturnValue({
+      newPage: vi.fn().mockReturnValue({
+        goto: vi.fn(),
+        waitForSelector: vi.fn().mockReturnValue({
+          click: vi.fn(),
         }),
-        $: jest.fn().mockReturnValue({ click: jest.fn() }),
-        waitForEvent: jest.fn().mockReturnValue({
-          saveAs: jest.fn(),
+        $: vi.fn().mockReturnValue({ click: vi.fn() }),
+        waitForEvent: vi.fn().mockReturnValue({
+          saveAs: vi.fn(),
         }),
-        addInitScript: jest.fn().mockImplementation((callback, args) => {
+        addInitScript: vi.fn().mockImplementation((callback, args) => {
           callback(args);
         }),
       }),
-      close: jest.fn(),
+      close: vi.fn(),
     }),
   };
   return {
@@ -142,7 +143,7 @@ describe('RendererModule', () => {
     );
     const Page = await (await chromium.launch()).newPage();
     const error = new Error('An error occurred during the download.');
-    Page.waitForEvent = jest.fn().mockRejectedValueOnce(error);
+    Page.waitForEvent = vi.fn().mockRejectedValueOnce(error);
     await expect(Renderer.download(CARBON_URL, DUMMY_LOCATION)).rejects.toThrow(
       error.message
     );
