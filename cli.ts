@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import open from 'open';
 import updateNotifier from 'update-notifier';
+import queryString from 'query-string';
 import { Listr } from 'listr2';
-import { stringify } from 'query-string';
 import { clipboard } from 'clipboard-sys';
 
 import PromptModule from './src/modules/prompt.module.js';
@@ -84,7 +84,7 @@ TaskList.add([
   {
     title: 'Preparing connection',
     task: (ctx) => {
-      ctx.preparedURL = `${CARBON_URL}?${stringify(
+      ctx.preparedURL = `${CARBON_URL}?${queryString.stringify(
         transformToQueryParams({
           ...settings,
           code: ctx.encodedContent,
