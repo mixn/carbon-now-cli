@@ -1,6 +1,4 @@
-import tempy from 'tempy';
 import mockOS from 'mock-os';
-import { nanoid } from 'nanoid';
 import DownloadModule from '../../src/modules/download.module.js';
 import {
   DUMMY_FILE,
@@ -10,25 +8,14 @@ import {
   DUMMY_TEMP_FOLDER,
   DUMMY_DEFAULT_FILE_NAME,
 } from '../helpers/constants.helper.js';
-import {
-  vi,
-  beforeEach,
-  it,
-  expect,
-  beforeAll,
-  afterAll,
-  describe,
-} from 'vitest';
+import { vi, it, expect, beforeAll, afterAll, describe } from 'vitest';
 
-vi.mock('nanoid');
-vi.mock('tempy');
-
-beforeEach(() => {
-  (tempy as jest.Mocked<typeof tempy>).directory.mockReturnValue(
-    DUMMY_TEMP_FOLDER
-  );
-  (nanoid as jest.MockedFunction<typeof nanoid>).mockReturnValue('123456789');
-});
+vi.mock('nanoid', () => ({
+  nanoid: vi.fn(() => '123456789'),
+}));
+vi.mock('tempy', () => ({
+  temporaryDirectory: vi.fn(() => DUMMY_TEMP_FOLDER),
+}));
 
 beforeAll(() => {
   mockOS({
