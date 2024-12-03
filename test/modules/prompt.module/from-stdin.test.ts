@@ -8,7 +8,7 @@ vi.mock('get-stdin');
 describe('PromptModule via stdin', () => {
   it('should handle input from stdin correctly', async () => {
     (getStdin as jest.MockedFunction<typeof getStdin>).mockResolvedValue(
-      DUMMY_INPUT
+      DUMMY_INPUT,
     );
     const Prompt = await PromptModule.create();
     expect(Prompt.getFile).toBe(undefined);

@@ -31,10 +31,10 @@ describe('FileHandlerModule', () => {
     ];
     const FileHandler = new FileHandlerModule();
     expect(
-      await FileHandler.process((await readFileAsync(full)) as string, 3, 6)
+      await FileHandler.process((await readFileAsync(full)) as string, 3, 6),
     ).toBe((await readFileAsync(partial)) as string);
     expect(
-      await FileHandler.process((await readFileAsync(full)) as string, 1, 3)
+      await FileHandler.process((await readFileAsync(full)) as string, 1, 3),
     ).toBe(await readFileAsync(differentPartial));
   });
 
@@ -42,7 +42,7 @@ describe('FileHandlerModule', () => {
     const file = './test/test-dummies/_unfold.js';
     const FileHandler = new FileHandlerModule();
     await expect(
-      FileHandler.process((await readFileAsync(file)) as string, 5, 1)
+      FileHandler.process((await readFileAsync(file)) as string, 5, 1),
     ).rejects.toEqual(new Error('Nonsensical line numbers.'));
   });
 

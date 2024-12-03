@@ -63,12 +63,12 @@ export default class Prompt {
   }
 
   private mapAnswersToCarbonValues(
-    unmappedAnswers: CarbonCLIPromptAnswersInterface
+    unmappedAnswers: CarbonCLIPromptAnswersInterface,
   ): CarbonCLIPromptAnswersMappedInterface {
     return _.mapValues(
       unmappedAnswers,
       (value, key) =>
-        mappingsConfig[key]?.[value as MappingsConfigPropertyType] ?? value
+        mappingsConfig[key]?.[value as MappingsConfigPropertyType] ?? value,
     );
   }
 

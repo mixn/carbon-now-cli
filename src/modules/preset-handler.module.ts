@@ -51,7 +51,7 @@ export default class PresetHandler {
 
   public async savePreset(
     preset = CONFIG_LATEST_PRESET,
-    presetSettings = {}
+    presetSettings = {},
   ): Promise<void> {
     const whiteListedSettings = _.omit(presetSettings, this.ignoredSettings);
     const currentConfig = await this.readConfig();

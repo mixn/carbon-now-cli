@@ -27,5 +27,5 @@ export default (settings: CarbonCLIPresetInterface) =>
   _.mapKeys(
     settings,
     (value, key) =>
-      keyMap[key as keyof CarbonCLISettingsToQueryParamsMapInterface] || key
+      keyMap[key as keyof CarbonCLISettingsToQueryParamsMapInterface] || key,
   );

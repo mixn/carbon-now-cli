@@ -51,10 +51,10 @@ describe('Running `carbon-now` command', () => {
     'shouldn’t create a config when local --config is provided',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --config ${ABSENT_DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`
+        `${DEFAULT_SCRIPT} --config ${ABSENT_DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`,
       );
       expect(await fileExists(ABSENT_DUMMY_CONFIG)).toBe(false);
-    }
+    },
   );
 
   it.sequential(
@@ -62,50 +62,50 @@ describe('Running `carbon-now` command', () => {
     async () => {
       const CONFIG_BEFORE = await readFileAsync(DUMMY_CONFIG);
       await execaCommand(
-        `${DEFAULT_SCRIPT} --config ${DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`
+        `${DEFAULT_SCRIPT} --config ${DUMMY_CONFIG} --save-as ${DUMMY_TARGET}`,
       );
       const CONFIG_AFTER = await readFileAsync(DUMMY_CONFIG);
       expect(CONFIG_BEFORE).toBe(CONFIG_AFTER);
-    }
+    },
   );
 
   it.sequential(
     'shouldn’t fail when --end is larger than --start',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --start 2 --end 10 --save-as ${DUMMY_TARGET}`
+        `${DEFAULT_SCRIPT} --start 2 --end 10 --save-as ${DUMMY_TARGET}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
-    }
+    },
   );
 
   it.sequential(
     'should save to temporary system folder when --to-clipboard is provided',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --to-clipboard --save-as ${DUMMY_TARGET}`
+        `${DEFAULT_SCRIPT} --to-clipboard --save-as ${DUMMY_TARGET}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
-    }
+    },
   );
 
   it.sequential(
     'shouldn’t download an image when --open-in-browser is provided',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --open-in-browser --save-as ${DUMMY_TARGET}`
+        `${DEFAULT_SCRIPT} --open-in-browser --save-as ${DUMMY_TARGET}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
-    }
+    },
   );
 
   it.sequential('should handle --save-to correctly', async () => {
     await mkdir(DUMMY_LOCATION);
     await execaCommand(
-      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET}`
+      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET}`,
     );
     expect(
-      await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`)
+      await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`),
     ).toBe(true);
     await deleteAsync(DUMMY_LOCATION);
   });

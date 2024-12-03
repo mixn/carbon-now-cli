@@ -73,7 +73,7 @@ TaskList.add([
     }`,
     task: async (ctx) => {
       ctx.encodedContent = encodeURIComponent(
-        await FileHandler.process(input, flags.start, flags.end)
+        await FileHandler.process(input, flags.start, flags.end),
       );
     },
   },
@@ -89,7 +89,7 @@ TaskList.add([
           ...settings,
           code: ctx.encodedContent,
           ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
-        })
+        }),
       )}`;
       Download.setFlags = flags;
       Download.setImgType = settings.type;
@@ -124,7 +124,7 @@ TaskList.add([
         /* @ts-ignore-next-line */
         flags.engine,
         flags.disableHeadless,
-        settings.type
+        settings.type,
       );
       if (settings.custom) {
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
@@ -133,7 +133,7 @@ TaskList.add([
       if (!flags.toClipboard) {
         await FileHandler.rename(
           Download.getDownloadedAsPath,
-          Download.getSavedAsPath
+          Download.getSavedAsPath,
         );
       }
     },
@@ -147,7 +147,7 @@ TaskList.add([
     skip: !flags.toClipboard || flags.openInBrowser,
     task: async ({ preparedURL }) => {
       await clipboard.writeImage(
-        await readFileAsync(Download.getDownloadedAsPath, false)
+        await readFileAsync(Download.getDownloadedAsPath, false),
       );
     },
   },

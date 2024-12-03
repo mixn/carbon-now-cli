@@ -76,7 +76,7 @@ describe('PromptModule', () => {
 
   it('should return mapped answers correctly', async () => {
     (inquirer as jest.Mocked<typeof inquirer>).prompt.mockResolvedValue(
-      inquirerOutput
+      inquirerOutput,
     );
     expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);
     expect((await PromptModule.create()).getAnswers).toEqual(mappedAnswers);
@@ -116,7 +116,7 @@ describe('PromptModule', () => {
         '--to-clipboard',
         '--disable-headless',
         '--skip-display',
-      ])
+      ]),
     );
     expect(process.argv).not.toEqual(
       expect.arrayContaining([
@@ -130,7 +130,7 @@ describe('PromptModule', () => {
         '--to-clipboard',
         '--disable-headless',
         '--skip-display',
-      ])
+      ]),
     );
     expect(Object.keys((await PromptModule.create()).getFlags)).toEqual(
       expect.arrayContaining([
@@ -144,7 +144,7 @@ describe('PromptModule', () => {
         'toClipboard',
         'disableHeadless',
         'skipDisplay',
-      ])
+      ]),
     );
   });
 });

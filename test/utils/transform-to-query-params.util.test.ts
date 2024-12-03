@@ -57,7 +57,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         dropShadow: false,
         selectedLines: '*',
-      } as CarbonCLIPresetInterface)
+      } as CarbonCLIPresetInterface),
     ).toEqual({
       ln: false,
       fl: 1,
@@ -73,7 +73,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         nothing: 'nothing',
         toTransformHere: 'transformable found',
-      } as any)
+      } as any),
     ).toEqual({
       ln: false,
       fl: 1,
