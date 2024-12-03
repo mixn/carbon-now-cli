@@ -4,7 +4,7 @@ import terminalImage from 'terminal-image';
 export default async (
   flags: CarbonCLIFlagsInterface,
   path: string,
-  type: CarbonCLIDownloadType
+  type: CarbonCLIDownloadType,
 ) => {
   let successMessage = `
   ${chalk.green('Done!')}

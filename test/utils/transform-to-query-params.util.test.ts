@@ -1,4 +1,5 @@
 import transformToQueryParams from '../../src/utils/transform-to-query-params.util.js';
+import { describe, it, expect } from 'vitest';
 
 const verminalPreset: CarbonCLIPresetInterface = {
   theme: 'verminal',
@@ -56,7 +57,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         dropShadow: false,
         selectedLines: '*',
-      } as CarbonCLIPresetInterface)
+      } as CarbonCLIPresetInterface),
     ).toEqual({
       ln: false,
       fl: 1,
@@ -72,7 +73,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         nothing: 'nothing',
         toTransformHere: 'transformable found',
-      } as any)
+      } as any),
     ).toEqual({
       ln: false,
       fl: 1,

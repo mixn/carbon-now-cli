@@ -11,7 +11,7 @@ export default class FileHandler {
   public async process(
     input: string,
     startLine = 0,
-    endLine = 1000
+    endLine = 1000,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       if (startLine > endLine) {
@@ -24,7 +24,7 @@ export default class FileHandler {
             const currentLine: number = index + 1;
             return currentLine >= startLine && currentLine <= endLine;
           })
-          .join(EOL)
+          .join(EOL),
       );
     });
   }

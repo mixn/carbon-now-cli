@@ -11,6 +11,13 @@ import {
   CARBON_LOCAL_STORAGE_KEY,
 } from '../../src/helpers/carbon/constants.helper.js';
 
+// TODO: Fix non-identified global
+enum CarbonCLIEngineFlagEnum {
+  chromium = 'chromium',
+  firefox = 'firefox',
+  webkit = 'webkit',
+}
+
 export default class Renderer {
   private type!: CarbonCLIDownloadType;
   private browser!: Browser;
@@ -26,7 +33,7 @@ export default class Renderer {
   static async create(
     engineType: CarbonCLIEngineFlagEnum = CarbonCLIEngineFlagEnum.chromium,
     disableHeadless: boolean = false,
-    type: CarbonCLIDownloadType = 'png'
+    type: CarbonCLIDownloadType = 'png',
   ): Promise<Renderer> {
     if (!['png', 'svg'].includes(type)) {
       throw new Error('Invalid type. Only png and svg are supported.');
@@ -56,7 +63,7 @@ export default class Renderer {
 
   private async init(
     engineType: CarbonCLIEngineFlagEnum,
-    hasHeadlessDisabled: boolean
+    hasHeadlessDisabled: boolean,
   ): Promise<void> {
     this.browser = await this.getEngine(engineType).launch({
       headless: !hasHeadlessDisabled,
@@ -72,7 +79,7 @@ export default class Renderer {
 
   public async setCustomTheme(
     highlights: CarbonThemeHighlightsInterface,
-    theme: CarbonCustomThemeNameType = CARBON_CUSTOM_THEME
+    theme: CarbonCustomThemeNameType = CARBON_CUSTOM_THEME,
   ): Promise<void> {
     await this.page.addInitScript(
       ({ highlights, theme, CARBON_LOCAL_STORAGE_KEY }) => {
@@ -86,18 +93,18 @@ export default class Renderer {
         ];
         window.localStorage.setItem(
           CARBON_LOCAL_STORAGE_KEY,
-          JSON.stringify(themes)
+          JSON.stringify(themes),
         );
       },
       // Passing this in as the 2nd parameter is crucial, see:
       // https://github.com/microsoft/playwright/issues/6258#issuecomment-1030704374
-      { highlights, theme, CARBON_LOCAL_STORAGE_KEY }
+      { highlights, theme, CARBON_LOCAL_STORAGE_KEY },
     );
   }
 
   public async download(
     url: string,
-    saveDirectory: string = process.cwd()
+    saveDirectory: string = process.cwd(),
   ): Promise<void> {
     try {
       const queuedDownloadEvent = this.page.waitForEvent('download');

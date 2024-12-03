@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import open from 'open';
 import updateNotifier from 'update-notifier';
+import queryString from 'query-string';
 import { Listr } from 'listr2';
-import { stringify } from 'query-string';
 import { clipboard } from 'clipboard-sys';
 
 import PromptModule from './src/modules/prompt.module.js';
@@ -73,7 +73,7 @@ TaskList.add([
     }`,
     task: async (ctx) => {
       ctx.encodedContent = encodeURIComponent(
-        await FileHandler.process(input, flags.start, flags.end)
+        await FileHandler.process(input, flags.start, flags.end),
       );
     },
   },
@@ -84,12 +84,12 @@ TaskList.add([
   {
     title: 'Preparing connection',
     task: (ctx) => {
-      ctx.preparedURL = `${CARBON_URL}?${stringify(
+      ctx.preparedURL = `${CARBON_URL}?${queryString.stringify(
         transformToQueryParams({
           ...settings,
           code: ctx.encodedContent,
           ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
-        })
+        }),
       )}`;
       Download.setFlags = flags;
       Download.setImgType = settings.type;
@@ -108,6 +108,11 @@ TaskList.add([
   },
 ]);
 
+enum CarbonCLIEngineFlagEnum {
+  chromium = 'chromium',
+  firefox = 'firefox',
+  webkit = 'webkit',
+}
 // Task 4: Fetch image and rename it, if necessary [skippable]
 TaskList.add([
   {
@@ -115,9 +120,11 @@ TaskList.add([
     skip: flags.openInBrowser,
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
+        // TODO: Fix this type issue
+        /* @ts-ignore-next-line */
         flags.engine,
         flags.disableHeadless,
-        settings.type
+        settings.type,
       );
       if (settings.custom) {
         await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
@@ -126,7 +133,7 @@ TaskList.add([
       if (!flags.toClipboard) {
         await FileHandler.rename(
           Download.getDownloadedAsPath,
-          Download.getSavedAsPath
+          Download.getSavedAsPath,
         );
       }
     },
@@ -140,7 +147,7 @@ TaskList.add([
     skip: !flags.toClipboard || flags.openInBrowser,
     task: async ({ preparedURL }) => {
       await clipboard.writeImage(
-        await readFileAsync(Download.getDownloadedAsPath, false)
+        await readFileAsync(Download.getDownloadedAsPath, false),
       );
     },
   },

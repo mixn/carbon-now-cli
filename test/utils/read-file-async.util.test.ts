@@ -1,4 +1,5 @@
 import readFileAsync from '../../src/utils/read-file-async.util.js';
+import { describe, it, expect } from 'vitest';
 
 describe('readFileAsync', () => {
   it('should read file asynchronously correctly', async () => {
@@ -11,14 +12,14 @@ describe('readFileAsync', () => {
 
   it('should utf-8 encode by default', async () => {
     expect(typeof (await readFileAsync('./test/test-dummies/_main.rs'))).toBe(
-      'string'
+      'string',
     );
   });
 
   it('should return a Buffer when told to skip default encoding', async () => {
     expect(
       (await readFileAsync('./test/test-dummies/_main.rs', false)) instanceof
-        Buffer
+        Buffer,
     ).toBe(true);
   });
 });
