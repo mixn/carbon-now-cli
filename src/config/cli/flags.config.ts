@@ -3,12 +3,12 @@ import { CONFIG_LATEST_PRESET } from '../../helpers/cli/constants.helper.js';
 export default {
   start: {
     type: 'number',
-    alias: 's',
+    shortFlag: 's',
     default: 1,
   },
   end: {
     type: 'number',
-    alias: 'e',
+    shortFlag: 'e',
     default: 1000,
   },
   openInBrowser: {
@@ -24,12 +24,12 @@ export default {
   },
   interactive: {
     type: 'boolean',
-    alias: 'i',
+    shortFlag: 'i',
     default: false,
   },
   preset: {
     type: 'string',
-    alias: 'p',
+    shortFlag: 'p',
     default: CONFIG_LATEST_PRESET,
   },
   toClipboard: {

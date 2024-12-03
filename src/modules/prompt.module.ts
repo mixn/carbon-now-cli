@@ -33,8 +33,7 @@ export default class Prompt {
 
   private async initCLI(): Promise<[string, CarbonCLIFlagsInterface]> {
     const cliHelper = meow(defaultView, {
-      // TODO: Include this once Jest+ESM problem is fixed
-      // importMeta: import.meta,
+      importMeta: import.meta,
       flags,
     });
     return [cliHelper.input[0], cliHelper.flags as CarbonCLIFlagsInterface];
@@ -57,6 +56,7 @@ export default class Prompt {
 
   private async initInteractiveMode(): Promise<CarbonCLIPromptAnswersMappedType> {
     if (this.flags.interactive) {
+      // TODO: Fix typing
       return this.mapAnswersToCarbonValues(await inquirer.prompt(promptConfig));
     }
     return {};

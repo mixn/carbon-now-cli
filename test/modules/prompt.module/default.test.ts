@@ -75,7 +75,7 @@ describe('PromptModule', () => {
   });
 
   it('should return mapped answers correctly', async () => {
-    (inquirer as vi.Mocked<typeof inquirer>).prompt.mockResolvedValue(
+    (inquirer as jest.Mocked<typeof inquirer>).prompt.mockResolvedValue(
       inquirerOutput
     );
     expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);
