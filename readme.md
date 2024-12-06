@@ -48,6 +48,12 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 
 ## Installation
 
+### Bun
+
+```
+bun i -g carbon-now-cli
+```
+
 ### pnpm
 
 ```
