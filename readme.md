@@ -50,31 +50,31 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 
 ### Bun
 
-```
+```sh
 bun i -g carbon-now-cli
 ```
 
 ### pnpm
 
-```
+```sh
 pnpm i -g carbon-now-cli
 ```
 
 ### npm
 
-```
+```sh
 npm i -g carbon-now-cli
 ```
 
 ### yarn
 
-```
+```sh
 yarn global add carbon-now-cli
 ```
 
 ### npx
 
-```
+```sh
 npx carbon-now-cli <file>
 ```
 
@@ -84,7 +84,7 @@ npx carbon-now-cli <file>
 
 ## Usage
 
-```
+```sh
 Beautiful images of your code — from right inside your terminal.
 
 Usage
@@ -131,7 +131,7 @@ and you’d like to make a beautiful image out of it. You could approach this in
 
 ### Basic
 
-```
+```sh
 carbon-now unfold.js
 ```
 
@@ -143,7 +143,7 @@ Takes the entire source of `unfold.js`, uses Carbon’s default settings, and sa
 
 ### Fully customized
 
-```
+```sh
 carbon-now unfold.js --interactive
 ```
 
@@ -165,7 +165,7 @@ If needed, you can always check the [default settings](https://github.com/mixn/c
 
 ### Selective
 
-```
+```sh
 carbon-now unfold.js --start 3 --end 6
 ```
 
@@ -183,7 +183,7 @@ Selective processing can of course be combined with interactive mode, as with an
 
 It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--to-clipboard` flag is for.
 
-```
+```sh
 carbon-now unfold.js --to-clipboard
 ```
 
@@ -195,7 +195,7 @@ Please be aware that this requires some binaries to be present on certain OS.
 
 [`xclip`](https://linux.die.net/man/1/xclip) is required. You can install it via
 
-```
+```sh
 sudo apt-get install xclip
 ```
 
@@ -211,14 +211,14 @@ In addition to files, `carbon-now-cli` therefore also accepts input coming from 
 
 #### `stdin`
 
-```
+```sh
 pbpaste | carbon-now
 echo '<h1>Hi</h1>' | carbon-now
 ```
 
 #### Clipboard
 
-```
+```sh
 carbon-now --from-clipboard
 ```
 
@@ -226,7 +226,7 @@ carbon-now --from-clipboard
 
 For demonstration purposes, here is an example using most options.
 
-```
+```sh
 carbon-now unfold.js --start 3 --end 6 --save-to ~/Desktop --save-as example-23 --interactive
 ```
 
@@ -234,7 +234,7 @@ This saves a beautiful image of lines `3` to `6` to `~/Desktop/example-23.png`, 
 
 If you’re unsure how exactly the image will turn out, you can always use `--open-in-browser`.
 
-```
+```sh
 carbon-now unfold.js --start 3 --end 6 --interactive --open-in-browser
 ```
 
@@ -252,7 +252,7 @@ When running `carbon-now` with `-i`, you’ll be asked the following two questio
 
 Answering with yes and naming the preset (in this case `presentation`) will result in the preset being saved to `~/.carbon-now.json`. In this particular case, `~/.carbon-now.json` will look like so:
 
-```
+```json
 {
   "latest-preset": {
     "theme": "base16-light",
@@ -307,7 +307,7 @@ Answering with yes and naming the preset (in this case `presentation`) will resu
 
 Re-using presets is as easy and straight-forward as:
 
-```
+```sh
 carbon-now unfold.js -p <name-of-preset>
 ```
 
@@ -315,7 +315,7 @@ If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will
 
 Taken the `presentation` preset we have created above, all we have to do is:
 
-```
+```sh
 carbon-now unfold.js -p presentation
 ```
 
@@ -359,7 +359,7 @@ interface CarbonThemeHighlightsInterface {
 
 Here’s an example `~/.carbon-now.json` config that has one preset `hacker`, which makes use of custom theme colors:
 
-```
+```json
 {
   "hacker": {
     "backgroundColor": "rgba(0, 255, 0, 1)",
@@ -401,7 +401,7 @@ Here’s an example `~/.carbon-now.json` config that has one preset `hacker`, wh
 }
 ```
 
-```
+```sh
 carbon-now unfold.js -p hacker
 ```
 
@@ -419,7 +419,7 @@ It is possible to use local configuration files via the `--config` flag.
 
 This is convenient if you’re using `carbon-now-cli` via a script and would like to share presets among the users of your project.
 
-```
+```sh
 carbon-now unfold.js --config local-config.json -p dark
 ```
 
