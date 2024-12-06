@@ -9,7 +9,6 @@ import {
   DUMMY_CONFIG,
 } from '../helpers/constants.helper.js';
 import presetMissingView from '../../src/views/preset-missing.view.js';
-import { describe, afterAll, it, expect, vi } from 'vitest';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';

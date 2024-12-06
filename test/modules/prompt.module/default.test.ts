@@ -2,7 +2,6 @@ import inquirer from 'inquirer';
 import PromptModule from '../../../src/modules/prompt.module.js';
 import promptConfig from '../../../src/config/cli/prompt.config.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
-import { vi, describe, beforeEach, it, expect } from 'vitest';
 
 vi.mock('inquirer');
 vi.mock('get-stdin');

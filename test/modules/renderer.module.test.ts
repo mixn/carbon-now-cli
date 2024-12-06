@@ -9,19 +9,12 @@ import {
   CARBON_LOCAL_STORAGE_KEY,
 } from '../../src/helpers/carbon/constants.helper.js';
 import { DUMMY_LOCATION } from '../helpers/constants.helper.js';
-import { vi, describe, it, expect } from 'vitest';
+import { CarbonCLIEngineFlagEnum } from '../../src/types/cli/engine.enum.js';
 
 const EXPORT_MENU_SELECTOR = '#export-menu';
 const EXPORT_PNG_SELECTOR = '#export-png';
 const TYPE_PNG: CarbonCLIDownloadType = 'png';
 const TYPE_SVG: CarbonCLIDownloadType = 'svg';
-
-// TODO: Fix non-identified global
-enum CarbonCLIEngineFlagEnum {
-  chromium = 'chromium',
-  firefox = 'firefox',
-  webkit = 'webkit',
-}
 
 vi.mock('@playwright/test', () => {
   const engineApi = {

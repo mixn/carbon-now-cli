@@ -1,7 +1,6 @@
 import clipboard from 'clipboardy';
 import PromptModule from '../../../src/modules/prompt.module.js';
 import { DUMMY_INPUT } from '../../helpers/constants.helper.js';
-import { vi, describe, it, expect } from 'vitest';
 
 vi.mock('get-stdin');
 

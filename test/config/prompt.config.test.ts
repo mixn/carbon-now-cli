@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import promptConfig from '../../src/config/cli/prompt.config.js';
 import dummyConfig from './../test-dummies/_config.json';
 

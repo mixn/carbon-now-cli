@@ -1,7 +1,6 @@
 import PromptModule from '../../../src/modules/prompt.module.js';
 import readFileAsync from '../../../src/utils/read-file-async.util.js';
 import { DUMMY_FILE } from '../../helpers/constants.helper.js';
-import { vi, describe, it, expect } from 'vitest';
 
 vi.mock('get-stdin');
 

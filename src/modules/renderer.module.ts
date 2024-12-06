@@ -10,13 +10,7 @@ import {
   CARBON_CUSTOM_THEME,
   CARBON_LOCAL_STORAGE_KEY,
 } from '../../src/helpers/carbon/constants.helper.js';
-
-// TODO: Fix non-identified global
-enum CarbonCLIEngineFlagEnum {
-  chromium = 'chromium',
-  firefox = 'firefox',
-  webkit = 'webkit',
-}
+import { CarbonCLIEngineFlagEnum } from '../types/cli/engine.enum.js';
 
 export default class Renderer {
   private type!: CarbonCLIDownloadType;

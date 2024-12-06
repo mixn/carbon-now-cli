@@ -1,5 +1,5 @@
 import meow from 'meow';
-import inquirer from 'inquirer';
+import inquirer, { Answers } from 'inquirer';
 import clipboard from 'clipboardy';
 import _ from 'lodash';
 import getStdin from 'get-stdin';
@@ -56,8 +56,12 @@ export default class Prompt {
 
   private async initInteractiveMode(): Promise<CarbonCLIPromptAnswersMappedType> {
     if (this.flags.interactive) {
-      // TODO: Fix typing
-      return this.mapAnswersToCarbonValues(await inquirer.prompt(promptConfig));
+      // TODO: Fix this typing issue instead of forcing
+      return this.mapAnswersToCarbonValues(
+        (await inquirer.prompt(
+          promptConfig as Answers,
+        )) as CarbonCLIPromptAnswersInterface,
+      );
     }
     return {};
   }

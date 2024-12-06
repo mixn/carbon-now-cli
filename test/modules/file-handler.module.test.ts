@@ -4,7 +4,6 @@ import FileHandlerModule from '../../src/modules/file-handler.module.js';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
 import extensionsMap from '../../src/helpers/cli/extensions-map.helper.js';
 import { DUMMY_DEFAULT_FILE_NAME } from '../helpers/constants.helper.js';
-import { describe, it, expect } from 'vitest';
 
 describe('FileHandlerModule', () => {
   it('should process full length of files correctly', async () => {

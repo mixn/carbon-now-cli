@@ -8,7 +8,6 @@ import {
   DUMMY_TEMP_FOLDER,
   DUMMY_DEFAULT_FILE_NAME,
 } from '../helpers/constants.helper.js';
-import { vi, it, expect, beforeAll, afterAll, describe } from 'vitest';
 
 vi.mock('nanoid', () => ({
   nanoid: vi.fn(() => '123456789'),

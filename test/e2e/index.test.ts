@@ -11,7 +11,6 @@ import {
   DUMMY_CONFIG,
 } from '../helpers/constants.helper.js';
 import readFileAsync from '../../src/utils/read-file-async.util.js';
-import { afterEach, afterAll, describe, it, expect } from 'vitest';
 
 const SCRIPT = 'npx tsx ./cli.ts';
 const DEFAULT_SCRIPT = `${SCRIPT} ${DUMMY_FILE}`;

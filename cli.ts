@@ -108,11 +108,6 @@ TaskList.add([
   },
 ]);
 
-enum CarbonCLIEngineFlagEnum {
-  chromium = 'chromium',
-  firefox = 'firefox',
-  webkit = 'webkit',
-}
 // Task 4: Fetch image and rename it, if necessary [skippable]
 TaskList.add([
   {
@@ -120,8 +115,6 @@ TaskList.add([
     skip: flags.openInBrowser,
     task: async ({ preparedURL }) => {
       const Renderer = await RendererModule.create(
-        // TODO: Fix this type issue
-        /* @ts-ignore-next-line */
         flags.engine,
         flags.disableHeadless,
         settings.type,
