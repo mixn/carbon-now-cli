@@ -74,9 +74,7 @@ describe('PromptModule', () => {
   });
 
   it('should return mapped answers correctly', async () => {
-    (inquirer as jest.Mocked<typeof inquirer>).prompt.mockResolvedValue(
-      inquirerOutput,
-    );
+    vi.mocked(inquirer.prompt).mockResolvedValue(inquirerOutput);
     expect(inquirer.prompt).toHaveBeenCalledWith(promptConfig);
     expect((await PromptModule.create()).getAnswers).toEqual(mappedAnswers);
   });

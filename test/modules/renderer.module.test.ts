@@ -1,6 +1,4 @@
-/**
- * @jest-environment jsdom
- */
+// @vitest-environment jsdom
 import { chromium, firefox, webkit } from '@playwright/test';
 import RendererModule from '../../src/modules/renderer.module.js';
 import {
