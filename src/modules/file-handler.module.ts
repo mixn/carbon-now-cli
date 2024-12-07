@@ -1,5 +1,6 @@
 import fileExtension from 'file-extension';
 import { EOL } from 'os';
+import { basename } from 'node:path';
 import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
@@ -38,5 +39,9 @@ export default class FileHandler {
       preserveCase: true,
     });
     return this.extensions.get(extension) ?? 'auto';
+  }
+
+  public get getFileName(): string | undefined {
+    return this.file && basename(this.file);
   }
 }

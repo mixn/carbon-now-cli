@@ -15,6 +15,7 @@ export default class PresetHandler {
     'preset',
     'language',
     'highlight',
+    'titleBar',
   ];
 
   constructor(private readonly configPath: string = CONFIG_PATH) {}

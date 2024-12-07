@@ -57,6 +57,22 @@ describe('FileHandlerModule', () => {
     expect(FileHandler.getMimeType).toBe('auto');
   });
 
+  it('should return the file name for a given file path correctly', () => {
+    const files = [
+      { path: './test/test-dummies/_unfold.js', expected: '_unfold.js' },
+      { path: './test/test-dummies/_main.rs', expected: '_main.rs' },
+      { path: './test/test-dummies/_index.html', expected: '_index.html' },
+    ];
+
+    files.forEach(({ path, expected }) => {
+      const FileHandler = new FileHandlerModule(path);
+      expect(FileHandler.getFileName).toBe(expected);
+    });
+
+    const FileHandler = new FileHandlerModule();
+    expect(FileHandler.getFileName).not.toBeDefined();
+  });
+
   it('should rename a file correctly', async () => {
     expect(await fileExists(DUMMY_DEFAULT_FILE_NAME)).toBe(false);
     // https://github.com/tschaub/mock-fs#example

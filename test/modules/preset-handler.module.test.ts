@@ -12,10 +12,19 @@ import presetMissingView from '../../src/views/preset-missing.view.js';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';
+const DUMMY_PRESET_WITH_OMITED_VALUES = 'omited-dummy-preset';
 const DUMMY_PRESET_SETTINGS = {
   t: 'seti',
   bg: 'none',
   fm: 'Hack',
+};
+const DUMMY_PRESET_SETTINGS_WITH_OMITED_VALUES = {
+  ...DUMMY_PRESET_SETTINGS,
+  save: 'ignore',
+  preset: 'ignore',
+  language: 'ignore',
+  highlight: 'ignore',
+  titleBar: 'ignore',
 };
 const deleteDummy = async () => {
   await deleteAsync([CONFIG_DUMMY_PATH], {
@@ -52,6 +61,21 @@ describe('PresetHandlerModule', () => {
     const shouldEqual = {
       [DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
       [DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
+      [CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
+    };
+    expect(currentConfig).toEqual(shouldEqual);
+  });
+
+  it('should correctly omit `private ignoredSettings`', async () => {
+    await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
+      DUMMY_PRESET_WITH_OMITED_VALUES,
+      DUMMY_PRESET_SETTINGS_WITH_OMITED_VALUES,
+    );
+    const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
+    const shouldEqual = {
+      [DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
+      [DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
+      [DUMMY_PRESET_WITH_OMITED_VALUES]: DUMMY_PRESET_SETTINGS,
       [CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
     };
     expect(currentConfig).toEqual(shouldEqual);

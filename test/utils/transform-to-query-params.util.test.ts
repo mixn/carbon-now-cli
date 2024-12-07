@@ -21,6 +21,7 @@ const verminalPreset: CarbonCLIPresetInterface = {
   watermark: false,
   exportSize: '2x',
   type: 'png',
+  titleBar: '_unfold.js',
 };
 
 describe('transformToQueryParams', () => {
@@ -46,6 +47,7 @@ describe('transformToQueryParams', () => {
       wm: false,
       es: '2x',
       type: 'png',
+      tb: '_unfold.js',
     });
   });
 

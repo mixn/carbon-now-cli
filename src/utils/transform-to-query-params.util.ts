@@ -17,6 +17,7 @@ const keyMap: CarbonCLISettingsToQueryParamsMapInterface = {
   selectedLines: 'sl',
   squaredImage: 'si',
   theme: 't',
+  titleBar: 'tb',
   watermark: 'wm',
   widthAdjustment: 'wa',
   windowControls: 'wc',
