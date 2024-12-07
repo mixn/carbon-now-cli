@@ -1,5 +1,5 @@
 import meow from 'meow';
-import inquirer from 'inquirer';
+import inquirer, { Answers } from 'inquirer';
 import clipboard from 'clipboardy';
 import _ from 'lodash';
 import getStdin from 'get-stdin';
@@ -33,8 +33,7 @@ export default class Prompt {
 
   private async initCLI(): Promise<[string, CarbonCLIFlagsInterface]> {
     const cliHelper = meow(defaultView, {
-      // TODO: Include this once Jest+ESM problem is fixed
-      // importMeta: import.meta,
+      importMeta: import.meta,
       flags,
     });
     return [cliHelper.input[0], cliHelper.flags as CarbonCLIFlagsInterface];
@@ -57,18 +56,23 @@ export default class Prompt {
 
   private async initInteractiveMode(): Promise<CarbonCLIPromptAnswersMappedType> {
     if (this.flags.interactive) {
-      return this.mapAnswersToCarbonValues(await inquirer.prompt(promptConfig));
+      // TODO: Fix this typing issue instead of forcing
+      return this.mapAnswersToCarbonValues(
+        (await inquirer.prompt(
+          promptConfig as Answers,
+        )) as CarbonCLIPromptAnswersInterface,
+      );
     }
     return {};
   }
 
   private mapAnswersToCarbonValues(
-    unmappedAnswers: CarbonCLIPromptAnswersInterface
+    unmappedAnswers: CarbonCLIPromptAnswersInterface,
   ): CarbonCLIPromptAnswersMappedInterface {
     return _.mapValues(
       unmappedAnswers,
       (value, key) =>
-        mappingsConfig[key]?.[value as MappingsConfigPropertyType] ?? value
+        mappingsConfig[key]?.[value as MappingsConfigPropertyType] ?? value,
     );
   }
 

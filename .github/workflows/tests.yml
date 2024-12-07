@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        node-version: [v18.0.0]
+        node-version: [v20.10.0]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2

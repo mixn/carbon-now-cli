@@ -1,4 +1,4 @@
-import del from 'del';
+import { deleteAsync } from 'del';
 import fileExists from 'file-exists';
 import { readFileSync } from 'jsonfile';
 import PresetHandlerModule from '../../src/modules/preset-handler.module.js';
@@ -12,13 +12,22 @@ import presetMissingView from '../../src/views/preset-missing.view.js';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';
+const DUMMY_PRESET_WITH_OMITED_VALUES = 'omited-dummy-preset';
 const DUMMY_PRESET_SETTINGS = {
   t: 'seti',
   bg: 'none',
   fm: 'Hack',
 };
+const DUMMY_PRESET_SETTINGS_WITH_OMITED_VALUES = {
+  ...DUMMY_PRESET_SETTINGS,
+  save: 'ignore',
+  preset: 'ignore',
+  language: 'ignore',
+  highlight: 'ignore',
+  titleBar: 'ignore',
+};
 const deleteDummy = async () => {
-  await del([CONFIG_DUMMY_PATH], {
+  await deleteAsync([CONFIG_DUMMY_PATH], {
     force: true, // Allow deleting outside of cwd
   });
 };
@@ -30,7 +39,7 @@ describe('PresetHandlerModule', () => {
     expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(false);
     await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
       DUMMY_PRESET_NAME_1,
-      DUMMY_PRESET_SETTINGS
+      DUMMY_PRESET_SETTINGS,
     );
     expect(await fileExists(CONFIG_DUMMY_PATH)).toBe(true);
   });
@@ -38,15 +47,15 @@ describe('PresetHandlerModule', () => {
   it('should get an existing preset correctly', async () => {
     expect(
       await new PresetHandlerModule(CONFIG_DUMMY_PATH).getPreset(
-        DUMMY_PRESET_NAME_1
-      )
+        DUMMY_PRESET_NAME_1,
+      ),
     ).toEqual(DUMMY_PRESET_SETTINGS);
   });
 
   it('should append a new preset to an existing config file correctly', async () => {
     await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
       DUMMY_PRESET_NAME_2,
-      DUMMY_PRESET_SETTINGS
+      DUMMY_PRESET_SETTINGS,
     );
     const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
     const shouldEqual = {
@@ -57,29 +66,44 @@ describe('PresetHandlerModule', () => {
     expect(currentConfig).toEqual(shouldEqual);
   });
 
+  it('should correctly omit `private ignoredSettings`', async () => {
+    await new PresetHandlerModule(CONFIG_DUMMY_PATH).savePreset(
+      DUMMY_PRESET_WITH_OMITED_VALUES,
+      DUMMY_PRESET_SETTINGS_WITH_OMITED_VALUES,
+    );
+    const currentConfig = await readFileSync(CONFIG_DUMMY_PATH);
+    const shouldEqual = {
+      [DUMMY_PRESET_NAME_1]: DUMMY_PRESET_SETTINGS,
+      [DUMMY_PRESET_NAME_2]: DUMMY_PRESET_SETTINGS,
+      [DUMMY_PRESET_WITH_OMITED_VALUES]: DUMMY_PRESET_SETTINGS,
+      [CONFIG_LATEST_PRESET]: DUMMY_PRESET_SETTINGS,
+    };
+    expect(currentConfig).toEqual(shouldEqual);
+  });
+
   it('should return an empty preset when a config doesn’t exist', async () => {
     await deleteDummy();
     const nonExistentPreset = await new PresetHandlerModule(
-      CONFIG_DUMMY_PATH
+      CONFIG_DUMMY_PATH,
     ).getPreset(DUMMY_PRESET_NAME_1);
     expect(nonExistentPreset).toEqual({});
   });
 
   it('should return empty preset when no matching preset is found', async () => {
     const nonExistentPreset = await new PresetHandlerModule(
-      CONFIG_DUMMY_PATH
+      CONFIG_DUMMY_PATH,
     ).getPreset(CONFIG_MISSING_PRESET);
     expect(nonExistentPreset).toEqual({});
   });
 
   it('should warn user correctly when no matching preset is found', async () => {
-    const consoleWarn = jest.spyOn(console, 'warn');
+    const consoleWarn = vi.spyOn(console, 'warn');
     await new PresetHandlerModule(CONFIG_DUMMY_PATH).getPreset(
-      CONFIG_MISSING_PRESET
+      CONFIG_MISSING_PRESET,
     );
     expect(consoleWarn).toHaveBeenCalled();
     expect(consoleWarn).toHaveBeenCalledWith(
-      presetMissingView(CONFIG_MISSING_PRESET)
+      presetMissingView(CONFIG_MISSING_PRESET),
     );
     consoleWarn.mockReset();
   });
@@ -102,7 +126,9 @@ describe('PresetHandlerModule', () => {
 
   it('should handle local configs correctly', async () => {
     expect(
-      await new PresetHandlerModule(DUMMY_CONFIG).getPreset(DUMMY_PRESET_NAME_1)
+      await new PresetHandlerModule(DUMMY_CONFIG).getPreset(
+        DUMMY_PRESET_NAME_1,
+      ),
     ).toEqual({
       theme: 'base16-light',
       backgroundColor: 'white',
