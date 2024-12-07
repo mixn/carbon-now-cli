@@ -33,6 +33,7 @@ const TaskList = new Listr([]);
 let settings: CarbonCLIPresetInterface = {
   ...defaultSettings,
   language: FileHandler.getMimeType,
+  titleBar: FileHandler.getFileName,
 };
 
 // --preset has a higher priority than default settings
@@ -88,6 +89,8 @@ TaskList.add([
         transformToQueryParams({
           ...settings,
           code: ctx.encodedContent,
+          // If settings have a `custom` key, add the `t` query param to signal Carbon a custom theme
+          // I find this ↓ more readable than `t: settings.custom && CARBON_CUSTOM_THEME || undefined,`
           ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
         }),
       )}`;
