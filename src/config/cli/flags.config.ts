@@ -39,6 +39,9 @@ export default {
   config: {
     type: 'string',
   },
+  configJson: {
+    type: 'string',
+  },
   fromClipboard: {
     type: 'boolean',
     default: false,
