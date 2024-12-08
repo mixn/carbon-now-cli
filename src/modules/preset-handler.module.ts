@@ -8,13 +8,16 @@ import {
   CONFIG_LATEST_PRESET,
 } from '../helpers/cli/constants.helper.js';
 import presetMissingView from '../views/preset-missing.view.js';
+import defaultSettings from '../config/cli/default-settings.config.js';
 
 export default class PresetHandler {
+  private settings = defaultSettings;
   private readonly ignoredSettings = [
     'save',
     'preset',
     'language',
     'highlight',
+    'titleBar',
   ];
 
   constructor(private readonly configPath: string = CONFIG_PATH) {}
@@ -51,7 +54,7 @@ export default class PresetHandler {
 
   public async savePreset(
     preset = CONFIG_LATEST_PRESET,
-    presetSettings = {}
+    presetSettings = {},
   ): Promise<void> {
     const whiteListedSettings = _.omit(presetSettings, this.ignoredSettings);
     const currentConfig = await this.readConfig();
@@ -66,5 +69,19 @@ export default class PresetHandler {
       spaces: 2,
       EOL,
     });
+  }
+
+  public mergeSettings(
+    toMerge: Partial<CarbonCLIPresetInterface>,
+  ): CarbonCLIPresetInterface {
+    this.settings = {
+      ...this.settings,
+      ...toMerge,
+    };
+    return this.settings;
+  }
+
+  public get getSettings(): CarbonCLIPresetInterface {
+    return this.settings;
   }
 }

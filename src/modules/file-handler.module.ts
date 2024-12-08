@@ -1,5 +1,6 @@
 import fileExtension from 'file-extension';
 import { EOL } from 'os';
+import { basename } from 'node:path';
 import { rename } from 'node:fs/promises';
 import extensionsMap from '../helpers/cli/extensions-map.helper.js';
 
@@ -11,7 +12,7 @@ export default class FileHandler {
   public async process(
     input: string,
     startLine = 0,
-    endLine = 1000
+    endLine = 1000,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       if (startLine > endLine) {
@@ -24,7 +25,7 @@ export default class FileHandler {
             const currentLine: number = index + 1;
             return currentLine >= startLine && currentLine <= endLine;
           })
-          .join(EOL)
+          .join(EOL),
       );
     });
   }
@@ -38,5 +39,9 @@ export default class FileHandler {
       preserveCase: true,
     });
     return this.extensions.get(extension) ?? 'auto';
+  }
+
+  public get getFileName(): string | undefined {
+    return this.file && basename(this.file);
   }
 }
