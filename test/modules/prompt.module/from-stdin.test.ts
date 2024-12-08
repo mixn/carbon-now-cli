@@ -2,9 +2,7 @@ import getStdin from 'get-stdin';
 import PromptModule from '../../../src/modules/prompt.module.js';
 import { DUMMY_INPUT } from '../../helpers/constants.helper.js';
 
-vi.mock('get-stdin', () => ({
-  default: vi.fn(),
-}));
+vi.mock('get-stdin');
 
 describe('PromptModule via stdin', () => {
   it('should handle input from stdin correctly', async () => {

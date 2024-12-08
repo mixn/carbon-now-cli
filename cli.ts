@@ -12,7 +12,6 @@ import DownloadModule from './src/modules/download.module.js';
 import RendererModule from './src/modules/renderer.module.js';
 import readFileAsync from './src/utils/read-file-async.util.js';
 import transformToQueryParams from './src/utils/transform-to-query-params.util.js';
-import defaultSettings from './src/config/cli/default-settings.config.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
 import packageJson from './package.json' assert { type: 'json' };
@@ -30,40 +29,55 @@ const PresetHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
 const Download = new DownloadModule(file);
 const TaskList = new Listr([]);
-let settings: CarbonCLIPresetInterface = {
-  ...defaultSettings,
+PresetHandler.mergeSettings({
   language: FileHandler.getMimeType,
   titleBar: FileHandler.getFileName,
-};
+});
+let parsedConfig: CarbonCLIPresetInterface;
 
 // --preset has a higher priority than default settings
 if (flags.preset) {
-  settings = {
-    ...settings,
-    ...(await PresetHandler.getPreset(flags.preset)),
-  };
+  PresetHandler.mergeSettings(await PresetHandler.getPreset(flags.preset));
 }
 
 // --interactive has an even higher priority than --preset
 if (flags.interactive) {
-  settings = {
-    ...settings,
-    ...answers,
-  } as CarbonCLIPresetAndAnswersIntersectionType;
+  PresetHandler.mergeSettings(
+    answers as CarbonCLIPresetAndAnswersIntersectionType,
+  );
 }
 
 // As long as it’s not a local --config, always save the latest run
 if (!flags.config) {
-  await PresetHandler.savePreset(settings.preset, settings);
+  // TODO: Change `savePreset` in a way that is leverages internal `settings`
+  await PresetHandler.savePreset(
+    PresetHandler.getSettings.preset,
+    PresetHandler.getSettings,
+  );
 }
 
 // If --start isn’t default (1), use the original line number as the first line number
 if (flags.start > 1) {
-  settings = {
-    ...settings,
+  PresetHandler.mergeSettings({
     firstLineNumber: flags.start,
-  };
+  });
 }
+
+if (flags.configJson) {
+  parsedConfig = JSON.parse(flags.configJson);
+  PresetHandler.mergeSettings(parsedConfig);
+}
+
+// Anonymous tasks that have to be caught for better UX
+TaskList.add([
+  {
+    task: (ctx) => {
+      if (flags.configJson) {
+        ctx.parsedConfig = JSON.parse(flags.configJson);
+      }
+    },
+  },
+]);
 
 // Task 1: Process and encode input
 TaskList.add([
@@ -87,15 +101,15 @@ TaskList.add([
     task: (ctx) => {
       ctx.preparedURL = `${CARBON_URL}?${queryString.stringify(
         transformToQueryParams({
-          ...settings,
+          ...PresetHandler.getSettings,
           code: ctx.encodedContent,
           // If settings have a `custom` key, add the `t` query param to signal Carbon a custom theme
           // I find this ↓ more readable than `t: settings.custom && CARBON_CUSTOM_THEME || undefined,`
-          ...(settings.custom && { t: CARBON_CUSTOM_THEME }),
+          ...(PresetHandler.getSettings.custom && { t: CARBON_CUSTOM_THEME }),
         }),
       )}`;
       Download.setFlags = flags;
-      Download.setImgType = settings.type;
+      Download.setImgType = PresetHandler.getSettings.type;
     },
   },
 ]);
@@ -120,10 +134,13 @@ TaskList.add([
       const Renderer = await RendererModule.create(
         flags.engine,
         flags.disableHeadless,
-        settings.type,
+        PresetHandler.getSettings.type,
       );
-      if (settings.custom) {
-        await Renderer.setCustomTheme(settings.custom, CARBON_CUSTOM_THEME);
+      if (PresetHandler.getSettings.custom) {
+        await Renderer.setCustomTheme(
+          PresetHandler.getSettings.custom,
+          CARBON_CUSTOM_THEME,
+        );
       }
       await Renderer.download(preparedURL, Download.getSaveDirectory);
       if (!flags.toClipboard) {
@@ -151,7 +168,13 @@ TaskList.add([
 
 try {
   await TaskList.run();
-  console.log(await defaultSuccessView(flags, Download.getPath, settings.type));
+  console.log(
+    await defaultSuccessView(
+      flags,
+      Download.getPath,
+      PresetHandler.getSettings.type,
+    ),
+  );
   updateNotifier({ pkg: packageJson }).notify();
   process.exit();
 } catch (e) {
