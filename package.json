@@ -27,7 +27,7 @@
   "scripts": {
     "dev": "npx tsx ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as --interactive --preset twitter --from-clipboard",
     "dev:noflags": "npx tsx ./cli.ts test/test-dummies/_unfold.js",
-    "dev:watch": "npx tsx watch ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser --save-to ~/Desktop --save-as --interactive --preset twitter --from-clipboard",
+    "dev:watch": "npx tsx watch ./cli.ts test/test-dummies/_unfold.js --start 3 --end 100 --open-in-browser",
     "build": "if [ -d 'dist' ]; then trash dist; fi && tsc && trash dist/coverage && trash dist/test",
     "build:run": "node dist/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as buildrun",
     "build-and-run": "npm run build && npm run build:run",
@@ -88,7 +88,6 @@
     "husky": "^9.0.11",
     "mock-fs": "^5.2.0",
     "mock-os": "^1.0.0",
-    "nodemon": "^3.0.1",
     "prettier": "^3.4.1",
     "trash-cli": "^6.0.0",
     "tsx": "^4.19.2",
