@@ -9,6 +9,7 @@ import {
   DUMMY_CONFIG,
 } from '../helpers/constants.helper.js';
 import presetMissingView from '../../src/views/preset-missing.view.js';
+import defaultSettings from '../../src/config/cli/default-settings.config.js';
 
 const DUMMY_PRESET_NAME_1 = 'dummy-preset';
 const DUMMY_PRESET_NAME_2 = 'appended-dummy-preset';
@@ -150,6 +151,49 @@ describe('PresetHandlerModule', () => {
       watermark: false,
       exportSize: '2x',
       type: 'png',
+    });
+  });
+
+  it('should correctly handle settings', async () => {
+    const PresetHandler = await new PresetHandlerModule(DUMMY_CONFIG);
+    const presetSettings = await PresetHandler.getPreset(DUMMY_PRESET_NAME_1);
+    const autoAppliedSettings = {
+      language: 'rust',
+      titleBar: 'main.rs',
+    };
+    const startFlagSettings = {
+      firstLineNumber: 1,
+    };
+    const configJsonFlagSettings = JSON.stringify({
+      theme: 'nord',
+      titleBar: 'updated-title.rs',
+    });
+    const parsedConfigJsonFlagSettings = JSON.parse(configJsonFlagSettings);
+    expect(PresetHandler.getSettings).toEqual(defaultSettings);
+    PresetHandler.mergeSettings(autoAppliedSettings);
+    expect(PresetHandler.getSettings).toEqual({
+      ...defaultSettings,
+      ...autoAppliedSettings,
+    });
+    PresetHandler.mergeSettings(presetSettings);
+    expect(PresetHandler.getSettings).toEqual({
+      ...defaultSettings,
+      ...autoAppliedSettings,
+      ...presetSettings,
+    });
+    PresetHandler.mergeSettings(startFlagSettings);
+    expect(PresetHandler.getSettings).toEqual({
+      ...defaultSettings,
+      ...autoAppliedSettings,
+      ...presetSettings,
+      ...startFlagSettings,
+    });
+    PresetHandler.mergeSettings(parsedConfigJsonFlagSettings);
+    expect(PresetHandler.getSettings).toEqual({
+      ...defaultSettings,
+      ...autoAppliedSettings,
+      ...presetSettings,
+      ...parsedConfigJsonFlagSettings,
     });
   });
 });

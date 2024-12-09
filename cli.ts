@@ -51,6 +51,7 @@ if (flags.interactive) {
 if (!flags.config) {
   // TODO: Change `savePreset` in a way that is leverages internal `settings`
   await PresetHandler.savePreset(
+    // TODO: Naming here is quite confusing, rename to `presetName` or similar
     PresetHandler.getSettings.preset,
     PresetHandler.getSettings,
   );

@@ -52,6 +52,7 @@ interface CarbonCLIPresetInterface {
   exportSize: '1x' | '2x' | '4x';
   type: CarbonCLIDownloadType;
   code?: string;
+  // TODO: Better typing for languages based on extensions-map.helper.ts
   language?: string;
   titleBar?: string;
   preset?: string;
