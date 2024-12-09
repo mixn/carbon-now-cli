@@ -52,7 +52,9 @@ interface CarbonCLIPresetInterface {
   exportSize: '1x' | '2x' | '4x';
   type: CarbonCLIDownloadType;
   code?: string;
+  // TODO: Better typing for languages based on extensions-map.helper.ts
   language?: string;
+  titleBar?: string;
   preset?: string;
   custom?: CarbonThemeHighlightsInterface;
 }
@@ -82,14 +84,15 @@ declare interface CarbonCLIPromptAnswersMappedInterface
   preset?: string;
   save?: boolean;
 }
-declare type CarbonCLIPromptAnswersMappedType =
-  | CarbonCLIPromptAnswersMappedInterface
-  | {};
-declare const enum CarbonCLIEngineFlagEnum {
+declare enum CarbonCLIEngineFlagEnum {
   chromium = 'chromium',
   firefox = 'firefox',
   webkit = 'webkit',
 }
+
+declare type CarbonCLIPromptAnswersMappedType =
+  | CarbonCLIPromptAnswersMappedInterface
+  | {};
 declare interface CarbonCLIFlagsInterface {
   start: number;
   end: number;
@@ -100,6 +103,7 @@ declare interface CarbonCLIFlagsInterface {
   preset: string;
   toClipboard: boolean;
   config: string;
+  configJson: string;
   fromClipboard: boolean;
   disableHeadless: boolean;
   engine: CarbonCLIEngineFlagEnum;
@@ -124,6 +128,7 @@ declare interface CarbonCLISettingsToQueryParamsMapInterface {
   selectedLines: 'sl';
   squaredImage: 'si';
   theme: 't';
+  titleBar: 'tb';
   watermark: 'wm';
   widthAdjustment: 'wa';
   windowControls: 'wc';

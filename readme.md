@@ -48,10 +48,22 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 
 ## Installation
 
+### Bun
+
+```
+bun i -g carbon-now-cli
+```
+
 ### pnpm
 
 ```
 pnpm i -g carbon-now-cli
+```
+
+### npx
+
+```
+npx carbon-now-cli <file>
 ```
 
 ### npm
@@ -64,12 +76,6 @@ npm i -g carbon-now-cli
 
 ```
 yarn global add carbon-now-cli
-```
-
-### npx
-
-```
-npx carbon-now-cli <file>
 ```
 
 #### Requirements

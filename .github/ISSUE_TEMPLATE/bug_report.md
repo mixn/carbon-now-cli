@@ -4,7 +4,6 @@ about: Create a report to help fix something about `carbon-now-cli`
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 **Describe the bug**
@@ -28,7 +27,6 @@ If applicable, add screenshots to help explain your problem.
 - OS [e.g. macOS, Linux, Windows, iOS]:
 - `--engine` used [e.g. `chromium`, `firefox`, `webkit`]:
 - Carbon URL (run with `--open-in-browser` to see) [e.g. carbon.now.sh?bg=pink]:
-
 
 <details>
   <summary>Code snippet</summary>

@@ -1,4 +1,4 @@
-import tempy from 'tempy';
+import { temporaryDirectory } from 'tempy';
 import { homedir } from 'os';
 import { basename, extname } from 'path';
 import { nanoid } from 'nanoid';
@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 export default class Download {
   private imgType!: CarbonCLIDownloadType;
   private flags!: CarbonCLIFlagsInterface;
-  private readonly tempDirectory = tempy.directory();
+  private readonly tempDirectory = temporaryDirectory();
   private readonly uniqueId = nanoid(10);
 
   constructor(public file?: string) {}
