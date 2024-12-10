@@ -48,10 +48,22 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 
 ## Installation
 
+### Bun
+
+```
+bun i -g carbon-now-cli
+```
+
 ### pnpm
 
 ```
 pnpm i -g carbon-now-cli
+```
+
+### npx
+
+```
+npx carbon-now-cli <file>
 ```
 
 ### npm
@@ -64,12 +76,6 @@ npm i -g carbon-now-cli
 
 ```
 yarn global add carbon-now-cli
-```
-
-### npx
-
-```
-npx carbon-now-cli <file>
 ```
 
 #### Requirements
@@ -94,9 +100,10 @@ Options
   --save-to            Image save location, default: cwd
   --save-as            Image name, default: original-hash.{png|svg}
   --from-clipboard     Read input from clipboard instead of file
-  --to-clipboard       Copy image to clipboard
+  --to-clipboard       Copy image to clipboard instead of saving
   --open-in-browser    Open in browser instead of saving
   --config             Use a different, local config (read-only)
+  --settings           Override specific settings for this run (unpersisted)
   --disable-headless   Run Playwright in headful mode
   --engine             Use different rendering engine, default: `chromium`
                        Options: `chromium`, `firefox`, `webkit`

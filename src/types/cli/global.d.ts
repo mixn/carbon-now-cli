@@ -52,8 +52,10 @@ interface CarbonCLIPresetInterface {
   exportSize: '1x' | '2x' | '4x';
   type: CarbonCLIDownloadType;
   code?: string;
+  // TODO: Better typing for languages based on extensions-map.helper.ts
   language?: string;
-  preset?: string;
+  titleBar?: string;
+  presetName?: string;
   custom?: CarbonThemeHighlightsInterface;
 }
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
@@ -69,7 +71,7 @@ declare interface CarbonCLIPromptAnswersInterface
   windowTheme: 'None' | 'Sharp' | 'Black & White';
   fontFamily: CarbonFontFamilyType;
   save: boolean;
-  preset: string;
+  presetName: string;
   language: 'auto';
 }
 declare type CarbonCLIPromptAnswersType = CarbonCLIPromptAnswersInterface | {};
@@ -79,17 +81,18 @@ declare interface CarbonCLIPromptAnswersMappedInterface
   windowTheme: CarbonWindowThemeType;
   fontFamily: CarbonFontFamilyType;
   language?: string;
-  preset?: string;
+  presetName?: string;
   save?: boolean;
 }
-declare type CarbonCLIPromptAnswersMappedType =
-  | CarbonCLIPromptAnswersMappedInterface
-  | {};
-declare const enum CarbonCLIEngineFlagEnum {
+declare enum CarbonCLIEngineFlagEnum {
   chromium = 'chromium',
   firefox = 'firefox',
   webkit = 'webkit',
 }
+
+declare type CarbonCLIPromptAnswersMappedType =
+  | CarbonCLIPromptAnswersMappedInterface
+  | {};
 declare interface CarbonCLIFlagsInterface {
   start: number;
   end: number;
@@ -100,6 +103,7 @@ declare interface CarbonCLIFlagsInterface {
   preset: string;
   toClipboard: boolean;
   config: string;
+  settings: string;
   fromClipboard: boolean;
   disableHeadless: boolean;
   engine: CarbonCLIEngineFlagEnum;
@@ -124,6 +128,7 @@ declare interface CarbonCLISettingsToQueryParamsMapInterface {
   selectedLines: 'sl';
   squaredImage: 'si';
   theme: 't';
+  titleBar: 'tb';
   watermark: 'wm';
   widthAdjustment: 'wa';
   windowControls: 'wc';

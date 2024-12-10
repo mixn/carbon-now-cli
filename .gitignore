@@ -8,3 +8,8 @@ coverage/
 /test-results/
 /playwright-report/
 /playwright/.cache/
+_unfold-*.png
+_unfold-*.svg
+carbon-*.png
+carbon-*.svg
+stdin-*.png

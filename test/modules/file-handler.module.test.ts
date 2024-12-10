@@ -30,10 +30,10 @@ describe('FileHandlerModule', () => {
     ];
     const FileHandler = new FileHandlerModule();
     expect(
-      await FileHandler.process((await readFileAsync(full)) as string, 3, 6)
+      await FileHandler.process((await readFileAsync(full)) as string, 3, 6),
     ).toBe((await readFileAsync(partial)) as string);
     expect(
-      await FileHandler.process((await readFileAsync(full)) as string, 1, 3)
+      await FileHandler.process((await readFileAsync(full)) as string, 1, 3),
     ).toBe(await readFileAsync(differentPartial));
   });
 
@@ -41,7 +41,7 @@ describe('FileHandlerModule', () => {
     const file = './test/test-dummies/_unfold.js';
     const FileHandler = new FileHandlerModule();
     await expect(
-      FileHandler.process((await readFileAsync(file)) as string, 5, 1)
+      FileHandler.process((await readFileAsync(file)) as string, 5, 1),
     ).rejects.toEqual(new Error('Nonsensical line numbers.'));
   });
 
@@ -55,6 +55,22 @@ describe('FileHandlerModule', () => {
   it('should default to `auto` when a mime type doesn’t exist', () => {
     const FileHandler = new FileHandlerModule(`name.foobar`);
     expect(FileHandler.getMimeType).toBe('auto');
+  });
+
+  it('should return the file name for a given file path correctly', () => {
+    const files = [
+      { path: './test/test-dummies/_unfold.js', expected: '_unfold.js' },
+      { path: './test/test-dummies/_main.rs', expected: '_main.rs' },
+      { path: './test/test-dummies/_index.html', expected: '_index.html' },
+    ];
+
+    files.forEach(({ path, expected }) => {
+      const FileHandler = new FileHandlerModule(path);
+      expect(FileHandler.getFileName).toBe(expected);
+    });
+
+    const FileHandler = new FileHandlerModule();
+    expect(FileHandler.getFileName).not.toBeDefined();
   });
 
   it('should rename a file correctly', async () => {
