@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import jsonFile from 'jsonfile';
 import fileExists from 'file-exists';
 import _ from 'lodash';
@@ -10,11 +9,14 @@ import {
 import presetMissingView from '../views/preset-missing.view.js';
 import defaultSettings from '../config/cli/default-settings.config.js';
 
+// TODO: Generally improve this module, it’s a bit messy/legacy tbh
+// `savePreset` doesn’t need a 2nd argument,
+// reading is too dependent on writing, etc.
 export default class PresetHandler {
   private settings = defaultSettings;
   private readonly ignoredSettings = [
     'save',
-    'preset',
+    'presetName',
     'language',
     'highlight',
     'titleBar',

@@ -55,7 +55,7 @@ interface CarbonCLIPresetInterface {
   // TODO: Better typing for languages based on extensions-map.helper.ts
   language?: string;
   titleBar?: string;
-  preset?: string;
+  presetName?: string;
   custom?: CarbonThemeHighlightsInterface;
 }
 declare type CarbonCLIPresetType = CarbonCLIPresetInterface | {};
@@ -71,7 +71,7 @@ declare interface CarbonCLIPromptAnswersInterface
   windowTheme: 'None' | 'Sharp' | 'Black & White';
   fontFamily: CarbonFontFamilyType;
   save: boolean;
-  preset: string;
+  presetName: string;
   language: 'auto';
 }
 declare type CarbonCLIPromptAnswersType = CarbonCLIPromptAnswersInterface | {};
@@ -81,7 +81,7 @@ declare interface CarbonCLIPromptAnswersMappedInterface
   windowTheme: CarbonWindowThemeType;
   fontFamily: CarbonFontFamilyType;
   language?: string;
-  preset?: string;
+  presetName?: string;
   save?: boolean;
 }
 declare enum CarbonCLIEngineFlagEnum {

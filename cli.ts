@@ -25,56 +25,51 @@ const file = Prompt.getFile;
 const flags = Prompt.getFlags;
 const input = Prompt.getInput;
 const answers = Prompt.getAnswers;
-const PresetHandler = new PresetHandlerModule(flags.config);
 const FileHandler = new FileHandlerModule(file);
-const Download = new DownloadModule(file);
-const TaskList = new Listr([]);
+const PresetHandler = new PresetHandlerModule(flags.config);
 PresetHandler.mergeSettings({
   language: FileHandler.getMimeType,
   titleBar: FileHandler.getFileName,
 });
-let parsedConfig: CarbonCLIPresetInterface;
-
-// --preset has a higher priority than default settings
-if (flags.preset) {
-  PresetHandler.mergeSettings(await PresetHandler.getPreset(flags.preset));
-}
-
-// --interactive has an even higher priority than --preset
-if (flags.interactive) {
-  PresetHandler.mergeSettings(
-    answers as CarbonCLIPresetAndAnswersIntersectionType,
-  );
-}
-
-// As long as it’s not a local --config, always save the latest run
-if (!flags.config) {
-  // TODO: Change `savePreset` in a way that is leverages internal `settings`
-  await PresetHandler.savePreset(
-    // TODO: Naming here is quite confusing, rename to `presetName` or similar
-    PresetHandler.getSettings.preset,
-    PresetHandler.getSettings,
-  );
-}
-
-// If --start isn’t default (1), use the original line number as the first line number
-if (flags.start > 1) {
-  PresetHandler.mergeSettings({
-    firstLineNumber: flags.start,
-  });
-}
-
-if (flags.configJson) {
-  parsedConfig = JSON.parse(flags.configJson);
-  PresetHandler.mergeSettings(parsedConfig);
-}
+const Download = new DownloadModule(file);
+const TaskList = new Listr([]);
 
 // Anonymous tasks that have to be caught for better UX
 TaskList.add([
   {
-    task: (ctx) => {
+    task: async () => {
+      // --preset has a higher priority than default settings
+      if (flags.preset) {
+        PresetHandler.mergeSettings(
+          await PresetHandler.getPreset(flags.preset),
+        );
+      }
+
+      // --interactive has an even higher priority than --preset
+      if (flags.interactive) {
+        PresetHandler.mergeSettings(
+          answers as CarbonCLIPresetAndAnswersIntersectionType,
+        );
+      }
+
+      // If --start isn’t default (1), use the original line number as the first line number
+      if (flags.start > 1) {
+        PresetHandler.mergeSettings({
+          firstLineNumber: flags.start,
+        });
+      }
+
+      // --config-json has last-write priority
       if (flags.configJson) {
-        ctx.parsedConfig = JSON.parse(flags.configJson);
+        PresetHandler.mergeSettings(JSON.parse(flags.configJson));
+      }
+
+      // As long as it’s not a local --config, persist the latest run
+      if (!flags.config) {
+        await PresetHandler.savePreset(
+          PresetHandler.getSettings.presetName,
+          PresetHandler.getSettings,
+        );
       }
     },
   },

@@ -22,7 +22,7 @@ const DUMMY_PRESET_SETTINGS = {
 const DUMMY_PRESET_SETTINGS_WITH_OMITED_VALUES = {
   ...DUMMY_PRESET_SETTINGS,
   save: 'ignore',
-  preset: 'ignore',
+  presetName: 'ignore',
   language: 'ignore',
   highlight: 'ignore',
   titleBar: 'ignore',
