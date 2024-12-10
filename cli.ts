@@ -32,8 +32,6 @@ PresetHandler.mergeSettings({
   titleBar: FileHandler.getFileName,
 });
 const Download = new DownloadModule(file);
-Download.setFlags = flags;
-Download.setImgType = PresetHandler.getSettings.type;
 const TaskList = new Listr([]);
 
 // --preset has a higher priority than default settings
@@ -82,6 +80,8 @@ TaskList.add([
       ctx.encodedContent = encodeURIComponent(
         await FileHandler.process(input, flags.start, flags.end),
       );
+      Download.setFlags = flags;
+      Download.setImgType = PresetHandler.getSettings.type;
     },
   },
 ]);

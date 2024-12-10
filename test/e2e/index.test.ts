@@ -40,7 +40,9 @@ describe('Running `carbon-now` command', () => {
 
   it.sequential('should handle --save-as correctly', async () => {
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
-    await execaCommand(`${DEFAULT_SCRIPT} --save-as ${DUMMY_TARGET}`);
+    await execaCommand(
+      `${DEFAULT_SCRIPT} --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
+    );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 
@@ -70,7 +72,7 @@ describe('Running `carbon-now` command', () => {
     'shouldn’t fail when --end is larger than --start',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --start 2 --end 10 --save-as ${DUMMY_TARGET}`,
+        `${DEFAULT_SCRIPT} --start 2 --end 10 --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
     },
@@ -80,7 +82,7 @@ describe('Running `carbon-now` command', () => {
     'should save to temporary system folder when --to-clipboard is provided',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --to-clipboard --save-as ${DUMMY_TARGET}`,
+        `${DEFAULT_SCRIPT} --to-clipboard --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
     },
@@ -90,7 +92,7 @@ describe('Running `carbon-now` command', () => {
     'shouldn’t download an image when --open-in-browser is provided',
     async () => {
       await execaCommand(
-        `${DEFAULT_SCRIPT} --open-in-browser --save-as ${DUMMY_TARGET}`,
+        `${DEFAULT_SCRIPT} --open-in-browser --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
       );
       expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(false);
     },
@@ -98,7 +100,7 @@ describe('Running `carbon-now` command', () => {
 
   it.sequential('should handle --save-to correctly', async () => {
     await execaCommand(
-      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET}`,
+      `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
     );
     expect(
       await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`),
@@ -107,7 +109,9 @@ describe('Running `carbon-now` command', () => {
 
   it.sequential('should handle --from-clipboard correctly', async () => {
     clipboard.writeSync(DUMMY_INPUT);
-    await execaCommand(`${SCRIPT} --from-clipboard --save-as ${DUMMY_TARGET}`);
+    await execaCommand(
+      `${SCRIPT} --from-clipboard --save-as ${DUMMY_TARGET} --config ${DUMMY_CONFIG}`,
+    );
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
   });
 
