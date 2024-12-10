@@ -36,16 +36,15 @@ Download.setFlags = flags;
 Download.setImgType = PresetHandler.getSettings.type;
 const TaskList = new Listr([]);
 
+// --preset has a higher priority than default settings
+if (flags.preset) {
+  PresetHandler.mergeSettings(await PresetHandler.getPreset(flags.preset));
+}
+
 // Anonymous tasks that have to be caught for better UX
 TaskList.add([
   {
     task: async () => {
-      // --preset has a higher priority than default settings
-      if (flags.preset) {
-        PresetHandler.mergeSettings(
-          await PresetHandler.getPreset(flags.preset),
-        );
-      }
       // --interactive has an even higher priority than --preset
       if (flags.interactive) {
         PresetHandler.mergeSettings(

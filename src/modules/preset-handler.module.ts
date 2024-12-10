@@ -11,7 +11,7 @@ import defaultSettings from '../config/cli/default-settings.config.js';
 
 // TODO: Generally improve this module, it’s a bit messy/legacy tbh
 // `savePreset` doesn’t need a 2nd argument,
-// reading is too dependent on writing, etc.
+// reads is too dependent on writes, etc.
 export default class PresetHandler {
   private settings = defaultSettings;
   private readonly ignoredSettings = [
