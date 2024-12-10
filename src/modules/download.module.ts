@@ -40,8 +40,12 @@ export default class Download {
     return this.flags.saveAs || `${this.getOriginalFileName}-${this.uniqueId}`;
   }
 
+  public get getDownloadedAsFileName(): string {
+    return `carbon-${this.uniqueId}`;
+  }
+
   public get getDownloadedAsPath(): string {
-    return `${this.getSaveDirectory}/carbon.${this.imgType}`;
+    return `${this.getSaveDirectory}/${this.getDownloadedAsFileName}.${this.imgType}`;
   }
 
   public get getSavedAsPath(): string {

@@ -99,13 +99,14 @@ export default class Renderer {
   public async download(
     url: string,
     saveDirectory: string = process.cwd(),
+    saveFileName: string,
   ): Promise<void> {
     try {
       const queuedDownloadEvent = this.page.waitForEvent('download');
       await this.navigate(url);
       await (
         await queuedDownloadEvent
-      )?.saveAs(`${saveDirectory}/carbon.${this.type}`);
+      )?.saveAs(`${saveDirectory}/${saveFileName}.${this.type}`);
     } catch (e) {
       throw new Error((e as Error).message);
     } finally {

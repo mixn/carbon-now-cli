@@ -32,6 +32,8 @@ PresetHandler.mergeSettings({
   titleBar: FileHandler.getFileName,
 });
 const Download = new DownloadModule(file);
+Download.setFlags = flags;
+Download.setImgType = PresetHandler.getSettings.type;
 const TaskList = new Listr([]);
 
 // Anonymous tasks that have to be caught for better UX
@@ -44,26 +46,22 @@ TaskList.add([
           await PresetHandler.getPreset(flags.preset),
         );
       }
-
       // --interactive has an even higher priority than --preset
       if (flags.interactive) {
         PresetHandler.mergeSettings(
           answers as CarbonCLIPresetAndAnswersIntersectionType,
         );
       }
-
       // If --start isn’t default (1), use the original line number as the first line number
       if (flags.start > 1) {
         PresetHandler.mergeSettings({
           firstLineNumber: flags.start,
         });
       }
-
       // --settings has last-write priority
       if (flags.settings) {
         PresetHandler.mergeSettings(JSON.parse(flags.settings));
       }
-
       // As long as it’s not a local --config, persist the latest run
       if (!flags.config) {
         await PresetHandler.savePreset(
@@ -103,8 +101,6 @@ TaskList.add([
           ...(PresetHandler.getSettings.custom && { t: CARBON_CUSTOM_THEME }),
         }),
       )}`;
-      Download.setFlags = flags;
-      Download.setImgType = PresetHandler.getSettings.type;
     },
   },
 ]);
@@ -137,7 +133,11 @@ TaskList.add([
           CARBON_CUSTOM_THEME,
         );
       }
-      await Renderer.download(preparedURL, Download.getSaveDirectory);
+      await Renderer.download(
+        preparedURL,
+        Download.getSaveDirectory,
+        Download.getDownloadedAsFileName,
+      );
       if (!flags.toClipboard) {
         await FileHandler.rename(
           Download.getDownloadedAsPath,

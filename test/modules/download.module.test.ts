@@ -47,6 +47,14 @@ describe('DownloadModule', () => {
     expect(Download2.getNewFileName).toBe('_unfold-123456789');
   });
 
+  it('should return the downloaded as file name correctly', () => {
+    const Download = new DownloadModule(DUMMY_FILE);
+    Download.setFlags = {
+      saveAs: undefined,
+    } as CarbonCLIFlagsInterface;
+    expect(Download.getDownloadedAsFileName).toBe('carbon-123456789');
+  });
+
   it('should return the save directory correctly', () => {
     const Download = new DownloadModule();
     Download.setFlags = {

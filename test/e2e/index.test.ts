@@ -18,16 +18,14 @@ const DUMMY_LOCATION = 'location';
 const DUMMY_SAVED_FILE_NAME = `${DUMMY_TARGET}.png`;
 const ABSENT_DUMMY_CONFIG = './non-existent.json';
 
-afterEach(async () => {
-  await deleteAsync([DUMMY_SAVED_FILE_NAME], {
-    force: true, // Allow deleting outside of cwd
-  });
+beforeEach(async () => {
+  await deleteAsync(DUMMY_LOCATION);
+  await mkdir(DUMMY_LOCATION);
 });
 
-afterAll(async () => {
-  await deleteAsync([DUMMY_LOCATION], {
-    force: true,
-  });
+afterEach(async () => {
+  await deleteAsync(DUMMY_SAVED_FILE_NAME);
+  await deleteAsync(DUMMY_LOCATION);
 });
 
 describe('Running `carbon-now` command', () => {
@@ -99,19 +97,35 @@ describe('Running `carbon-now` command', () => {
   );
 
   it.sequential('should handle --save-to correctly', async () => {
-    await mkdir(DUMMY_LOCATION);
     await execaCommand(
       `${DEFAULT_SCRIPT} --save-to ./${DUMMY_LOCATION} --save-as ${DUMMY_TARGET}`,
     );
     expect(
       await fileExists(`./${DUMMY_LOCATION}/${DUMMY_SAVED_FILE_NAME}`),
     ).toBe(true);
-    await deleteAsync(DUMMY_LOCATION);
   });
 
   it.sequential('should handle --from-clipboard correctly', async () => {
     clipboard.writeSync(DUMMY_INPUT);
     await execaCommand(`${SCRIPT} --from-clipboard --save-as ${DUMMY_TARGET}`);
     expect(await fileExists(DUMMY_SAVED_FILE_NAME)).toBe(true);
+  });
+
+  it.sequential('should work concurrently', async () => {
+    const RUNS = 5;
+    await Promise.all(
+      Array.from({ length: RUNS }, (_, index) => {
+        return execaCommand(
+          `${DEFAULT_SCRIPT} --save-as ${index} --save-to ${DUMMY_LOCATION} --config ${DUMMY_CONFIG}`,
+        );
+      }),
+    );
+    await Promise.all(
+      Array.from({ length: RUNS }, (_, index) =>
+        expect(fileExists(`${DUMMY_LOCATION}/${index}.png`)).resolves.toBe(
+          true,
+        ),
+      ),
+    );
   });
 });

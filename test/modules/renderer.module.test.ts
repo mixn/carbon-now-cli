@@ -6,7 +6,7 @@ import {
   CARBON_CUSTOM_THEME,
   CARBON_LOCAL_STORAGE_KEY,
 } from '../../src/helpers/carbon/constants.helper.js';
-import { DUMMY_LOCATION } from '../helpers/constants.helper.js';
+import { DUMMY_LOCATION, DUMMY_TARGET } from '../helpers/constants.helper.js';
 import { CarbonCLIEngineFlagEnum } from '../../src/types/cli/engine.enum.js';
 
 const EXPORT_MENU_SELECTOR = '#export-menu';
@@ -57,7 +57,7 @@ describe('RendererModule', () => {
       false,
       TYPE_PNG,
     );
-    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION, DUMMY_TARGET);
     expect(chromium.launch).toHaveBeenCalledWith({
       headless: true,
     });
@@ -72,7 +72,7 @@ describe('RendererModule', () => {
 
   it('should correctly fall back to default values if none are provided', async () => {
     const Renderer = await RendererModule.create();
-    await Renderer.download(CARBON_URL);
+    await Renderer.download(CARBON_URL, undefined, DUMMY_TARGET);
     expect(chromium.launch).toHaveBeenCalledWith({
       headless: true,
     });
@@ -82,7 +82,7 @@ describe('RendererModule', () => {
       await (
         await Page.waitForEvent('download')
       ).saveAs,
-    ).toHaveBeenCalledWith(`${process.cwd()}/carbon.png`);
+    ).toHaveBeenCalledWith(`${process.cwd()}/${DUMMY_TARGET}.png`);
   });
 
   it('should navigate to download initialization correctly', async () => {
@@ -91,7 +91,7 @@ describe('RendererModule', () => {
       false,
       TYPE_PNG,
     );
-    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION, DUMMY_TARGET);
     const Page = await (await chromium.launch()).newPage();
     expect(await Page.goto).toHaveBeenCalledWith(CARBON_URL);
     expect(await Page.waitForSelector).toHaveBeenCalledWith(
@@ -116,14 +116,14 @@ describe('RendererModule', () => {
       false,
       TYPE_SVG,
     );
-    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION, DUMMY_TARGET);
     const Page = await (await chromium.launch()).newPage();
     expect(Page.waitForEvent).toHaveBeenCalledWith('download');
     expect(
       await (
         await Page.waitForEvent('download')
       ).saveAs,
-    ).toHaveBeenCalledWith(`${DUMMY_LOCATION}/carbon.svg`);
+    ).toHaveBeenCalledWith(`${DUMMY_LOCATION}/${DUMMY_TARGET}.svg`);
   });
 
   it('should throw if an error occurs during the download', async () => {
@@ -135,9 +135,9 @@ describe('RendererModule', () => {
     const Page = await (await chromium.launch()).newPage();
     const error = new Error('An error occurred during the download.');
     Page.waitForEvent = vi.fn().mockRejectedValueOnce(error);
-    await expect(Renderer.download(CARBON_URL, DUMMY_LOCATION)).rejects.toThrow(
-      error.message,
-    );
+    await expect(
+      Renderer.download(CARBON_URL, DUMMY_LOCATION, DUMMY_TARGET),
+    ).rejects.toThrow(error.message);
   });
 
   it('should accept custom themes correctly', async () => {
@@ -147,7 +147,7 @@ describe('RendererModule', () => {
       TYPE_PNG,
     );
     await Renderer.setCustomTheme({});
-    await Renderer.download(CARBON_URL, DUMMY_LOCATION);
+    await Renderer.download(CARBON_URL, DUMMY_LOCATION, DUMMY_TARGET);
     const Page = await (await chromium.launch()).newPage();
     expect(Page.addInitScript).toHaveBeenCalledTimes(1);
     expect(Page.addInitScript).toHaveBeenCalledWith(expect.any(Function), {
@@ -168,7 +168,7 @@ describe('RendererModule', () => {
   });
 
   it('should spawn Chromium by default if --engine is not set', async () => {
-    const Renderer = await RendererModule.create(
+    await RendererModule.create(
       CarbonCLIEngineFlagEnum.chromium,
       false,
       TYPE_PNG,
@@ -177,7 +177,7 @@ describe('RendererModule', () => {
   });
 
   it('should spawn Firefox correctly if --engine=firefox', async () => {
-    const Renderer = await RendererModule.create(
+    await RendererModule.create(
       CarbonCLIEngineFlagEnum.firefox,
       false,
       TYPE_PNG,

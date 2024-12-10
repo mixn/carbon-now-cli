@@ -8,6 +8,6 @@ export const DUMMY_TARGET = 'target';
 export const DUMMY_LOCATION = '~/something';
 export const DUMMY_LOCATION_EXPANDED = `${HOMEDIR}/something`;
 export const DUMMY_TEMP_FOLDER = 'private/var/something';
-export const DUMMY_DEFAULT_FILE_NAME = 'carbon.png';
+export const DUMMY_DEFAULT_FILE_NAME = 'carbon-123456789.png';
 export const CONFIG_MISSING_PRESET = 'missing-preset';
 export const CONFIG_DUMMY_PATH = `${HOMEDIR}/${CONFIG_DUMMY}`;
