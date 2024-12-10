@@ -103,7 +103,7 @@ declare interface CarbonCLIFlagsInterface {
   preset: string;
   toClipboard: boolean;
   config: string;
-  configJson: string;
+  settings: string;
   fromClipboard: boolean;
   disableHeadless: boolean;
   engine: CarbonCLIEngineFlagEnum;

@@ -164,11 +164,13 @@ describe('PresetHandlerModule', () => {
     const startFlagSettings = {
       firstLineNumber: 1,
     };
-    const configJsonFlagSettings = JSON.stringify({
+    const settingsFlagInlineSettings = JSON.stringify({
       theme: 'nord',
       titleBar: 'updated-title.rs',
     });
-    const parsedConfigJsonFlagSettings = JSON.parse(configJsonFlagSettings);
+    const parsedSettingsFlagInlineSettings = JSON.parse(
+      settingsFlagInlineSettings,
+    );
     expect(PresetHandler.getSettings).toEqual(defaultSettings);
     PresetHandler.mergeSettings(autoAppliedSettings);
     expect(PresetHandler.getSettings).toEqual({
@@ -188,12 +190,12 @@ describe('PresetHandlerModule', () => {
       ...presetSettings,
       ...startFlagSettings,
     });
-    PresetHandler.mergeSettings(parsedConfigJsonFlagSettings);
+    PresetHandler.mergeSettings(parsedSettingsFlagInlineSettings);
     expect(PresetHandler.getSettings).toEqual({
       ...defaultSettings,
       ...autoAppliedSettings,
       ...presetSettings,
-      ...parsedConfigJsonFlagSettings,
+      ...parsedSettingsFlagInlineSettings,
     });
   });
 });

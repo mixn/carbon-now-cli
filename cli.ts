@@ -59,9 +59,9 @@ TaskList.add([
         });
       }
 
-      // --config-json has last-write priority
-      if (flags.configJson) {
-        PresetHandler.mergeSettings(JSON.parse(flags.configJson));
+      // --settings has last-write priority
+      if (flags.settings) {
+        PresetHandler.mergeSettings(JSON.parse(flags.settings));
       }
 
       // As long as it’s not a local --config, persist the latest run
@@ -79,8 +79,7 @@ TaskList.add([
 TaskList.add([
   {
     title: `Processing ${
-      file ||
-      (flags.fromClipboard ? 'input from clipboard' : 'input from stdin')
+      file || `input from ${flags.fromClipboard ? 'clipboard' : 'stdin'}`
     }`,
     task: async (ctx) => {
       ctx.encodedContent = encodeURIComponent(

@@ -39,7 +39,7 @@ export default {
   config: {
     type: 'string',
   },
-  configJson: {
+  settings: {
     type: 'string',
   },
   fromClipboard: {
