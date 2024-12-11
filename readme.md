@@ -226,7 +226,7 @@ Default settings `<` Preset `<` `--interactive` `<` `--settings`
 
 From `v2.0` onwards, `carbon-now-cli` supports the ability to define custom theme colors, i.e., what color e.g., `variable`s, `operator`s, `attribute`s, etc. should have, allowing you to have complete control over how things look to the smallest detail.
 
-Therefore, you have to provide a key called `custom` inside one of your presets that complies to the following type:
+As briefly touched upon in the [settings section](#settings), you have to provide a key called `custom` inside one of your presets that complies to the following type:
 
 ```ts
 interface CarbonThemeHighlightsInterface {
