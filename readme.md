@@ -36,16 +36,16 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - 🖱 [Selective processing](#selective) via `--start` and `--end`
 - 📎 [Copies image to clipboard](#copying-to-clipboard) via `--to-clipboard` (cross-OS 😱)
 - 📚 Accepts [file, `stdin`, or clipboard content](#input-sources) as input
-- 👀 Saves to [given location](#full-example) or [only opens in browser](#full-example) for manual finish
-- 🐶 Displays image directly in supported terminals
 - 🖋️ Supports [custom theme colors](#custom-theme-colors)
 - 🥞 Supports concurrency for easier batch processing
-- 🌈 Supports saving as `.png` or `.svg`
-- 📏 Supports `2x`, `4x` or `1x` resolutions
-- 🧺 Supports pretty much [any other](https://github.com/mixn/carbon-now-cli/issues/50) [Carbon feature](https://github.com/mixn/carbon-now-cli/issues/70)
+- 👀 Saves to [given location](#full-example) or [opens in browser](#full-example) for manual finish
+- 🐶 Displays image directly in supported terminals
+- 🌈 Supports different export types (`png`, `svg`)
+- 📏 Supports different resolutions (`1x`, `2x`, `4x`)
 - ⏱ Reports each step and therefore shortens the wait
 - ✅ Heavily tested
 - ⛏ Actively maintained
+- 🧺 …[and](https://github.com/mixn/carbon-now-cli/issues/50) [more](https://github.com/mixn/carbon-now-cli/issues/70)!
 
 ## Installation
 
