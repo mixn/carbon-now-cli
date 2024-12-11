@@ -20,6 +20,7 @@ const keyMap: CarbonCLISettingsToQueryParamsMapInterface = {
   titleBar: 'tb',
   watermark: 'wm',
   widthAdjustment: 'wa',
+  width: 'width',
   windowControls: 'wc',
   windowTheme: 'wt',
 };

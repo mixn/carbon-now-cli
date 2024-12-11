@@ -44,6 +44,7 @@ interface CarbonCLIPresetInterface {
   dropShadowBlurRadius: string;
   selectedLines: string;
   widthAdjustment: boolean;
+  width?: string;
   lineHeight: string;
   paddingVertical: string;
   paddingHorizontal: string;
@@ -131,6 +132,7 @@ declare interface CarbonCLISettingsToQueryParamsMapInterface {
   titleBar: 'tb';
   watermark: 'wm';
   widthAdjustment: 'wa';
+  width: 'width';
   windowControls: 'wc';
   windowTheme: 'wt';
 }
