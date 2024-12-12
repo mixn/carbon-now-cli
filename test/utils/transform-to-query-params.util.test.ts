@@ -14,6 +14,7 @@ const verminalPreset: CarbonCLIPresetInterface = {
   dropShadowOffsetY: '20px',
   dropShadowBlurRadius: '68px',
   widthAdjustment: true,
+  width: '20000px',
   lineHeight: '133%',
   paddingVertical: '30px',
   paddingHorizontal: '30px',
@@ -21,6 +22,7 @@ const verminalPreset: CarbonCLIPresetInterface = {
   watermark: false,
   exportSize: '2x',
   type: 'png',
+  titleBar: '_unfold.js',
 };
 
 describe('transformToQueryParams', () => {
@@ -39,6 +41,7 @@ describe('transformToQueryParams', () => {
       dsyoff: '20px',
       dsblur: '68px',
       wa: true,
+      width: '20000px',
       lh: '133%',
       pv: '30px',
       ph: '30px',
@@ -46,6 +49,7 @@ describe('transformToQueryParams', () => {
       wm: false,
       es: '2x',
       type: 'png',
+      tb: '_unfold.js',
     });
   });
 
@@ -56,7 +60,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         dropShadow: false,
         selectedLines: '*',
-      } as CarbonCLIPresetInterface)
+      } as CarbonCLIPresetInterface),
     ).toEqual({
       ln: false,
       fl: 1,
@@ -72,7 +76,7 @@ describe('transformToQueryParams', () => {
         firstLineNumber: 1,
         nothing: 'nothing',
         toTransformHere: 'transformable found',
-      } as any)
+      } as any),
     ).toEqual({
       ln: false,
       fl: 1,

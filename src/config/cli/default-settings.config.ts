@@ -13,6 +13,7 @@ const defaultSettings: CarbonCLIPresetInterface = {
   dropShadowBlurRadius: '68px',
   selectedLines: '*',
   widthAdjustment: true,
+  width: '20000px',
   lineHeight: '133%',
   paddingVertical: '48px',
   paddingHorizontal: '32px',

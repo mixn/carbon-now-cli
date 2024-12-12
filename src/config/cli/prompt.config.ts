@@ -145,7 +145,7 @@ export default [
   },
   {
     type: 'input',
-    name: 'preset',
+    name: 'presetName',
     message: 'Name of the preset? Use kebab-case.',
     default: CONFIG_LATEST_PRESET,
     when: (answers: CarbonCLIPromptAnswersInterface) => answers.save,

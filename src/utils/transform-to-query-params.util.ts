@@ -17,8 +17,10 @@ const keyMap: CarbonCLISettingsToQueryParamsMapInterface = {
   selectedLines: 'sl',
   squaredImage: 'si',
   theme: 't',
+  titleBar: 'tb',
   watermark: 'wm',
   widthAdjustment: 'wa',
+  width: 'width',
   windowControls: 'wc',
   windowTheme: 'wt',
 };
@@ -27,5 +29,5 @@ export default (settings: CarbonCLIPresetInterface) =>
   _.mapKeys(
     settings,
     (value, key) =>
-      keyMap[key as keyof CarbonCLISettingsToQueryParamsMapInterface] || key
+      keyMap[key as keyof CarbonCLISettingsToQueryParamsMapInterface] || key,
   );
