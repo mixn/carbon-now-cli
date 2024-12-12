@@ -31,7 +31,7 @@
     "build": "if [ -d 'dist' ]; then trash dist; fi && tsc && trash dist/coverage && trash dist/test",
     "build:run": "node dist/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as buildrun",
     "build-and-run": "npm run build && npm run build:run",
-    "build:bundle": "if [ -d 'dist' ]; then npx esbuild ./dist/cli.js --outdir=./bundle --bundle --platform=node --target=node16 --packages=external --format=esm --minify; fi",
+    "build:bundle": "if [ -d 'dist' ]; then npx esbuild ./dist/cli.js --outdir=./bundle --bundle --platform=node --target=node18 --packages=external --format=esm --minify; fi",
     "bundle:run": "node bundle/cli.js test/test-dummies/_unfold.js --save-to ~/Desktop --save-as from-bundle",
     "build-and-bundle": "npm run build && npm run build:bundle",
     "typecheck": "tsc --noEmit",
