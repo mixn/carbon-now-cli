@@ -37,7 +37,7 @@
     "typecheck": "tsc --noEmit",
     "prettier": "npx prettier ./**/* --check",
     "test:unit": "npx vitest run ./test/**/* --exclude ./test/e2e/** --coverage",
-    "test:e2e": "npx vitest run ./test/e2e/index.test.ts --coverage --testTimeout 180000",
+    "test:e2e": "npx vitest run ./test/e2e/index.test.ts --coverage",
     "test": "npm run typecheck && npm run prettier && npm run test:unit && npm run test:e2e",
     "prepare": "husky install",
     "postinstall": "npx playwright install --with-deps"
