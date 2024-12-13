@@ -250,7 +250,7 @@ interface CarbonThemeHighlightsInterface {
 
 Here’s an example `~/.carbon-now.json` config that has one preset `hacker`, which makes use of custom theme colors:
 
-```
+```ts
 {
   "hacker": {
     "backgroundColor": "rgba(0, 255, 0, 1)",
