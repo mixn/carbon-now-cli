@@ -167,7 +167,7 @@ Re-using presets is as easy and straight-forward as:
 carbon-now unfold.js -p <name-of-preset>
 ```
 
-If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the [default settings](#settings) and be [smart about the rest](#re-using-settings).
+If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts) and be [smart about the rest](#re-using-settings).
 
 Taken the `presentation` preset we have created above, all we have to do is:
 
@@ -220,7 +220,7 @@ interface CarbonCLIPresetInterface {
 Currently, the precedence of settings is as follows:
 
 <!-- TODO: Lifecycle image -->
-Default settings `<` Preset `<` `--interactive` `<` `--settings`
+[Default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts) `<` Preset `<` `--interactive` `<` `--settings`
 
 ### Custom theme colors
 
@@ -342,7 +342,7 @@ and you’d like to make a beautiful image out of it. You could approach this in
 carbon-now unfold.js
 ```
 
-Takes the entire source of `unfold.js`, uses Carbon’s [default settings](#settings), and saves as `.png` into your `cwd`.
+Takes the entire source of `unfold.js`, uses [Carbon’s default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts), and saves as `.png` into your `cwd`.
 
 **Result**:
 
@@ -366,7 +366,7 @@ Given this input…
 
 If you’re unsure what each question, e.g., “Make squared image?” refers to, simply confirm by hitting **Enter** — it will default to a sensible, nice-looking thing.
 
-If needed, you can always check the [default settings](#settings).
+If needed, you can always check the [all available settings](#settings).
 
 **Note**: `carbon-now` will be smart enough to re-use your last used settings instead of the default ones. 🤓
 
