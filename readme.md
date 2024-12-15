@@ -198,11 +198,11 @@ interface CarbonCLIPresetInterface {
   selectedLines: string; // All: "*"; Lines 3-6: "3,4,5,6", etc.
   squaredImage: boolean;
   theme: CarbonThemeType;
-  type: CarbonCLIDownloadType;
+  type: 'png' | 'svg';
   watermark: boolean;
   widthAdjustment: boolean;
   windowControls: boolean;
-  windowTheme: CarbonWindowThemeType;
+  windowTheme: 'none' | 'sharp' | 'bw';
   custom?: CarbonThemeHighlightsInterface;
   width?: string;
   // Below are detected automatically, and not persisted as keys
@@ -210,6 +210,8 @@ interface CarbonCLIPresetInterface {
   titleBar?: string;
 }
 ```
+
+`CarbonFontFamilyType`, `CarbonThemeType` & `CarbonThemeHighlightsInterface` can be found [here](https://github.com/mixn/carbon-now-cli/blob/master/src/types/carbon/global.d.ts).
 
 ### Re-using settings
 
