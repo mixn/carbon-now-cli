@@ -219,10 +219,13 @@ interface CarbonCLIPresetInterface {
 
 `carbon-now` will always be smart about re-using settings, no matter how you have previously interacted with it.
 
+![Presets 3](static/presets-3.png)
+
+<!--
 Currently, the precedence of settings is as follows:
 
-<!-- TODO: Lifecycle image -->
 [Default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts) `<` Preset `<` `--interactive` `<` `--settings`
+-->
 
 ### Custom theme colors
 
@@ -300,7 +303,7 @@ carbon-now unfold.js -p hacker
 
 ### Result:
 
-![Presets 3](static/presets-3.png)
+![Presets 3](static/presets-4.png)
 
 ### Limitations
 
