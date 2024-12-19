@@ -32,7 +32,7 @@ Want to customize **everything** before generating the image? Run it in ⚡️ *
 - ✨ Detects file type automatically
 - 🗂 Supports all languages &amp; [covers extra ground](https://github.com/mixn/carbon-now-cli/blob/master/src/helpers/cli/extensions-map.helper.ts)
 - ⚡️ [Interactive mode](#fully-customized) via `--interactive`
-- 🎒 [Presets](#presets) to save and re-use your favorite settings
+- 🎒 [Presets](#presets) via `--preset` to save and re-use your favorite settings
 - 🖱 [Selective processing](#selective) via `--start` and `--end`
 - 📎 [Copies image to clipboard](#copying-to-clipboard) via `--to-clipboard` (cross-OS 😱)
 - 📚 Accepts [file, `stdin`, or clipboard content](#input-sources) as input
@@ -164,7 +164,7 @@ Answering with yes and naming the preset (in this case `presentation`) will resu
 Re-using presets is as easy and straight-forward as:
 
 ```
-carbon-now unfold.js -p <name-of-preset>
+carbon-now _unfold.js -p <name-of-preset>
 ```
 
 If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will fall back to the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts) and be [smart about the rest](#re-using-settings).
@@ -172,7 +172,7 @@ If a given preset or `~/.carbon-now.json` doesn’t exist, `carbon-now-cli` will
 Taken the `presentation` preset we have created above, all we have to do is:
 
 ```
-carbon-now unfold.js -p presentation
+carbon-now _unfold.js -p presentation
 ```
 
 **Result**:
@@ -298,7 +298,7 @@ Here’s an example `~/.carbon-now.json` config that has one preset `hacker`, wh
 ```
 
 ```
-carbon-now unfold.js -p hacker
+carbon-now _unfold.js -p hacker
 ```
 
 ### Result:
@@ -316,7 +316,7 @@ It is possible to use local configuration files via the `--config` flag.
 This is convenient if you’re using `carbon-now-cli` via a script and would like to share presets among the users of your project.
 
 ```
-carbon-now unfold.js --config local-config.json -p dark
+carbon-now _unfold.js --config local-config.json -p dark
 ```
 
 Local configs differ from `~/.carbon-now.json` in the sense that they behave in a **read-only** manner, hence:
@@ -326,7 +326,7 @@ Local configs differ from `~/.carbon-now.json` in the sense that they behave in 
 
 ## Examples
 
-Assuming you have a file `unfold.js` with this content
+Assuming you have a file `_unfold.js` with this content
 
 ```javascript
 // Example from https://carbon.now.sh/
@@ -344,10 +344,10 @@ and you’d like to make a beautiful image out of it. You could approach this in
 ### Basic
 
 ```
-carbon-now unfold.js
+carbon-now _unfold.js
 ```
 
-Takes the entire source of `unfold.js`, uses [Carbon’s default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts), and saves as `.png` into your `cwd`.
+Takes the entire source of `_unfold.js`, uses [Carbon’s default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts), and saves as `.png` into your `cwd`.
 
 **Result**:
 
@@ -356,7 +356,7 @@ Takes the entire source of `unfold.js`, uses [Carbon’s default settings](https
 ### Fully customized
 
 ```
-carbon-now unfold.js --interactive
+carbon-now _unfold.js --interactive
 ```
 
 Launches an interactive mode, prompting questions, allowing you to customize every aspect of Carbon, like syntax theme, `font-family`, `padding`, window controls, etc.
@@ -378,7 +378,7 @@ If needed, you can always check the [all available settings](#settings).
 ### Selective
 
 ```
-carbon-now unfold.js --start 3 --end 6
+carbon-now _unfold.js --start 3 --end 6
 ```
 
 Reads and creates an image based on lines `3` to `6` instead of the entire file. Will throw an error if `-s` > `-e`.
@@ -396,7 +396,7 @@ Selective processing can of course be combined with interactive mode, as with an
 It is [sometimes desired to just put the image in the clipboard](https://github.com/mixn/carbon-now-cli/issues/3#issue-339776815), so that it can be instantly pasted into other apps (like Keynote 💻 or Twitter 🐦). This is what the `--to-clipboard` flag is for.
 
 ```
-carbon-now unfold.js --to-clipboard
+carbon-now _unfold.js --to-clipboard
 ```
 
 will copy the image to clipboard instead of downloading it to a given directory.
@@ -439,7 +439,7 @@ carbon-now --from-clipboard
 For demonstration purposes, here is an example using most options.
 
 ```
-carbon-now unfold.js --start 3 --end 6 --save-to ~/Desktop --save-as example-23 --interactive
+carbon-now _unfold.js --start 3 --end 6 --save-to ~/Desktop --save-as example-23 --interactive
 ```
 
 This saves a beautiful image of lines `3` to `6` to `~/Desktop/example-23.png`, after accepting custom wishes via interactive mode.
@@ -447,7 +447,7 @@ This saves a beautiful image of lines `3` to `6` to `~/Desktop/example-23.png`, 
 If you’re unsure how exactly the image will turn out, you can always use `--open-in-browser`.
 
 ```
-carbon-now unfold.js --start 3 --end 6 --interactive --open-in-browser
+carbon-now _unfold.js --start 3 --end 6 --interactive --open-in-browser
 ```
 
 This will open the image in the browser for final touches, instead of saving it immediately. 😌
