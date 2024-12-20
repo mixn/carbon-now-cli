@@ -162,10 +162,8 @@ For example, naming the preset `presentation` will add it to `~/.carbon-now.json
 To use a saved preset, simply run:
 
 ```
-carbon-now _unfold.js -p <name-of-preset>
+carbon-now _unfold.js --preset <name-of-preset>
 ```
-
-If the preset or ~/.carbon-now.json does not exist, `carbon-now-cli` will default to the default settings.
 
 If the preset or `~/.carbon-now.json` does not exist, `carbon-now-cli` will fall back to the [default settings](https://github.com/mixn/carbon-now-cli/blob/master/src/config/cli/default-settings.config.ts) and be [smart about the rest](#re-using-settings).
 
@@ -290,7 +288,7 @@ Example  `~/.carbon-now.json` with custom theme colors:
 ```
 
 ```
-carbon-now _unfold.js -p hacker
+carbon-now _unfold.js --preset hacker
 ```
 
 ### Result:
@@ -306,7 +304,7 @@ Please note that custom theme colors aren’t applied with `--open-in-browser` b
 Use the `--config` flag for local configuration files. This is helpful for sharing presets across users in a project.
 
 ```
-carbon-now _unfold.js --config local-config.json -p dark
+carbon-now _unfold.js --config local-config.json --preset dark
 ```
 
 Local configs are **read-only** and differ from `~/.carbon-now.json` in that:
