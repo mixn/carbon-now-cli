@@ -81,7 +81,7 @@
     "@types/lodash": "^4.14.191",
     "@types/mock-fs": "^4.13.1",
     "@types/update-notifier": "^6.0.2",
-    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/coverage-v8": "^3.0.2",
     "child-process-promise": "^2.2.1",
     "del": "^8.0.0",
     "execa": "^9.5.1",
