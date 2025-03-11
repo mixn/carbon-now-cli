@@ -14,7 +14,7 @@ import readFileAsync from './src/utils/read-file-async.util.js';
 import transformToQueryParams from './src/utils/transform-to-query-params.util.js';
 import defaultErrorView from './src/views/default-error.view.js';
 import defaultSuccessView from './src/views/default-success.view.js';
-import packageJson from './package.json' assert { type: 'json' };
+import packageJson from './package.json' with { type: 'json' };
 import {
   CARBON_URL,
   CARBON_CUSTOM_THEME,
@@ -73,9 +73,8 @@ TaskList.add([
 // Task 1: Process and encode input
 TaskList.add([
   {
-    title: `Processing ${
-      file || `input from ${flags.fromClipboard ? 'clipboard' : 'stdin'}`
-    }`,
+    title: `Processing ${file || `input from ${flags.fromClipboard ? 'clipboard' : 'stdin'}`
+      }`,
     task: async (ctx) => {
       ctx.encodedContent = encodeURIComponent(
         await FileHandler.process(input, flags.start, flags.end),

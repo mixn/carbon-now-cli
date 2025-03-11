@@ -91,7 +91,7 @@
     "prettier": "^3.4.2",
     "trash-cli": "^6.0.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
+    "typescript": "^5.8.2",
     "vitest": "^3.0.3"
   },
   "yarn": {
