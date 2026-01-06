@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/playwright:v1.49.1-jammy
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Install dependencies including dev dependencies (since we use tsx/tsc)
+# Using npm ci for cleaner install
+RUN npm ci
+
+COPY . .
+
+# Expose the API port
+EXPOSE 3000
+
+# Start the API
+CMD ["npm", "run", "start:api"]
